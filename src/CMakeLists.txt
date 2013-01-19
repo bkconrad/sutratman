@@ -1,23 +1,25 @@
 option(DEDICATED "Build a dedicated server (no need for client-side libs")
+option(BUILD_TESTS "Build the unit tests too")
 
 set(SUT_LIBRARIES )
 set(SUT_INCLUDE_DIRS )
 
-include_directories(${CMAKE_SOURCE_DIR}/lib/tnl)
-include_directories(SYSTEM ${CMAKE_SOURCE_DIR}/lib/tomcrypt)
-
-aux_source_directory(${CMAKE_SOURCE_DIR}/src/shared SHARED_SOURCES)
-aux_source_directory(${CMAKE_SOURCE_DIR}/src/server SERVER_SOURCES)
-aux_source_directory(${CMAKE_SOURCE_DIR}/src/client CLIENT_SOURCES)
-
-# manually add main file since it's in src/
-set(SHARED_SOURCES ${SHARED_SOURCES} main)
+set(SERVER_SOURCES
+	client_connection
+	main
+	server
+	log
+)
+set(CLIENT_SOURCES
+	client/client
+	client/video
+)
 
 if(DEDICATED)
-	add_executable(sutratman ${SERVER_SOURCES} ${SHARED_SOURCES})
+	add_executable(sutratman ${SERVER_SOURCES})
 	add_definitions(-DSUT_DEDICATED)
 else()
-	add_executable(sutratman ${CLIENT_SOURCES} ${SERVER_SOURCES} ${SHARED_SOURCES})
+	add_executable(sutratman ${SERVER_SOURCES} ${CLIENT_SOURCES})
 	find_package(Irrlicht REQUIRED)
 	set(SUT_LIBRARIES ${SUT_LIBRARIES} ${IRRLICHT_LIBRARIES})
 	set(SUT_INCLUDE_DIRS ${SUT_INCLUDE_DIRS} ${IRRLICHT_INCLUDE_DIRS})
@@ -31,5 +33,19 @@ set_target_properties(sutratman
 
 add_dependencies(sutratman tnl)
 target_link_libraries(sutratman ${SUT_LIBRARIES} tnl)
-include_directories(${CMAKE_SOURCE_DIR}/src)
-include_directories(SYSTEM ${SUT_INCLUDE_DIRS})
+message(${CMAKE_SOURCE_DIR}/lib/tnl)
+
+include_directories(SYSTEM ${SUT_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/lib/tnl ${CMAKE_SOURCE_DIR}/lib/tomcrypt)
+include_directories(BEFORE ${CMAKE_SOURCE_DIR}/src)
+
+if(BUILD_TESTS)
+	enable_testing()
+	aux_source_directory(${CMAKE_SOURCE_DIR}/test TEST_SOURCES)
+	add_executable(runTests ${TEST_SOURCES} ${CLIENT_SOURCES} ${SERVER_SOURCES})
+	add_test(runTests runTests)
+	find_package(Irrlicht)
+	include_directories(${CMAKE_SOURCE_DIR}/tnl ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/lib/gtest/include/)
+	include_directories(SYSTEM ${IRRLICHT_INCLUDE_DIRS})
+	add_definitions(${IRRLICHT_DEFINITIONS})
+	target_link_libraries(runTests gtest gtest_main tnl ${IRRLICHT_LIBRARIES})
+endif()

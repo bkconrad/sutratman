@@ -4,7 +4,6 @@ add_subdirectory(./lib/tomcrypt)
 add_subdirectory(./lib/tnl)
 add_subdirectory(./lib/gtest)
 add_subdirectory(./src)
-add_subdirectory(./test)
 
 string(COMPARE EQUAL "${CMAKE_SOURCE_DIR}" "${CMAKE_BINARY_DIR}" _insource)
 if (_insource)

@@ -13,6 +13,7 @@ using namespace std;
 class ClientConnection : public EventConnection {
    typedef EventConnection Parent;
    public:
+      void onConnectionEstablished();
       TNL_DECLARE_NETCONNECTION(ClientConnection);
 
       TNL_DECLARE_RPC(c2sHandshake, ());
