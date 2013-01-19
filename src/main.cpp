@@ -5,7 +5,7 @@
 #include "tnlRPC.h"
 
 #ifndef SUT_DEDICATED
-   #include "client/video.h"
+   #include "client/client.h"
 #endif
 
 #include <iostream>
@@ -36,6 +36,8 @@ int main (int argc, char** argv) {
       interface = new NetInterface(bindAddress);
       SimpleEventConnection *newConnection = new SimpleEventConnection;
       newConnection->connect(interface, cmdAddress);
+      Client c;
+      c.go();
 #endif
    } else {
       interface = new NetInterface(cmdAddress);

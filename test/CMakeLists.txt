@@ -1,6 +1,15 @@
 cmake_minimum_required(VERSION 2.6)
 enable_testing()
-add_executable(runTests sanity_test)
+
+aux_source_directory(${CMAKE_SOURCE_DIR}/src/shared SHARED_SOURCES)
+aux_source_directory(${CMAKE_SOURCE_DIR}/src/server SERVER_SOURCES)
+aux_source_directory(${CMAKE_SOURCE_DIR}/src/client CLIENT_SOURCES)
+
+aux_source_directory(${CMAKE_SOURCE_DIR}/test TEST_SOURCES)
+add_executable(runTests ${TEST_SOURCES} ${CLIENT_SOURCES})
 add_test(runTests runTests)
-include_directories(${CMAKE_SOURCE_DIR}/lib/gtest/include/)
-target_link_libraries(runTests gtest gtest_main)
+find_package(Irrlicht)
+include_directories(${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/lib/gtest/include/)
+include_directories(SYSTEM ${IRRLICHT_INCLUDE_DIRS})
+add_definitions(${IRRLICHT_DEFINITIONS})
+target_link_libraries(runTests gtest gtest_main ${IRRLICHT_LIBRARIES})
