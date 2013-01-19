@@ -6,7 +6,6 @@ set(SUT_INCLUDE_DIRS )
 
 set(SERVER_SOURCES
 	client_connection
-	main
 	server
 	log
 )
@@ -16,10 +15,10 @@ set(CLIENT_SOURCES
 )
 
 if(DEDICATED)
-	add_executable(sutratman ${SERVER_SOURCES})
+	add_executable(sutratman main ${SERVER_SOURCES})
 	add_definitions(-DSUT_DEDICATED)
 else()
-	add_executable(sutratman ${SERVER_SOURCES} ${CLIENT_SOURCES})
+	add_executable(sutratman main ${SERVER_SOURCES} ${CLIENT_SOURCES})
 	find_package(Irrlicht REQUIRED)
 	set(SUT_LIBRARIES ${SUT_LIBRARIES} ${IRRLICHT_LIBRARIES})
 	set(SUT_INCLUDE_DIRS ${SUT_INCLUDE_DIRS} ${IRRLICHT_INCLUDE_DIRS})

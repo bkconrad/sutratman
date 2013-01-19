@@ -19,13 +19,25 @@ Server::~Server()
   */
 void Server::go()
 {
-   Address address("127.0.0.1:28000");
-   mInterface = new NetInterface(address);
-   mInterface->setAllowsConnections(true);
+   host((const char *) "localhost", "28000");
    while(true) {
       serviceConnections();
       Platform::sleep(10);
    }
+}
+
+/** @brief host
+  *
+  * @todo: document this function
+  */
+void Server::host(const char* host, const char* port)
+{
+   string hostPort(host);
+   hostPort += ":";
+   hostPort += port;
+   Address address(hostPort.c_str());
+   mInterface = new NetInterface(address);
+   mInterface->setAllowsConnections(true);
 }
 
 /** @brief serviceConnections
