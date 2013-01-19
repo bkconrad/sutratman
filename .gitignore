@@ -9,3 +9,6 @@ cmake_install.cmake
 *.swp
 exe/*
 build/*
+test/*.cmake
+Testing
+runTests
