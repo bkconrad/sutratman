@@ -5,13 +5,7 @@
 #include "tnlRPC.h"
 
 #ifndef SUT_DEDICATED
-   #include <irrlicht.h>
-   using namespace irr;
-   using namespace core;
-   using namespace scene;
-   using namespace video;
-   using namespace io;
-   using namespace gui;
+   #include "client/video.h"
 #endif
 
 #include <iostream>
@@ -42,9 +36,6 @@ int main (int argc, char** argv) {
       interface = new NetInterface(bindAddress);
       SimpleEventConnection *newConnection = new SimpleEventConnection;
       newConnection->connect(interface, cmdAddress);
-      IrrlichtDevice *device =
-         createDevice( video::EDT_SOFTWARE, dimension2d<u32>(640, 480), 16,
-               false, false, false, 0);
 #endif
    } else {
       interface = new NetInterface(cmdAddress);
