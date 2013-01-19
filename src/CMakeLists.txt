@@ -1,7 +1,21 @@
+option(DEDICATED "Build a dedicated server (no need for client-side libs")
+
 include_directories(${CMAKE_SOURCE_DIR}/lib/tnl)
 include_directories(SYSTEM ${CMAKE_SOURCE_DIR}/lib/tomcrypt)
-aux_source_directory(${CMAKE_SOURCE_DIR}/src SUTRATMAN_SOURCES)
-add_executable(sutratman ${SUTRATMAN_SOURCES})
+
+set(SERVER_SOURCES
+	main
+)
+
+set(CLIENT_SOURCES
+)
+
+if(DEDICATED)
+	add_executable(sutratman ${SERVER_SOURCES})
+	add_definitions(-DSUT_DEDICATED)
+else()
+	add_executable(sutratman ${CLIENT_SOURCES} ${SERVER_SOURCES})
+endif()
 
 set_target_properties(sutratman
 	PROPERTIES

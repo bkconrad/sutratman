@@ -30,10 +30,14 @@ int main (int argc, char** argv) {
       interface = new NetInterface(bindAddress);
       SimpleEventConnection *newConnection = new SimpleEventConnection;
       newConnection->connect(interface, cmdAddress);
-      cout << "Connected!" << endl;
    } else {
       interface = new NetInterface(cmdAddress);
       interface->setAllowsConnections(true);
+#ifdef SUT_DEDICATED
+      cout << "Starting dedicated server!" << endl;
+#else
+      cout << "Starting hybrid server!" << endl;
+#endif
    }
    while(true) {
       interface->checkIncomingPackets();
