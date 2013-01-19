@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.6)
+enable_testing()
+add_executable(runTests sanity_test)
+add_test(runTests runTests)
+include_directories(${CMAKE_SOURCE_DIR}/lib/gtest/include/)
+target_link_libraries(runTests gtest gtest_main)
