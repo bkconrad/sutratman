@@ -3,6 +3,17 @@
 #include "tnlEventConnection.h"
 #include "tnlNetInterface.h"
 #include "tnlRPC.h"
+
+#ifndef SUT_DEDICATED
+   #include <irrlicht.h>
+   using namespace irr;
+   using namespace core;
+   using namespace scene;
+   using namespace video;
+   using namespace io;
+   using namespace gui;
+#endif
+
 #include <iostream>
 
 using namespace TNL;
@@ -26,10 +37,15 @@ int main (int argc, char** argv) {
    RefPtr<NetInterface> interface;
 
    if (isClient) {
+#ifndef SUT_DEDICATED
       Address bindAddress(IPProtocol, Address::Any, 0);
       interface = new NetInterface(bindAddress);
       SimpleEventConnection *newConnection = new SimpleEventConnection;
       newConnection->connect(interface, cmdAddress);
+      IrrlichtDevice *device =
+         createDevice( video::EDT_SOFTWARE, dimension2d<u32>(640, 480), 16,
+               false, false, false, 0);
+#endif
    } else {
       interface = new NetInterface(cmdAddress);
       interface->setAllowsConnections(true);
