@@ -4,6 +4,8 @@
 #include "client/video.h"
 #include "client_connection.h"
 
+class GameInterface;
+class Game;
 class Client
 {
    public:
@@ -16,7 +18,8 @@ class Client
    private:
       Video* mVideo;
       ClientConnection* mConnection;
-      RefPtr<NetInterface> mInterface;
+      RefPtr<GameInterface> mInterface;
+      Game *mGame;
 
       bool step();
       void serviceConnection();

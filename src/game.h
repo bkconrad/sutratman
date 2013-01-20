@@ -1,20 +1,23 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "entity.h"
-
 #include <tnl.h>
 
 using namespace TNL;
 
+class Entity;
 class Game
 {
    public:
+      explicit Game(bool server);
       Game();
       virtual ~Game();
+      void addEntity(Entity* entity);
+      Vector<Entity*>* getEntities();
    protected:
    private:
-      Vector<SafePtr<Entity> > mEntities;
+      bool mServer;
+      Vector<Entity*> mEntities;
 };
 
 #endif // GAME_H

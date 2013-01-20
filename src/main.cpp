@@ -25,6 +25,7 @@ int main (int argc, char** argv) {
       cout << "Starting hybrid server!" << endl;
 #endif
       Server s;
+      s.init();
       s.go();
    }
    return 0;

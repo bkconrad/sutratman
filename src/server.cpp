@@ -1,16 +1,31 @@
 #include "server.h"
+#include "game.h"
 
 using namespace TNL;
 using namespace std;
 
 Server::Server()
 {
-   //ctor
+   mGame = NULL;
 }
 
 Server::~Server()
 {
    //dtor
+}
+
+/** @brief init
+  *
+  * @todo: document this function
+  */
+bool Server::init()
+{
+   if(!mGame) {
+      mGame = new Game(true);
+   }
+
+   host((const char *) "localhost", "28000");
+   return true;
 }
 
 /** @brief go
@@ -19,7 +34,6 @@ Server::~Server()
   */
 void Server::go()
 {
-   host((const char *) "localhost", "28000");
    while(true) {
       serviceConnections();
       Platform::sleep(10);
@@ -36,7 +50,7 @@ void Server::host(const char* host, const char* port)
    hostPort += ":";
    hostPort += port;
    Address address(hostPort.c_str());
-   mInterface = new NetInterface(address);
+   mInterface = new GameInterface(address, mGame);
    mInterface->setAllowsConnections(true);
 }
 

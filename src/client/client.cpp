@@ -1,8 +1,9 @@
 #include "client/client.h"
 #include "log.h"
+#include "game.h"
+#include "game_interface.h"
 
 #include <tnl.h>
-#include <tnlNetInterface.h>
 #include <tnlRPC.h>
 
 #include <iostream>
@@ -14,6 +15,7 @@ Client::Client()
 {
    mVideo = NULL;
    mConnection = NULL;
+   mGame = NULL;
 }
 
 Client::~Client()
@@ -38,7 +40,13 @@ bool Client::init()
    if(!mVideo) {
       mVideo = new Video;
    }
+
+   if(!mGame) {
+      mGame = new Game(false);
+   }
+
    connect((char *) "localhost:28000");
+
    return !!mVideo;
 }
 
@@ -64,11 +72,10 @@ bool Client::connect(char* host)
 {
    Address foreignAddress(host);
    Address bindAddress(IPProtocol, Address::Any, 0);
-   mInterface = new NetInterface(bindAddress);
+   mInterface = new GameInterface(bindAddress, mGame);
    mConnection = new ClientConnection;
    Log::p("Connecting");
    mConnection->connect(mInterface, foreignAddress);
-   mConnection->c2sHandshake();
    return true;
 }
 

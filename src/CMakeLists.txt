@@ -8,6 +8,7 @@ set(SERVER_SOURCES
 	client_connection
 	entity
 	game
+	game_interface
 	log
 	server
 	vec2

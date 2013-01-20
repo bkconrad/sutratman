@@ -1,4 +1,7 @@
 #include "client_connection.h"
+#include "entity.h"
+#include "game.h"
+#include "game_interface.h"
 #include "log.h"
 
 #include <iostream>
@@ -10,16 +13,25 @@ TNL_IMPLEMENT_NETCONNECTION(ClientConnection, NetClassGroupGame, true);
 
 void ClientConnection::onConnectionEstablished()
 {
-   Log::p("Connected successfully");
+   Parent::onConnectionEstablished();
+   if(isInitiator()) {
+      setGhostFrom(false);
+      setGhostTo(true);
+      Log::p("Connected to %s", getNetAddressString());
+   } else {
+      // create the new player
+      Game* game = ((GameInterface*) getInterface())->getGame();
+      Entity* entity = new Entity(game);
+      game->addEntity(entity);
+      setScopeObject(entity);
+      setGhostFrom(true);
+      setGhostTo(false);
+      activateGhosting();
+      Log::p("Connection from %s", getNetAddressString());
+   }
 }
 
-TNL_IMPLEMENT_RPC(ClientConnection, c2sHandshake, (), (),
-NetClassGroupGameMask, RPCGuaranteedOrdered, RPCDirClientToServer, 0) {
-   cout << "Client connected" << endl;
-   s2cHandshake();
-}
-
-TNL_IMPLEMENT_RPC(ClientConnection, s2cHandshake, (), (),
-   NetClassGroupGameMask, RPCGuaranteedOrdered, RPCDirServerToClient, 0) {
-   cout << "Got server response" << endl;
+TNL_IMPLEMENT_RPC(ClientConnection, s2cPlayerJoined, (), (),
+NetClassGroupGameMask, RPCGuaranteedOrdered, RPCDirServerToClient, 0) {
+   Log::p("Player joined!");
 }
