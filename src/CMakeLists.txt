@@ -6,8 +6,11 @@ set(SUT_INCLUDE_DIRS )
 
 set(SERVER_SOURCES
 	client_connection
-	server
+	entity
+	game
 	log
+	server
+	vec2
 )
 set(CLIENT_SOURCES
 	client/client
@@ -34,7 +37,7 @@ add_dependencies(sutratman tnl)
 target_link_libraries(sutratman ${SUT_LIBRARIES} tnl)
 message(${CMAKE_SOURCE_DIR}/lib/tnl)
 
-include_directories(SYSTEM ${SUT_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/lib/tnl ${CMAKE_SOURCE_DIR}/lib/tomcrypt)
+include_directories(SYSTEM ${SUT_INCLUDE_DIRS} ${CMAKE_SOURCE_DIR}/lib/gtest/include ${CMAKE_SOURCE_DIR}/lib/tnl ${CMAKE_SOURCE_DIR}/lib/tomcrypt)
 include_directories(BEFORE ${CMAKE_SOURCE_DIR}/src)
 
 if(BUILD_TESTS)
