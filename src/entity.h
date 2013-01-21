@@ -15,9 +15,17 @@ class Entity : public NetObject
       TNL_DECLARE_CLASS(Entity);
       Entity(Game* game);
       Entity();
+      virtual ~Entity();
+
+      // overrides
       bool onGhostAdd(GhostConnection* connection);
       void performScopeQuery(GhostConnection* connection);
-      virtual ~Entity();
+      virtual U32 packUpdate(GhostConnection* connection, U32 updateMask, BitStream* bitStream);
+      virtual void unpackUpdate(GhostConnection* connection, BitStream* bitStream);
+
+      void setPos(float x, float y);
+      void setPos(Vec2& pos);
+
    protected:
    private:
       Game* mGame;
