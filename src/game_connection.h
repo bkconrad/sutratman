@@ -1,5 +1,5 @@
-#ifndef CLIENT_CONNECTION_H
-#define CLIENT_CONNECTION_H
+#ifndef GAME_CONNECTION_H
+#define GAME_CONNECTION_H
 
 #include "tnl.h"
 #include "tnlNetConnection.h"
@@ -18,4 +18,4 @@ class GameConnection : public GhostConnection {
       TNL_DECLARE_RPC(s2cPlayerJoined, ());
 };
 
-#endif // CLIENT_CONNECTION_H
+#endif // GAME_CONNECTION_H

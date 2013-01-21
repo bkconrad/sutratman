@@ -5,7 +5,7 @@ set(SUT_LIBRARIES )
 set(SUT_INCLUDE_DIRS )
 
 set(SERVER_SOURCES
-	client_connection
+	game_connection
 	entity
 	game
 	game_interface

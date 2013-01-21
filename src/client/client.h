@@ -17,7 +17,7 @@ class Client
    protected:
    private:
       Video* mVideo;
-      ClientConnection* mConnection;
+      GameConnection* mConnection;
       RefPtr<GameInterface> mInterface;
       ClientGame *mGame;
 

@@ -73,7 +73,7 @@ bool Client::connect(char* host)
    Address foreignAddress(host);
    Address bindAddress(IPProtocol, Address::Any, 0);
    mInterface = new GameInterface(bindAddress, mGame);
-   mConnection = new ClientConnection;
+   mConnection = new GameConnection;
    Log::p("Connecting");
    mConnection->connect(mInterface, foreignAddress);
    return true;
