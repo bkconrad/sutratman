@@ -5,7 +5,7 @@
 #include "client_connection.h"
 
 class GameInterface;
-class Game;
+class ClientGame;
 class Client
 {
    public:
@@ -19,7 +19,7 @@ class Client
       Video* mVideo;
       ClientConnection* mConnection;
       RefPtr<GameInterface> mInterface;
-      Game *mGame;
+      ClientGame *mGame;
 
       bool step();
       void serviceConnection();

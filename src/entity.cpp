@@ -1,5 +1,6 @@
 #include "entity.h"
 #include "game.h"
+#include "game_interface.h"
 #include "log.h"
 
 TNL_IMPLEMENT_NETOBJECT(Entity);
@@ -24,7 +25,8 @@ Entity::~Entity()
   */
 bool Entity::onGhostAdd(GhostConnection* connection)
 {
-   Log::p("Ghost added!");
+   mGame = ((GameInterface* ) connection->getInterface())->getGame();
+   mGame->addEntity(this);
    return true;
 }
 

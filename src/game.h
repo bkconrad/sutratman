@@ -12,7 +12,7 @@ class Game
       explicit Game(bool server);
       Game();
       virtual ~Game();
-      void addEntity(Entity* entity);
+      virtual void addEntity(Entity* entity);
       Vector<Entity*>* getEntities();
    protected:
    private:

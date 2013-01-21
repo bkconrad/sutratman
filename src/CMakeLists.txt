@@ -15,6 +15,7 @@ set(SERVER_SOURCES
 )
 set(CLIENT_SOURCES
 	client/client
+	client/client_game
 	client/video
 )
 

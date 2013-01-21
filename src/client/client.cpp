@@ -1,6 +1,6 @@
 #include "client/client.h"
 #include "log.h"
-#include "game.h"
+#include "client_game.h"
 #include "game_interface.h"
 
 #include <tnl.h>
@@ -42,7 +42,7 @@ bool Client::init()
    }
 
    if(!mGame) {
-      mGame = new Game(false);
+      mGame = new ClientGame(mVideo);
    }
 
    connect((char *) "localhost:28000");
