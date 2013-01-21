@@ -77,4 +77,13 @@ void Entity::setPos(float x, float y)
    mPos.set(x, y);
 }
 
+/** @brief getPos
+  *
+  * @todo: document this function
+  */
+const Vec2& Entity::getPos()
+{
+   return mPos;
+}
+
 

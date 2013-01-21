@@ -2,7 +2,11 @@
 #define SUT_VIDEO_H
 
 #include <irrlicht.h>
+#include <tnl.h>
 
+using namespace TNL;
+
+class EntityNode;
 class Entity;
 class Video
 {
@@ -13,6 +17,8 @@ class Video
       void addEntity(Entity* entity);
    protected:
    private:
+      Vector<EntityNode*> mEntityNodes;
+
       irr::IrrlichtDevice *mDevice;
       irr::gui::IGUIEnvironment *mGuiEnv;
       irr::scene::ISceneManager *mSceneManager;

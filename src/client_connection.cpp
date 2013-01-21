@@ -22,7 +22,7 @@ void ClientConnection::onConnectionEstablished()
       // create the new player
       Game* game = ((GameInterface*) getInterface())->getGame();
       Entity* entity = new Entity(game);
-      entity->setPos(TNL::Random::readF() * 10.0, TNL::Random::readF() * 10.0);
+      entity->setPos(TNL::Random::readF(), TNL::Random::readF());
       game->addEntity(entity);
       setScopeObject(entity);
       setGhostFrom(true);

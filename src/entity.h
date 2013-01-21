@@ -25,6 +25,7 @@ class Entity : public NetObject
 
       void setPos(float x, float y);
       void setPos(Vec2& pos);
+      const Vec2& getPos();
 
    protected:
    private:
