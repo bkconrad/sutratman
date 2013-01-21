@@ -2,10 +2,11 @@
 #include "entity.h"
 #include "entity_node.h"
 
-Video::Video()
+Video::Video(irr::IEventReceiver* eventReceiver)
+   : mEventReceiver(eventReceiver)
 {
    mDevice = irr::createDevice(irr::video::EDT_OPENGL, irr::core::dimension2d<irr::u32>(640, 480), 16,
-            false, false, false, 0);
+            false, false, false, eventReceiver);
    if(!mDevice) {
       // handle no device found
    }
@@ -23,7 +24,7 @@ Video::Video()
   */
 bool Video::run()
 {
-   for(int i; i < mEntityNodes.size(); i++) {
+   for(int i =0; i < mEntityNodes.size(); i++) {
       mEntityNodes[i]->update();
    }
    if(!mDevice->run()) {

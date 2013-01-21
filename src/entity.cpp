@@ -5,15 +5,14 @@
 
 #include <tnlBitStream.h>
 
+int Entity::IdIndex = 1;
+
 TNL_IMPLEMENT_NETOBJECT(Entity);
 
 Entity::Entity(Game* game)
 {
    mGame = game;
    mNetFlags.set(Ghostable);
-}
-
-Entity::Entity() {
 }
 
 Entity::~Entity()
@@ -67,7 +66,7 @@ void Entity::performScopeQuery(GhostConnection* connection)
    }
 }
 
-void Entity::setPos(Vec2& pos)
+void Entity::setPos(const Vec2& pos)
 {
    mPos = pos;
 }
@@ -75,6 +74,16 @@ void Entity::setPos(Vec2& pos)
 void Entity::setPos(float x, float y)
 {
    mPos.set(x, y);
+}
+
+/** @brief modPos
+  *
+  * @todo: document this function
+  */
+void Entity::modPos(const Vec2& pos)
+{
+   mPos.x += pos.x;
+   mPos.y += pos.y;
 }
 
 /** @brief getPos

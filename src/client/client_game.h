@@ -4,9 +4,10 @@
 #include "game.h"
 
 #include <tnlGhostConnection.h>
+#include <irrlicht.h>
 
-class Entity;
 class Video;
+class Entity;
 
 /**
 @brief Class representing the game state, with additional overrides
@@ -16,12 +17,15 @@ class ClientGame : public Game
 {
    typedef Game Parent;
    public:
-      ClientGame(Video* video= NULL);
+      ClientGame(Video* video = NULL);
       virtual ~ClientGame();
       virtual void addEntity(Entity* entity);
+
+      bool handleEvent(const irr::SEvent& event);
    protected:
    private:
       Video* mVideo;
+      Entity* mClientEntity;
 };
 
 #endif /* CLIENT_GAME_H_ */

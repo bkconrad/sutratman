@@ -2,11 +2,13 @@
 #define CLIENT_H_
 
 #include "client/video.h"
-#include "client_connection.h"
+#include "game_connection.h"
+#include <irrlicht.h>
 
 class GameInterface;
 class ClientGame;
-class Client
+class Input;
+class Client : public irr::IEventReceiver
 {
    public:
       Client();
@@ -14,9 +16,13 @@ class Client
       bool connect(char* host);
       bool init();
       virtual ~Client();
+
+      // overrides
+      bool OnEvent(const irr::SEvent& event);
    protected:
    private:
       Video* mVideo;
+      Input* mInput;
       GameConnection* mConnection;
       RefPtr<GameInterface> mInterface;
       ClientGame *mGame;

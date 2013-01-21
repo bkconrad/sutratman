@@ -11,7 +11,7 @@ class Entity;
 class Video
 {
    public:
-      Video();
+      Video(irr::IEventReceiver* eventReceiver);
       virtual ~Video();
       bool run();
       void addEntity(Entity* entity);
@@ -19,6 +19,7 @@ class Video
    private:
       Vector<EntityNode*> mEntityNodes;
 
+      irr::IEventReceiver *mEventReceiver;
       irr::IrrlichtDevice *mDevice;
       irr::gui::IGUIEnvironment *mGuiEnv;
       irr::scene::ISceneManager *mSceneManager;

@@ -5,7 +5,7 @@ Vec2::Vec2(float x, float y) : x(x), y(y) { }
 /** @brief copy constructor */
 Vec2::Vec2(const Vec2& v) : x(v.x), y(v.y) { }
 
-Vec2& Vec2::operator=(Vec2& v) {
+Vec2& Vec2::operator=(const Vec2& v) {
    x = v.x;
    y = v.y;
 }

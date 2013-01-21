@@ -13,8 +13,7 @@ class Entity : public NetObject
 {
    public:
       TNL_DECLARE_CLASS(Entity);
-      Entity(Game* game);
-      Entity();
+      Entity(Game* game = NULL);
       virtual ~Entity();
 
       // overrides
@@ -24,11 +23,14 @@ class Entity : public NetObject
       virtual void unpackUpdate(GhostConnection* connection, BitStream* bitStream);
 
       void setPos(float x, float y);
-      void setPos(Vec2& pos);
+      void setPos(const Vec2& pos);
+      void modPos(const Vec2& pos);
       const Vec2& getPos();
 
    protected:
    private:
+      static int IdIndex;
+      U32 mId;
       Game* mGame;
       Vec2 mPos;
 };

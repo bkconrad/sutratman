@@ -37,13 +37,8 @@ void Client::go()
   */
 bool Client::init()
 {
-   if(!mVideo) {
-      mVideo = new Video;
-   }
-
-   if(!mGame) {
-      mGame = new ClientGame(mVideo);
-   }
+   mVideo = mVideo ? mVideo : new Video(this);
+   mGame = mGame ? mGame : new ClientGame(mVideo);
 
    connect((char *) "localhost:28000");
 
@@ -57,10 +52,8 @@ bool Client::init()
   */
 bool Client::step()
 {
-   bool result = true;
-   result = result && mVideo->run();
    serviceConnection();
-   return result;
+   return mVideo->run();
 }
 
 
@@ -89,3 +82,13 @@ void Client::serviceConnection()
    mInterface->processConnections();
 }
 
+/** @brief OnEvent
+  *
+  * @todo: document this function
+  */
+bool Client::OnEvent(const irr::SEvent& event)
+{
+   if(mGame) {
+      mGame->handleEvent(event);
+   }
+}
