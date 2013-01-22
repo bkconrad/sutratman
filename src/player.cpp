@@ -3,17 +3,14 @@
 
 SUT_IMPLEMENT_GAME_ENTITY(Player);
 
-U32 Player::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* bitStream) {
-
+U32 Player::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* bitStream)
+{
+   // remember to take the mask from the Parent
+   updateMask = Parent::packUpdate(connection, updateMask, bitStream);
    if(bitStream->writeFlag(updateMask & InitialMask)) {
    }
 
    Log::p("%s scope object", bitStream->writeFlag(connection->getScopeObject() == this) ? "" : "not");
-
-   if(bitStream->writeFlag(updateMask & PositionMask)) {
-      bitStream->writeFloat(mPos.x, 16);
-      bitStream->writeFloat(mPos.y, 16);
-   }
    return 0;
 }
 

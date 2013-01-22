@@ -6,6 +6,8 @@
 #include <tnlNetObject.h>
 #include <tnlGhostConnection.h>
 
+#include <gtest/gtest_prod.h>
+
 /**
 these macros allow decoupling of client and server code by selectively
 defining method stubs in dedicated server builds. this allows
@@ -44,6 +46,9 @@ class Entity : public NetObject
       Entity(Game* game = NULL);
       virtual ~Entity();
 
+      // entity-specific things
+      virtual bool isConsistentWith(const Entity& entity);
+
       // overrides
       virtual bool onGhostAdd(GhostConnection* connection);
       virtual void performScopeQuery(GhostConnection* connection);
@@ -73,6 +78,7 @@ class Entity : public NetObject
       // client only
       ClientGame* mClientGame;
    private:
+      FRIEND_TEST(entity, packing);
 };
 
 #endif // ENTITY_H

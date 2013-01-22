@@ -30,15 +30,6 @@ Entity::~Entity()
    //dtor
 }
 
-/** @brief packUpdate
-  *
-  * @todo: document this function
-  */
-U32 Entity::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* bitStream)
-{
-
-}
-
 /** @brief performScopeQuery
   *
   * @todo: document this function
@@ -81,5 +72,29 @@ const Vec2& Entity::getPos()
    return mPos;
 }
 
-void Entity::unpackUpdate(GhostConnection* c, BitStream* b) { }
+/** @brief returns true if the other entity accurately reflects this entity's state
+  */
+bool Entity::isConsistentWith(const Entity& entity)
+{
+   return mPos == entity.mPos;
+}
+
+U32 Entity::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* bitStream)
+{
+   // TODO assert that this is never called from the server side
+   if(bitStream->writeFlag(updateMask & PositionMask)) {
+      bitStream->writeFloat(mPos.x, 16);
+      bitStream->writeFloat(mPos.y, 16);
+   }
+}
+
+void Entity::unpackUpdate(GhostConnection* connection, BitStream* bitStream)
+{
+   // position update
+   if(bitStream->readFlag()) {
+      mPos.x = bitStream->readFloat(16);
+      mPos.y = bitStream->readFloat(16);
+   }
+}
+
 bool Entity::onGhostAdd(GhostConnection* c) { mGame->addEntity(this); return true; }

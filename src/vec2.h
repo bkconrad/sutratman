@@ -23,6 +23,7 @@ v.set(1.0, 0.0);
 class Vec2
 {
    public:
+      static float EPSILON; // for comparing floats
       float x, y;
 
       Vec2();
@@ -30,6 +31,7 @@ class Vec2
       Vec2(const Vec2& v);
 
       Vec2& operator=(const Vec2& v);
+      bool operator==(const Vec2& v);
 
       void set(float x, float y);
 };

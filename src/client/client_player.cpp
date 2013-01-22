@@ -8,6 +8,8 @@
 using namespace TNL;
 
 void Player::unpackUpdate(GhostConnection* connection, BitStream* bitStream) {
+   Parent::unpackUpdate(connection, bitStream);
+
    // initial update
    if (bitStream->readFlag()) {
       // set our game pointer. we can safely cast to GameConnection inside of Entities
@@ -19,11 +21,6 @@ void Player::unpackUpdate(GhostConnection* connection, BitStream* bitStream) {
    // is controlled entity
    mIsControlled = bitStream->readFlag();
 
-   // position update
-   if(bitStream->readFlag()) {
-      mPos.x = bitStream->readFloat(16);
-      mPos.y = bitStream->readFloat(16);
-   }
 }
 
 bool Player::onGhostAdd(GhostConnection* connection) {
