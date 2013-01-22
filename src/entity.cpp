@@ -44,6 +44,9 @@ void Entity::unpackUpdate(GhostConnection* connection, BitStream* bitStream)
 {
    // initial update
    if (bitStream->readFlag()) {
+      // set our game pointer. we can safely cast to GameConnection inside of Entities
+      mGame = static_cast<GameInterface*>(connection->getInterface())->getGame();
+
       // is controlled entity
       mIsControlled = bitStream->readFlag();
       if(mIsControlled) {
@@ -52,6 +55,7 @@ void Entity::unpackUpdate(GhostConnection* connection, BitStream* bitStream)
       }
    }
 
+   // position update
    if(bitStream->readFlag()) {
       mPos.x = bitStream->readFloat(16);
       mPos.y = bitStream->readFloat(16);
@@ -109,4 +113,11 @@ const Vec2& Entity::getPos()
    return mPos;
 }
 
-
+/** @brief setGame
+  *
+  * @todo: document this function
+  */
+void Entity::setGame(Game* game)
+{
+   mGame = game;
+}

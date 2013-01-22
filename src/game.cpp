@@ -9,11 +9,6 @@ Game::Game(bool server)
 
 Game::Game()
 {
-   if(mServer) {
-      for (int i = 0; i < 20; i++) {
-         addEntity(new Entity(this));
-      }
-   }
 }
 
 Game::~Game()
