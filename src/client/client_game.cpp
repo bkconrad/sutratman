@@ -21,10 +21,6 @@ void ClientGame::addEntity(Entity* entity)
 {
    Parent::addEntity(entity);
 
-   // TODO: add logic for figuring out which entity we control
-   // for now, it's just the first one we get
-   mClientEntity = mClientEntity ? mClientEntity : entity;
-
    if(mVideo) {
       mVideo->addEntity(entity);
    }
@@ -40,4 +36,13 @@ bool ClientGame::handleEvent(const irr::SEvent& event)
       mClientEntity->modPos(Vec2(1.0, 1.0));
       Log::p("key event handled");
    }
+}
+
+/** @brief setControlEntity
+  *
+  * @todo: document this function
+  */
+void ClientGame::setControlEntity(Entity* ent)
+{
+   mClientEntity = ent;
 }

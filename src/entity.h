@@ -27,12 +27,20 @@ class Entity : public NetObject
       void modPos(const Vec2& pos);
       const Vec2& getPos();
 
+      enum MaskBits {
+         InitialMask = 1 << 0,
+         PositionMask = 1 << 1,
+      };
+
    protected:
    private:
       static int IdIndex;
       U32 mId;
       Game* mGame;
       Vec2 mPos;
+
+      // client only. true if this is the entity we control
+      bool mIsControlled;
 };
 
 #endif // ENTITY_H

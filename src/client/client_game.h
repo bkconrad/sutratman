@@ -22,6 +22,9 @@ class ClientGame : public Game
       virtual void addEntity(Entity* entity);
 
       bool handleEvent(const irr::SEvent& event);
+
+      // overrides
+      void setControlEntity(Entity* ent);
    protected:
    private:
       Video* mVideo;

@@ -24,7 +24,7 @@ Video::Video(irr::IEventReceiver* eventReceiver)
   */
 bool Video::run()
 {
-   for(int i =0; i < mEntityNodes.size(); i++) {
+   for(int i = 0; i < mEntityNodes.size(); i++) {
       mEntityNodes[i]->update();
    }
    if(!mDevice->run()) {

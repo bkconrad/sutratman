@@ -14,6 +14,9 @@ class Game
       virtual ~Game();
       virtual void addEntity(Entity* entity);
       Vector<Entity*>* getEntities();
+
+      // only used on the client side
+      virtual void setControlEntity(Entity* entity);
    protected:
    private:
       bool mServer;

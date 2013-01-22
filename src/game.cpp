@@ -28,6 +28,10 @@ void Game::addEntity(Entity* entity)
    mEntities.push_back(entity);
 }
 
+void Game::setControlEntity(Entity* entity) {
+   // do nothing
+   // TODO: assert that this is not called on the server side
+}
 
 /** @brief getEntities
   *

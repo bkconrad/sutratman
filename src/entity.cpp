@@ -20,27 +20,41 @@ Entity::~Entity()
    //dtor
 }
 
-/** @brief unpackUpdate
-  *
-  * @todo: document this function
-  */
-void Entity::unpackUpdate(GhostConnection* connection, BitStream* bitStream)
-{
-   if(bitStream->readFlag()) {
-      mPos.x = bitStream->readFloat(16);
-      mPos.y = bitStream->readFloat(16);
-   }
-}
-
 /** @brief packUpdate
   *
   * @todo: document this function
   */
 U32 Entity::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* bitStream)
 {
-   if(bitStream->writeFlag(updateMask)) {
+   if(bitStream->writeFlag(updateMask & InitialMask)) {
+      bitStream->writeFlag(connection->getScopeObject() == this);
+   }
+
+   if(bitStream->writeFlag(updateMask & PositionMask)) {
       bitStream->writeFloat(mPos.x, 16);
       bitStream->writeFloat(mPos.y, 16);
+   }
+}
+
+/** @brief unpackUpdate
+  *
+  * @todo: document this function
+  */
+void Entity::unpackUpdate(GhostConnection* connection, BitStream* bitStream)
+{
+   // initial update
+   if (bitStream->readFlag()) {
+      // is controlled entity
+      mIsControlled = bitStream->readFlag();
+      if(mIsControlled) {
+         // tell the game that this is our entity
+         mGame->setControlEntity(this);
+      }
+   }
+
+   if(bitStream->readFlag()) {
+      mPos.x = bitStream->readFloat(16);
+      mPos.y = bitStream->readFloat(16);
    }
 }
 
