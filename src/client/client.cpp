@@ -26,7 +26,7 @@ Client::~Client()
 void Client::go()
 {
    while (step()) {
-      Platform::sleep(10);
+      Platform::sleep(1);
    }
 }
 
@@ -89,4 +89,7 @@ bool Client::OnEvent(const irr::SEvent& event)
    if(mGame) {
       mGame->handleEvent(event);
    }
+   // TODO: why does this segfault?
+   //if (mConnection)
+      //mConnection->c2sIsAlive();
 }

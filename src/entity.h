@@ -39,6 +39,8 @@ class Entity : public NetObject
 {
    public:
       TNL_DECLARE_CLASS(Entity);
+      TNL_DECLARE_RPC(c2sMove, ());
+
       Entity(Game* game = NULL);
       virtual ~Entity();
 
@@ -58,6 +60,9 @@ class Entity : public NetObject
          PositionMask = 1 << 1,
       };
 
+      // simple attributes with no dependencies
+      bool mIsControlled;
+
    protected:
       Game* mGame;
 
@@ -66,7 +71,6 @@ class Entity : public NetObject
       Vec2 mPos;
 
       // client only
-      bool mIsControlled;
       ClientGame* mClientGame;
    private:
 };

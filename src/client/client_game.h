@@ -23,12 +23,10 @@ class ClientGame : public Game
 
       bool handleEvent(const irr::SEvent& event);
 
-      // overrides
-      void setControlEntity(Entity* ent);
    protected:
    private:
       Video* mVideo;
-      Entity* mClientEntity;
+      SafePtr<Entity> mClientEntity;
 };
 
 #endif /* CLIENT_GAME_H_ */

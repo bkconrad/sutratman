@@ -15,8 +15,10 @@ class GameConnection : public GhostConnection {
    public:
       virtual void onConnectionEstablished();
       virtual void onConnectTerminated(NetConnection::TerminationReason reason, const char* str);
+      virtual void onConnectionTerminated(NetConnection::TerminationReason reason, const char* str);
+      virtual bool isDataToTransmit();
       TNL_DECLARE_NETCONNECTION(GameConnection);
-      TNL_DECLARE_RPC(s2cPlayerJoined, ());
+      TNL_DECLARE_RPC(c2sIsAlive, ());
 };
 
 #endif // GAME_CONNECTION_H

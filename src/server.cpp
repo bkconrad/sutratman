@@ -36,7 +36,7 @@ void Server::go()
 {
    while(true) {
       serviceConnections();
-      Platform::sleep(10);
+      Platform::sleep(1);
    }
 }
 

@@ -21,7 +21,7 @@ void GameConnection::onConnectionEstablished()
    } else {
       // create the new player
       Game* game = ((GameInterface*) getInterface())->getGame();
-      Entity* entity = new Player(game);
+      SafePtr<Entity> entity = new Player(game);
       entity->setPos(TNL::Random::readF(), TNL::Random::readF());
       game->addEntity(entity);
       setScopeObject(entity);
@@ -38,10 +38,25 @@ void GameConnection::onConnectionEstablished()
   */
 void GameConnection::onConnectTerminated(NetConnection::TerminationReason reason, const char* str)
 {
-
+   Log::p("Connection closed");
 }
 
-TNL_IMPLEMENT_RPC(GameConnection, s2cPlayerJoined, (), (),
-NetClassGroupGameMask, RPCGuaranteedOrdered, RPCDirServerToClient, 0) {
-   Log::p("Player joined!");
+void GameConnection::onConnectionTerminated(NetConnection::TerminationReason reason, const char* str)
+{
+   Log::p("Connection closed: %s", str);
+}
+
+TNL_IMPLEMENT_RPC(GameConnection, c2sIsAlive, (), (),
+NetClassGroupAllMask, RPCGuaranteedOrdered, RPCDirClientToServer, 0) {
+   Log::p("Got RPC");
+}
+
+
+/** @brief isDataToTransmit
+  *
+  * @todo: document this function
+  */
+bool GameConnection::isDataToTransmit()
+{
+   return true;
 }

@@ -14,14 +14,10 @@ void Player::unpackUpdate(GhostConnection* connection, BitStream* bitStream) {
       mGame = static_cast<GameInterface*>(connection->getInterface())->getGame();
       // we can also safely cast our game to a client game
       mClientGame = static_cast<ClientGame*>(mGame);
-
-      // is controlled entity
-      mIsControlled = bitStream->readFlag();
-      if(mIsControlled) {
-         // tell the game that this is our entity
-         mClientGame->setControlEntity(this);
-      }
    }
+
+   // is controlled entity
+   mIsControlled = bitStream->readFlag();
 
    // position update
    if(bitStream->readFlag()) {
@@ -31,7 +27,5 @@ void Player::unpackUpdate(GhostConnection* connection, BitStream* bitStream) {
 }
 
 bool Player::onGhostAdd(GhostConnection* connection) {
-   mGame = ((GameInterface* ) connection->getInterface())->getGame();
-   mGame->addEntity(this);
-   return true;
+   return Parent::onGhostAdd(connection);
 }

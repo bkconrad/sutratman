@@ -2,23 +2,28 @@
 #define GAME_H
 
 #include <tnl.h>
+#include <tnlLog.h>
+#include <tnlNetBase.h>
 
 using namespace TNL;
 
 class Entity;
-class Game
+class Game : LogConsumer
 {
    public:
       explicit Game(bool server);
       Game();
       virtual ~Game();
       virtual void addEntity(Entity* entity);
-      Vector<Entity*>* getEntities();
+      Vector<SafePtr<Entity> >* getEntities();
+
+      // overrides
+      void writeString(const char*);
 
    protected:
    private:
       bool mServer;
-      Vector<Entity*> mEntities;
+      Vector<SafePtr<Entity> > mEntities;
 };
 
 #endif // GAME_H

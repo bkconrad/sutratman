@@ -17,5 +17,5 @@ EntityNode::~EntityNode()
 void EntityNode::update()
 {
    const Vec2 pos = mEntity->getPos();
-   mNode->setPosition(irr::core::vector3df(pos.x, pos.y, 0.0));
+   mNode->setPosition(irr::core::vector3df(pos.x * 10.0, pos.y * 10.0, 0.0));
 }

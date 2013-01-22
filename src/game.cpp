@@ -1,10 +1,14 @@
 #include "game.h"
+#include "log.h"
 #include "entity.h"
+
+using namespace TNL;
 
 Game::Game(bool server)
 {
    mServer = server;
    Game();
+   setMsgTypes(LogNetBase | LogNetConnection | LogConnectionProtocol | LogFatalError | LogError | LogWarning);
 }
 
 Game::Game()
@@ -27,7 +31,18 @@ void Game::addEntity(Entity* entity)
   *
   * @todo: document this function
   */
-Vector<Entity*>* Game::getEntities()
+Vector<SafePtr<Entity> >* Game::getEntities()
 {
    return &mEntities;
 }
+
+
+/** @brief writeString
+  *
+  * @todo: document this function
+  */
+void Game::writeString(const char* s)
+{
+   Log::p(s);
+}
+

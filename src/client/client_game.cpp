@@ -1,5 +1,5 @@
 #include "log.h"
-#include "entity.h"
+#include "player.h"
 #include "client/client_game.h"
 #include "client/video.h"
 
@@ -20,6 +20,10 @@ ClientGame::~ClientGame()
 void ClientGame::addEntity(Entity* entity)
 {
    Parent::addEntity(entity);
+   if (entity->mIsControlled) {
+      mClientEntity = entity;
+      Log::p("Set client entity");
+   }
 
    if(mVideo) {
       mVideo->addEntity(entity);
@@ -32,17 +36,10 @@ void ClientGame::addEntity(Entity* entity)
   */
 bool ClientGame::handleEvent(const irr::SEvent& event)
 {
-   if(mClientEntity) {
-      mClientEntity->modPos(Vec2(1.0, 1.0));
+   Log::p("%x", mClientEntity.getPointer());
+   if(!mClientEntity.isNull() && event.EventType == irr::EET_KEY_INPUT_EVENT) {
+      static_cast<Player*>(mClientEntity.getPointer())->c2sMove();
       Log::p("key event handled");
    }
-}
-
-/** @brief setControlEntity
-  *
-  * @todo: document this function
-  */
-void ClientGame::setControlEntity(Entity* ent)
-{
-   mClientEntity = ent;
+   return true;
 }
