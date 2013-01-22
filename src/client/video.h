@@ -11,7 +11,7 @@ class Entity;
 class Video
 {
    public:
-      Video(irr::IEventReceiver* eventReceiver);
+      explicit Video(irr::IEventReceiver* eventReceiver = NULL);
       virtual ~Video();
       bool run();
       void addEntity(Entity* entity);
