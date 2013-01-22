@@ -76,14 +76,5 @@ const Vec2& Entity::getPos()
    return mPos;
 }
 
-/** @brief setGame
-  *
-  * @todo: document this function
-  */
-void Entity::setGame(Game* game)
-{
-   mGame = game;
-}
-
 void Entity::unpackUpdate(GhostConnection* c, BitStream* b) { }
 bool Entity::onGhostAdd(GhostConnection* c) { return true; }

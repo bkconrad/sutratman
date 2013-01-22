@@ -34,6 +34,7 @@ client-enabled builds
 using namespace TNL;
 
 class Game;
+class ClientGame;
 class Entity : public NetObject
 {
    public:
@@ -47,7 +48,6 @@ class Entity : public NetObject
       virtual U32 packUpdate(GhostConnection* connection, U32 updateMask, BitStream* bitStream);
       virtual void unpackUpdate(GhostConnection* connection, BitStream* bitStream);
 
-      void setGame(Game* game);
       void setPos(float x, float y);
       void setPos(const Vec2& pos);
       void modPos(const Vec2& pos);
@@ -61,12 +61,13 @@ class Entity : public NetObject
    protected:
       Game* mGame;
 
-      // client only. true if this is the entity we control
-      bool mIsControlled;
       static int IdIndex;
       U32 mId;
       Vec2 mPos;
 
+      // client only
+      bool mIsControlled;
+      ClientGame* mClientGame;
    private:
 };
 
