@@ -5,13 +5,15 @@
 #include "game_connection.h"
 #include <irrlicht.h>
 
+#include <gtest/gtest_prod.h>
+
 class GameInterface;
 class ClientGame;
 class Input;
 class Client : public irr::IEventReceiver
 {
    public:
-      Client();
+      Client(Video* video = NULL, GameConnection* connection = NULL, ClientGame* game = NULL);
       void go();
       bool connect(char* host);
       bool init();
@@ -29,6 +31,8 @@ class Client : public irr::IEventReceiver
 
       bool step();
       void serviceConnection();
+
+      FRIEND_TEST(network, connectivity);
 };
 
 #endif /* CLIENT_H_ */

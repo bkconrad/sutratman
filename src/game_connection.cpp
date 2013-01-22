@@ -32,6 +32,15 @@ void GameConnection::onConnectionEstablished()
    }
 }
 
+/** @brief onConnectTerminated
+  *
+  * @todo: document this function
+  */
+void GameConnection::onConnectTerminated(NetConnection::TerminationReason reason, const char* str)
+{
+
+}
+
 TNL_IMPLEMENT_RPC(GameConnection, s2cPlayerJoined, (), (),
 NetClassGroupGameMask, RPCGuaranteedOrdered, RPCDirServerToClient, 0) {
    Log::p("Player joined!");

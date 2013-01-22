@@ -13,7 +13,8 @@ using namespace std;
 class GameConnection : public GhostConnection {
    typedef GhostConnection Parent;
    public:
-      void onConnectionEstablished();
+      virtual void onConnectionEstablished();
+      virtual void onConnectTerminated(NetConnection::TerminationReason reason, const char* str);
       TNL_DECLARE_NETCONNECTION(GameConnection);
       TNL_DECLARE_RPC(s2cPlayerJoined, ());
 };

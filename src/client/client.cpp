@@ -11,11 +11,9 @@
 using namespace TNL;
 using namespace std;
 
-Client::Client()
+Client::Client(Video* video, GameConnection* connection, ClientGame* game)
+   : mVideo(video), mConnection(connection), mGame(game)
 {
-   mVideo = NULL;
-   mConnection = NULL;
-   mGame = NULL;
 }
 
 Client::~Client()
@@ -53,7 +51,7 @@ bool Client::init()
 bool Client::step()
 {
    serviceConnection();
-   return mVideo->run();
+   return mVideo ? mVideo->run() : true;
 }
 
 
@@ -66,7 +64,7 @@ bool Client::connect(char* host)
    Address foreignAddress(host);
    Address bindAddress(IPProtocol, Address::Any, 0);
    mInterface = new GameInterface(bindAddress, mGame);
-   mConnection = new GameConnection;
+   mConnection = mConnection ? mConnection : new GameConnection;
    Log::p("Connecting");
    mConnection->connect(mInterface, foreignAddress);
    return true;

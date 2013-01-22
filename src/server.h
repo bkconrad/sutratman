@@ -26,8 +26,7 @@ class Server
       Game *mGame;
       void serviceConnections();
 
-   FRIEND_TEST(network, server);
-
+   FRIEND_TEST(network, connectivity);
 };
 
 #endif // SERVER_H
