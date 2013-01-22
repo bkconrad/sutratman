@@ -36,43 +36,6 @@ U32 Entity::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* b
    }
 }
 
-/** @brief unpackUpdate
-  *
-  * @todo: document this function
-  */
-void Entity::unpackUpdate(GhostConnection* connection, BitStream* bitStream)
-{
-   // initial update
-   if (bitStream->readFlag()) {
-      // set our game pointer. we can safely cast to GameConnection inside of Entities
-      mGame = static_cast<GameInterface*>(connection->getInterface())->getGame();
-
-      // is controlled entity
-      mIsControlled = bitStream->readFlag();
-      if(mIsControlled) {
-         // tell the game that this is our entity
-         mGame->setControlEntity(this);
-      }
-   }
-
-   // position update
-   if(bitStream->readFlag()) {
-      mPos.x = bitStream->readFloat(16);
-      mPos.y = bitStream->readFloat(16);
-   }
-}
-
-/** @brief onGhostAdd
-  *
-  * @todo: document this function
-  */
-bool Entity::onGhostAdd(GhostConnection* connection)
-{
-   mGame = ((GameInterface* ) connection->getInterface())->getGame();
-   mGame->addEntity(this);
-   return true;
-}
-
 /** @brief performScopeQuery
   *
   * @todo: document this function
@@ -121,3 +84,6 @@ void Entity::setGame(Game* game)
 {
    mGame = game;
 }
+
+void Entity::unpackUpdate(GhostConnection* c, BitStream* b) { }
+bool Entity::onGhostAdd(GhostConnection* c) { return true; }

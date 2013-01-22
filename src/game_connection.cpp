@@ -1,5 +1,5 @@
 #include "game_connection.h"
-#include "entity.h"
+#include "player.h"
 #include "game.h"
 #include "game_interface.h"
 #include "log.h"
@@ -21,7 +21,7 @@ void GameConnection::onConnectionEstablished()
    } else {
       // create the new player
       Game* game = ((GameInterface*) getInterface())->getGame();
-      Entity* entity = new Entity(game);
+      Entity* entity = new Player(game);
       entity->setPos(TNL::Random::readF(), TNL::Random::readF());
       game->addEntity(entity);
       setScopeObject(entity);

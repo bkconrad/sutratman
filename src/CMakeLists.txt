@@ -5,17 +5,20 @@ set(SUT_LIBRARIES )
 set(SUT_INCLUDE_DIRS )
 
 set(SERVER_SOURCES
-	game_connection
 	entity
 	game
+	game_connection
 	game_interface
 	log
+	player
 	server
 	vec2
 )
 set(CLIENT_SOURCES
 	client/client
+	client/client_entity
 	client/client_game
+	client/client_player
 	client/entity_node
 	client/video
 )
@@ -24,7 +27,7 @@ if(DEDICATED)
 	add_executable(sutratman main ${SERVER_SOURCES})
 	add_definitions(-DSUT_DEDICATED)
 else()
-	add_executable(sutratman main ${SERVER_SOURCES} ${CLIENT_SOURCES})
+	add_executable(sutratman main ${CLIENT_SOURCES} ${SERVER_SOURCES})
 	find_package(Irrlicht REQUIRED)
 	set(SUT_LIBRARIES ${SUT_LIBRARIES} ${IRRLICHT_LIBRARIES})
 	set(SUT_INCLUDE_DIRS ${SUT_INCLUDE_DIRS} ${IRRLICHT_INCLUDE_DIRS})
