@@ -17,6 +17,7 @@ class ClientGame : public Game
 {
    typedef Game Parent;
    public:
+      static float MOUSESPEED;
       ClientGame(Video* video = NULL);
       virtual ~ClientGame();
       virtual void addEntity(Entity* entity);

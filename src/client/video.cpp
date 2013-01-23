@@ -2,6 +2,8 @@
 #include "entity.h"
 #include "entity_node.h"
 
+const float Video::VIDEOSCALE = 10.0;
+
 Video::Video(irr::IEventReceiver* eventReceiver)
    : mEventReceiver(eventReceiver)
 {
@@ -32,8 +34,10 @@ bool Video::run()
    // center on the focus entity if we have one
    if (mFocusEntity.isValid()) {
       Vec2 pos = mFocusEntity->getPos();
-      mCamera->setTarget(irr::core::vector3df(pos.x * 10.0, pos.y * 10.0, 0.0));
-      mCamera->setPosition(irr::core::vector3df(pos.x * 10.0 + 3.0, pos.y * 10.0 + 3.0, 5.0));
+      Vec2 rot = mFocusEntity->getRot();
+      mCamera->setTarget(irr::core::vector3df(pos.x * Video::VIDEOSCALE, pos.y * Video::VIDEOSCALE, 0.0));
+      mCamera->bindTargetAndRotation(true);
+      mCamera->setPosition(irr::core::vector3df(pos.x * Video::VIDEOSCALE + sin(rot.x) * 3.0, pos.y * Video::VIDEOSCALE + cos(rot.x) * 3.0, 0.0));
    }
 
    if(!mDevice->run()) {

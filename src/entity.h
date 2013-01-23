@@ -41,7 +41,11 @@ class Entity : public NetObject
 {
    public:
       TNL_DECLARE_CLASS(Entity);
-      TNL_DECLARE_RPC(c2sMove, ());
+      TNL_DECLARE_RPC(c2sMove, (F32 angle));
+      TNL_DECLARE_RPC(c2sRotate, (F32 angle));
+
+      // TODO should be replaced with stats or something
+      static const float MOVESPEED;
 
       Entity(Game* game = NULL);
       virtual ~Entity();
@@ -62,7 +66,8 @@ class Entity : public NetObject
       void setPos(const Vec2& pos);
       void modPos(const Vec2& pos);
       const Vec2& getRot();
-      void setRot(const Vec2& pos);
+      void setRot(const Vec2& rot);
+      void modRot(const Vec2& rot);
 
       enum MaskBits {
          InitialMask = 1 << 0,
@@ -76,7 +81,7 @@ class Entity : public NetObject
       static int IdIndex;
       U32 mId;
       Vec2 mPos;
-      Vec2 mRot;
+      Vec2 mRot; // in radians, math angle
 
       // client only
       ClientGame* mClientGame;

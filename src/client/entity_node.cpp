@@ -1,3 +1,4 @@
+#include "video.h"
 #include "entity_node.h"
 #include "entity.h"
 #include "vec2.h"
@@ -17,5 +18,5 @@ EntityNode::~EntityNode()
 void EntityNode::update()
 {
    const Vec2 pos = mEntity->getPos();
-   mNode->setPosition(irr::core::vector3df(pos.x * 10.0, pos.y * 10.0, 0.0));
+   mNode->setPosition(irr::core::vector3df(pos.x * Video::VIDEOSCALE, pos.y * Video::VIDEOSCALE, 0.0));
 }

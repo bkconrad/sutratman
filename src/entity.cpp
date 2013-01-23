@@ -8,15 +8,28 @@
 using namespace TNL;
 
 int Entity::IdIndex = 1;
+const float Entity::MOVESPEED = 0.01;
 
 TNL_IMPLEMENT_NETOBJECT(Entity);
 
-TNL_IMPLEMENT_NETOBJECT_RPC(Entity, c2sMove, (), (),
+TNL_IMPLEMENT_NETOBJECT_RPC(Entity, c2sMove, (F32 angle), (angle),
 NetClassGroupAllMask,  RPCGuaranteedOrdered, RPCToGhostParent, 0)
 {
    // TODO check client's ownership
-   modPos(Vec2(.01, .01));
+   Vec2 delta = Vec2();
+   delta.setAngle(angle);
+   delta *= Entity::MOVESPEED;
+   mPos += delta;
    setMaskBits(PositionMask);
+}
+
+TNL_IMPLEMENT_NETOBJECT_RPC(Entity, c2sRotate, (F32 angle), (angle),
+NetClassGroupAllMask,  RPCGuaranteedOrdered, RPCToGhostParent, 0)
+{
+   // TODO check client's ownership
+   mRot.x = angle;
+   mRot.mod(Vec2::TAU);
+   setMaskBits(RotationMask);
 }
 
 Entity::Entity(Game* game)
@@ -78,8 +91,17 @@ void Entity::setPos(float x, float y)
   */
 void Entity::modPos(const Vec2& pos)
 {
-   mPos.x += pos.x;
-   mPos.y += pos.y;
+   mPos += pos;
+}
+
+/** @brief modPos
+  *
+  * @todo: document this function
+  */
+void Entity::modRot(const Vec2& rot)
+{
+   mRot += rot;
+   mRot.mod(Vec2::TAU);
 }
 
 /** @brief getPos
@@ -106,9 +128,11 @@ U32 Entity::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* b
       bitStream->writeFloat(mPos.y, 16);
    }
 
+   // rotation. normalize it to TAU
+   // TODO: check to see how TNL normalizes floats
    if(bitStream->writeFlag(updateMask & RotationMask)) {
-      bitStream->writeFloat(mRot.x, 16);
-      bitStream->writeFloat(mRot.y, 16);
+      bitStream->writeFloat(mRot.x / Vec2::TAU, 16);
+      bitStream->writeFloat(mRot.y / Vec2::TAU, 16);
    }
 }
 
@@ -120,10 +144,10 @@ void Entity::unpackUpdate(GhostConnection* connection, BitStream* bitStream)
       mPos.y = bitStream->readFloat(16);
    }
 
-   // rotation update
+   // rotation update. Convert to radians from normalized float
    if(bitStream->readFlag()) {
-      mRot.x = bitStream->readFloat(16);
-      mRot.y = bitStream->readFloat(16);
+      mRot.x = bitStream->readFloat(16) * Vec2::TAU;
+      mRot.y = bitStream->readFloat(16) * Vec2::TAU;
    }
 }
 
@@ -134,18 +158,15 @@ bool Entity::onGhostAdd(GhostConnection* connection) {
    return true;
 }
 
-/** @brief setRot
-  *
-  * @todo: document this function
+/** @brief set the rotation vector (radians)
   */
 void Entity::setRot(const Vec2& rot)
 {
    mRot = rot;
+   mRot.mod(Vec2::TAU);
 }
 
-/** @brief getRot
-  *
-  * @todo: document this function
+/** @brief rotation vector in radianss
   */
 const Vec2& Entity::getRot()
 {

@@ -23,17 +23,31 @@ v.set(1.0, 0.0);
 class Vec2
 {
    public:
-      static float EPSILON; // for comparing floats
+      static const float EPSILON; // for comparing floats
+      static const float PI;
+      static const float TAU; // 2 * PI. For more info see http://tauday.com/
       float x, y;
 
       Vec2();
       Vec2(float x, float y);
       Vec2(const Vec2& v);
 
-      Vec2& operator=(const Vec2& v);
+      const Vec2 operator*(const float k) const;
+      const Vec2& operator*=(const float k);
+      const Vec2 operator+(const Vec2& v) const;
+      const Vec2& operator+=(const Vec2& v);
+      const Vec2 operator-(const Vec2& v) const;
+      const Vec2& operator-=(const Vec2& v);
+      const Vec2& operator=(const Vec2& v);
       bool operator==(const Vec2& v);
 
+      float getAngle();
+
+      // mutators
+      void normalize();
+      void setAngle(float angle);
       void set(float x, float y);
+      void mod(float k);
 };
 
 #endif // VEC2_H
