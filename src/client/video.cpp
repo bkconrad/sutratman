@@ -1,14 +1,22 @@
 #include "video.h"
 #include "entity.h"
 #include "entity_node.h"
+#include "input.h"
 
+Video* Video::mInstance = NULL;
 const float Video::VIDEOSCALE = 10.0;
 
-Video::Video(irr::IEventReceiver* eventReceiver)
-   : mEventReceiver(eventReceiver)
+Video* Video::get()
 {
+   return mInstance ? mInstance : new Video();
+}
+
+Video::Video()
+{
+   mInstance = this;
+
    mDevice = irr::createDevice(irr::video::EDT_OPENGL, irr::core::dimension2d<irr::u32>(640, 480), 16,
-            false, false, false, eventReceiver);
+            false, false, false, Input::get());
    if(!mDevice) {
       // handle no device found
    }

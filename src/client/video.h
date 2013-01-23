@@ -13,12 +13,17 @@ class Video
 {
    public:
       static const float VIDEOSCALE; // scale from normalized simulation positions to irrlich positions
-      explicit Video(irr::IEventReceiver* eventReceiver = NULL);
-      virtual ~Video();
+
+      static Video* get();
+
       bool run();
       void addEntity(Entity* entity);
-   protected:
+
    private:
+      Video();
+      virtual ~Video();
+
+      static Video* mInstance;
       SafePtr<Entity> mFocusEntity;
       Vector<EntityNode*> mEntityNodes;
 

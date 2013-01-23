@@ -11,8 +11,8 @@
 using namespace TNL;
 using namespace std;
 
-Client::Client(Video* video, GameConnection* connection, ClientGame* game)
-   : mVideo(video), mConnection(connection), mGame(game)
+Client::Client(GameConnection* connection, ClientGame* game)
+   : mConnection(connection), mGame(game)
 {
 }
 
@@ -35,8 +35,8 @@ void Client::go()
   */
 bool Client::init()
 {
-   mVideo = mVideo ? mVideo : new Video(this);
-   mGame = mGame ? mGame : new ClientGame(mVideo);
+   mVideo = Video::get();
+   mGame = mGame ? mGame : new ClientGame();
 
    connect((char *) "localhost:28000");
 
@@ -78,15 +78,4 @@ void Client::serviceConnection()
 {
    mInterface->checkIncomingPackets();
    mInterface->processConnections();
-}
-
-/** @brief OnEvent
-  *
-  * @todo: document this function
-  */
-bool Client::OnEvent(const irr::SEvent& event)
-{
-   if(mGame) {
-      mGame->handleEvent(event);
-   }
 }

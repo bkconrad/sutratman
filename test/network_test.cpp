@@ -42,7 +42,7 @@ TEST(network, connectivity) {
       ASSERT_TRUE(connection->result == 1);
       exit(0);
    } else {
-      Client c(0, connection);
+      Client c(connection);
       c.connect((char*) "localhost:28000");
       while(TestConnection::result == 0) {
          c.step();

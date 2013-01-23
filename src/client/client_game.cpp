@@ -1,13 +1,15 @@
 #include "log.h"
 #include "player.h"
 #include "client/client_game.h"
+#include "client/input.h"
 #include "client/video.h"
 
 float ClientGame::MOUSESPEED = .001;
 
-ClientGame::ClientGame(Video* video)
-   : mVideo(video), mClientEntity(NULL)
+ClientGame::ClientGame()
+   : mClientEntity(NULL)
 {
+   Input::get()->addListener(this);
 }
 
 ClientGame::~ClientGame()
@@ -27,7 +29,7 @@ void ClientGame::addEntity(Entity* entity)
    }
 
    if(mVideo) {
-      mVideo->addEntity(entity);
+      Video::get()->addEntity(entity);
    }
 }
 
@@ -35,7 +37,7 @@ void ClientGame::addEntity(Entity* entity)
   *
   * @todo: document this function
   */
-bool ClientGame::handleEvent(const irr::SEvent& event)
+bool ClientGame::handle(const irr::SEvent& event)
 {
    static Vec2 lastPos(0.0, 0.0);
 

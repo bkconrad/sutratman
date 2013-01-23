@@ -10,17 +10,15 @@
 class GameInterface;
 class ClientGame;
 class Input;
-class Client : public irr::IEventReceiver
+class Client
 {
    public:
-      Client(Video* video = NULL, GameConnection* connection = NULL, ClientGame* game = NULL);
+      Client(GameConnection* connection = NULL, ClientGame* game = NULL);
       void go();
       bool connect(char* host);
       bool init();
       virtual ~Client();
 
-      // overrides
-      bool OnEvent(const irr::SEvent& event);
    protected:
    private:
       Video* mVideo;
