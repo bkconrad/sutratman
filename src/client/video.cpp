@@ -43,9 +43,12 @@ bool Video::run()
    if (mFocusEntity.isValid()) {
       Vec2 pos = mFocusEntity->getPos();
       Vec2 rot = mFocusEntity->getRot();
+      Vec2 cameraOffset;
+      cameraOffset.setAngle(rot.y);
+      cameraOffset *= 3.0;
       mCamera->setTarget(irr::core::vector3df(pos.x * Video::VIDEOSCALE, pos.y * Video::VIDEOSCALE, 0.0));
       mCamera->bindTargetAndRotation(true);
-      mCamera->setPosition(irr::core::vector3df(pos.x * Video::VIDEOSCALE + sin(rot.x) * 3.0, pos.y * Video::VIDEOSCALE + cos(rot.x) * 3.0, 0.0));
+      mCamera->setPosition(irr::core::vector3df(pos.x * Video::VIDEOSCALE + cameraOffset.x, pos.y * Video::VIDEOSCALE, cameraOffset.y));
    }
 
    if(!mDevice->run()) {

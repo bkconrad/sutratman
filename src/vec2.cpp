@@ -74,8 +74,8 @@ set the angle of this vector (also sets magnitude to 1.0)
   */
 void Vec2::setAngle(float angle)
 {
-   x = cos(angle);
-   y = sin(angle);
+   x = cos(angle) * (angle > Vec2::PI ? -1.0 : 1.0);
+   y = sin(angle) * (angle > Vec2::PI ? -1.0 : 1.0);
 }
 
 /** @brief getAngle

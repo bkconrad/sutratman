@@ -21,7 +21,6 @@ class Client
 
    protected:
    private:
-      Video* mVideo;
       Input* mInput;
       GameConnection* mConnection;
       RefPtr<GameInterface> mInterface;

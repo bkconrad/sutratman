@@ -27,7 +27,6 @@ class ClientGame : public Game, public ListenerInterface
 
    protected:
    private:
-      Video* mVideo;
       SafePtr<Entity> mClientEntity;
 };
 

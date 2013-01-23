@@ -35,12 +35,11 @@ void Client::go()
   */
 bool Client::init()
 {
-   mVideo = Video::get();
    mGame = mGame ? mGame : new ClientGame();
 
    connect((char *) "localhost:28000");
 
-   return !!mVideo;
+   return true;
 }
 
 
@@ -51,7 +50,7 @@ bool Client::init()
 bool Client::step()
 {
    serviceConnection();
-   return mVideo ? mVideo->run() : true;
+   return Video::get()->run();
 }
 
 

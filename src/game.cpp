@@ -8,7 +8,7 @@ Game::Game(bool server)
 {
    mServer = server;
    Game();
-   setMsgTypes(LogNetBase | LogNetConnection | LogConnectionProtocol | LogFatalError | LogError | LogWarning);
+   setMsgTypes(LogNetConnection | LogFatalError | LogError | LogWarning);
 }
 
 Game::Game()

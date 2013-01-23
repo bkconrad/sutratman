@@ -4,7 +4,7 @@
 #include "client/input.h"
 #include "client/video.h"
 
-float ClientGame::MOUSESPEED = .001;
+float ClientGame::MOUSESPEED = .1;
 
 ClientGame::ClientGame()
    : mClientEntity(NULL)
@@ -27,10 +27,7 @@ void ClientGame::addEntity(Entity* entity)
    if (entity->isControlled()) {
       mClientEntity = entity;
    }
-
-   if(mVideo) {
-      Video::get()->addEntity(entity);
-   }
+   Video::get()->addEntity(entity);
 }
 
 /** @brief handleEvent
@@ -52,8 +49,8 @@ bool ClientGame::handle(const irr::SEvent& event)
          case irr::EET_MOUSE_INPUT_EVENT:
             Vec2 delta = lastPos - Vec2(event.MouseInput.X, event.MouseInput.Y);
             lastPos.set(event.MouseInput.X, event.MouseInput.Y);
-            mClientEntity->modRot(Vec2(delta.x * ClientGame::MOUSESPEED, delta.y * ClientGame::MOUSESPEED));
-            static_cast<Player*>(mClientEntity.getPointer())->c2sRotate(mClientEntity->getRot().x);
+            mClientEntity->modRot(Vec2(0.0, delta.x * ClientGame::MOUSESPEED));
+            static_cast<Player*>(mClientEntity.getPointer())->c2sRotate(mClientEntity->getRot().y);
          break;
       }
    }
