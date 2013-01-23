@@ -2,6 +2,7 @@
 #define INPUT_H
 
 #include "client/listenerinterface.h"
+#include "vec2.h"
 
 #include <irrlicht.h>
 #include <tnl.h>
@@ -19,11 +20,14 @@ class Input : public irr::IEventReceiver
 
       void addListener(ListenerInterface* listener);
       void removeListener(ListenerInterface* listener);
+      const Vec2 getDelta();
 
       // overrides
       bool OnEvent(const irr::SEvent& event);
    protected:
    private:
+      Vec2 mLastMousePos;
+      Vec2 mCurrentMousePos;
       std::set<ListenerInterface*> mListeners;
       static Input* mInstance;
 };

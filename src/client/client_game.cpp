@@ -36,8 +36,6 @@ void ClientGame::addEntity(Entity* entity)
   */
 bool ClientGame::handle(const irr::SEvent& event)
 {
-   static Vec2 lastPos(0.0, 0.0);
-
    if(!mClientEntity.isNull()) {
       switch (event.EventType)
       {
@@ -47,8 +45,7 @@ bool ClientGame::handle(const irr::SEvent& event)
          break;
 
          case irr::EET_MOUSE_INPUT_EVENT:
-            Vec2 delta = lastPos - Vec2(event.MouseInput.X, event.MouseInput.Y);
-            lastPos.set(event.MouseInput.X, event.MouseInput.Y);
+            Vec2 delta = Input::get()->getDelta();
             mClientEntity->modRot(Vec2(0.0, delta.x * ClientGame::MOUSESPEED));
             static_cast<Player*>(mClientEntity.getPointer())->c2sRotate(mClientEntity->getRot().y);
          break;
