@@ -55,18 +55,20 @@ class Entity : public NetObject
       virtual U32 packUpdate(GhostConnection* connection, U32 updateMask, BitStream* bitStream);
       virtual void unpackUpdate(GhostConnection* connection, BitStream* bitStream);
 
+      bool isControlled();
+      void setControlled(bool controlled);
+      const Vec2& getPos();
       void setPos(float x, float y);
       void setPos(const Vec2& pos);
       void modPos(const Vec2& pos);
-      const Vec2& getPos();
+      const Vec2& getRot();
+      void setRot(const Vec2& pos);
 
       enum MaskBits {
          InitialMask = 1 << 0,
          PositionMask = 1 << 1,
+         RotationMask = 1 << 2,
       };
-
-      // simple attributes with no dependencies
-      bool mIsControlled;
 
    protected:
       Game* mGame;
@@ -74,9 +76,11 @@ class Entity : public NetObject
       static int IdIndex;
       U32 mId;
       Vec2 mPos;
+      Vec2 mRot;
 
       // client only
       ClientGame* mClientGame;
+      bool mIsControlled;
    private:
       FRIEND_TEST(entity, packing);
 };

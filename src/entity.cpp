@@ -42,6 +42,26 @@ void Entity::performScopeQuery(GhostConnection* connection)
    }
 }
 
+/** @brief setControlled
+  *
+  * @todo: document this function
+  */
+void Entity::setControlled(bool controlled)
+{
+   mIsControlled = controlled;
+}
+
+/** @brief isControlled
+  *
+  * @todo: document this function
+  */
+bool Entity::isControlled()
+{
+   return mIsControlled;
+}
+
+
+
 void Entity::setPos(const Vec2& pos)
 {
    mPos = pos;
@@ -75,7 +95,7 @@ const Vec2& Entity::getPos()
   */
 bool Entity::isConsistentWith(const Entity& entity)
 {
-   return mPos == entity.mPos;
+   return mPos == entity.mPos && mRot == entity.mRot;
 }
 
 U32 Entity::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* bitStream)
@@ -84,6 +104,11 @@ U32 Entity::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* b
    if(bitStream->writeFlag(updateMask & PositionMask)) {
       bitStream->writeFloat(mPos.x, 16);
       bitStream->writeFloat(mPos.y, 16);
+   }
+
+   if(bitStream->writeFlag(updateMask & RotationMask)) {
+      bitStream->writeFloat(mRot.x, 16);
+      bitStream->writeFloat(mRot.y, 16);
    }
 }
 
@@ -94,6 +119,36 @@ void Entity::unpackUpdate(GhostConnection* connection, BitStream* bitStream)
       mPos.x = bitStream->readFloat(16);
       mPos.y = bitStream->readFloat(16);
    }
+
+   // rotation update
+   if(bitStream->readFlag()) {
+      mRot.x = bitStream->readFloat(16);
+      mRot.y = bitStream->readFloat(16);
+   }
 }
 
-bool Entity::onGhostAdd(GhostConnection* c) { mGame->addEntity(this); return true; }
+bool Entity::onGhostAdd(GhostConnection* connection) {
+   // set our game pointer. we can safely cast to GameConnection inside of Entities
+   mGame = static_cast<GameInterface*>(connection->getInterface())->getGame();
+   mGame->addEntity(this);
+   return true;
+}
+
+/** @brief setRot
+  *
+  * @todo: document this function
+  */
+void Entity::setRot(const Vec2& rot)
+{
+   mRot = rot;
+}
+
+/** @brief getRot
+  *
+  * @todo: document this function
+  */
+const Vec2& Entity::getRot()
+{
+   return mRot;
+}
+

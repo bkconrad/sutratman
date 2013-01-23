@@ -20,7 +20,7 @@ ClientGame::~ClientGame()
 void ClientGame::addEntity(Entity* entity)
 {
    Parent::addEntity(entity);
-   if (entity->mIsControlled) {
+   if (entity->isControlled()) {
       mClientEntity = entity;
    }
 

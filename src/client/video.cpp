@@ -17,7 +17,8 @@ Video::Video(irr::IEventReceiver* eventReceiver)
    mGuiEnv = mDevice->getGUIEnvironment();
    mGuiEnv->addStaticText(L"Hi!", irr::core::rect<irr::s32>(10, 10, 260, 22), true);
    mMesh = mSceneManager->getMesh("../resource/boxman.x");
-   mSceneManager->addCameraSceneNode(0, irr::core::vector3df(0,3,5), irr::core::vector3df(0,5,0));
+   mCamera = mSceneManager->addCameraSceneNode(0, irr::core::vector3df(0,3,5), irr::core::vector3df(0,5,0));
+
 }
 
 /** @return true if the video system can continue running
@@ -27,6 +28,13 @@ bool Video::run()
    for(int i = 0; i < mEntityNodes.size(); i++) {
       mEntityNodes[i]->update();
    }
+
+   // center on the focus entity if we have one
+   if (mFocusEntity.isValid()) {
+      Vec2 pos = mFocusEntity->getPos();
+      mCamera->setTarget(irr::core::vector3df(pos.x * 10.0, pos.y * 10.0, 0.0));
+   }
+
    if(!mDevice->run()) {
       return false;
    }
@@ -42,6 +50,9 @@ bool Video::run()
   */
 void Video::addEntity(Entity* entity)
 {
+   if (entity->isControlled()) {
+      mFocusEntity = entity;
+   }
    irr::scene::IAnimatedMeshSceneNode* node = mSceneManager->addAnimatedMeshSceneNode(mMesh);
    node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
    EntityNode* entityNode = new EntityNode(entity, node);

@@ -3,6 +3,7 @@
 
 #include <irrlicht.h>
 #include <tnl.h>
+#include <tnlNetBase.h>
 
 using namespace TNL;
 
@@ -17,6 +18,7 @@ class Video
       void addEntity(Entity* entity);
    protected:
    private:
+      SafePtr<Entity> mFocusEntity;
       Vector<EntityNode*> mEntityNodes;
 
       irr::IEventReceiver *mEventReceiver;
@@ -25,6 +27,7 @@ class Video
       irr::scene::ISceneManager *mSceneManager;
       irr::video::IVideoDriver *mDriver;
       irr::scene::IAnimatedMesh *mMesh;
+      irr::scene::ICameraSceneNode *mCamera;
 };
 
 #endif // SUT_VIDEO_H
