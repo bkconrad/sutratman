@@ -89,7 +89,4 @@ bool Client::OnEvent(const irr::SEvent& event)
    if(mGame) {
       mGame->handleEvent(event);
    }
-   // TODO: why does this segfault?
-   //if (mConnection)
-      //mConnection->c2sIsAlive();
 }
