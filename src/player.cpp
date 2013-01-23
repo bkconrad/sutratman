@@ -9,8 +9,6 @@ U32 Player::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* b
    updateMask = Parent::packUpdate(connection, updateMask, bitStream);
    if(bitStream->writeFlag(updateMask & InitialMask)) {
    }
-
-   Log::p("%s scope object", bitStream->writeFlag(connection->getScopeObject() == this) ? "" : "not");
    return 0;
 }
 

@@ -22,7 +22,6 @@ void ClientGame::addEntity(Entity* entity)
    Parent::addEntity(entity);
    if (entity->mIsControlled) {
       mClientEntity = entity;
-      Log::p("Set client entity");
    }
 
    if(mVideo) {
@@ -36,10 +35,8 @@ void ClientGame::addEntity(Entity* entity)
   */
 bool ClientGame::handleEvent(const irr::SEvent& event)
 {
-   Log::p("%x", mClientEntity.getPointer());
    if(!mClientEntity.isNull() && event.EventType == irr::EET_KEY_INPUT_EVENT) {
       static_cast<Player*>(mClientEntity.getPointer())->c2sMove();
-      Log::p("key event handled");
    }
    return true;
 }

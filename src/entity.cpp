@@ -40,7 +40,6 @@ void Entity::performScopeQuery(GhostConnection* connection)
    for(i = 0; i < mGame->getEntities()->size(); i++) {
       connection->objectInScope((NetObject*) (mGame->getEntities()->operator[](i)));
    }
-   Log::p("%d objects in scope", i);
 }
 
 void Entity::setPos(const Vec2& pos)

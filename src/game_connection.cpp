@@ -38,17 +38,12 @@ void GameConnection::onConnectionEstablished()
   */
 void GameConnection::onConnectTerminated(NetConnection::TerminationReason reason, const char* str)
 {
-   Log::p("Connection closed");
+   Log::p("Connection attempt terminated: %s", str);
 }
 
 void GameConnection::onConnectionTerminated(NetConnection::TerminationReason reason, const char* str)
 {
    Log::p("Connection closed: %s", str);
-}
-
-TNL_IMPLEMENT_RPC(GameConnection, c2sIsAlive, (), (),
-NetClassGroupAllMask, RPCGuaranteedOrdered, RPCDirClientToServer, 0) {
-   Log::p("Got RPC");
 }
 
 
