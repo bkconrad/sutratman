@@ -33,6 +33,7 @@ bool Video::run()
    if (mFocusEntity.isValid()) {
       Vec2 pos = mFocusEntity->getPos();
       mCamera->setTarget(irr::core::vector3df(pos.x * 10.0, pos.y * 10.0, 0.0));
+      mCamera->setPosition(irr::core::vector3df(pos.x * 10.0 + 3.0, pos.y * 10.0 + 3.0, 5.0));
    }
 
    if(!mDevice->run()) {
