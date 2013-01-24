@@ -10,17 +10,12 @@
 
 using namespace TNL;
 
-int serverStatus = 0;
-int clientStatus = 0;
-
 class TestConnection : public GameConnection {
 public:
-   typedef GameConnection Parent;
-   int result;
 
-   TestConnection() {
-      result = 0;
-   }
+   static int serverStatus;
+   static int clientStatus;
+   typedef GameConnection Parent;
 
    virtual void onConnectTerminated(NetConnection::TerminationReason reason, const char* str)
    {
@@ -43,15 +38,18 @@ public:
    TNL_DECLARE_NETCONNECTION(TestConnection);
 };
 
+int TestConnection::serverStatus = 0;
+int TestConnection::clientStatus = 0;
+
 TNL_IMPLEMENT_NETCONNECTION(TestConnection, NetClassGroupGame, true);
 
-// testing util function. args is a pointer to the server
+// testing util function
 void * connectToServer(void* args) {
    TestConnection *connection = new TestConnection;
    Client c(connection);
    c.connect((char*) "localhost:28000");
-   U32 start = Platform::getRealMilliseconds();
-   while(!serverStatus || !clientStatus) {
+
+   while(!TestConnection::serverStatus || !TestConnection::clientStatus) {
       c.serviceConnection();
       Platform::sleep(1);
    }
@@ -69,11 +67,11 @@ TEST(network, connectivity) {
    pthread_create(&thread, NULL, connectToServer, NULL);
 
    U32 start = Platform::getRealMilliseconds();
-   while(!serverStatus || !clientStatus) {
+   while(!TestConnection::serverStatus || !TestConnection::clientStatus) {
       s.serviceConnections();
       Platform::sleep(1);
    }
 
-   ASSERT_EQ(1, clientStatus);
-   ASSERT_EQ(1, serverStatus);
+   ASSERT_EQ(1, TestConnection::clientStatus);
+   ASSERT_EQ(1, TestConnection::serverStatus);
 }
