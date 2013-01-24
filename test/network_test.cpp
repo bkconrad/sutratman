@@ -37,7 +37,7 @@ TEST(network, connectivity) {
       s.mGame = new Game();
       s.host("localhost", "28000");
       U32 start = Platform::getRealMilliseconds();
-      while(TestConnection::result == 0 && Platform::getRealMilliseconds() - start < 3000) {
+      while(TestConnection::result == 0 && Platform::getRealMilliseconds() - start < 10000) {
          s.serviceConnections();
          Platform::sleep(1);
       }
@@ -47,7 +47,7 @@ TEST(network, connectivity) {
       Client c(connection);
       c.connect((char*) "localhost:28000");
       U32 start = Platform::getRealMilliseconds();
-      while(TestConnection::result == 0 && Platform::getRealMilliseconds() - start < 3000) {
+      while(TestConnection::result == 0 && Platform::getRealMilliseconds() - start < 10000) {
          c.step();
          Platform::sleep(1);
       }
