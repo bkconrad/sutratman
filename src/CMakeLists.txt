@@ -6,6 +6,7 @@ set(SUT_INCLUDE_DIRS )
 
 set(SERVER_SOURCES
 	entity
+	diagnostics
 	game
 	game_connection
 	game_interface

@@ -1,6 +1,7 @@
 #ifndef DIAGNOSTICSWINDOW_H
 #define DIAGNOSTICSWINDOW_H
 
+#include "diagnostics.h"
 #include "client/guiwindowinterface.h"
 
 class DiagnosticsWindow : public GuiWindowInterface
@@ -8,9 +9,9 @@ class DiagnosticsWindow : public GuiWindowInterface
     public:
         DiagnosticsWindow(irr::gui::IGUIEnvironment *guiEnv);
         // overrides
-        void validate();
-        void initialize();
-        void update();
+        virtual void validate();
+        virtual void initialize();
+        virtual void update();
     protected:
     private:
 };

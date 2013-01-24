@@ -42,6 +42,7 @@ bool Gui::handle(const irr::SEvent& event)
 
 void Gui::draw()
 {
+    mDiagnosticsWindow->update();
    mGuiEnvironment->drawAll();
 }
 

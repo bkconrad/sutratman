@@ -30,6 +30,7 @@ class GuiWindowInterface
 
     protected:
     irr::gui::IGUIWindow *mWindow;
+    irr::gui::IGUIEnvironment *mGuiEnv;
 
     private:
     static unsigned int WindowIdCount;

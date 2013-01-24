@@ -43,10 +43,10 @@ bool ClientGame::handle(const irr::SEvent& event)
             switch (event.KeyInput.Key) {
                 case irr::KEY_KEY_W:
                     static_cast<Player*>(mClientEntity.getPointer())->c2sMove(mClientEntity->getRot().y);
+                    return true;
                 break;
 
                 default:
-                    return false;
                 break;
             }
          break;
@@ -58,5 +58,5 @@ bool ClientGame::handle(const irr::SEvent& event)
          break;
       }
    }
-   return true;
+   return false;
 }
