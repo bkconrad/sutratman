@@ -4,7 +4,7 @@
 #include "client/input.h"
 #include "client/video.h"
 
-float ClientGame::MOUSESPEED = .1;
+float ClientGame::MOUSESPEED = .01;
 
 ClientGame::ClientGame()
    : mClientEntity(NULL)

@@ -54,7 +54,7 @@ bool Video::run()
    // center on the focus entity if we have one
    if (mFocusEntity.isValid()) {
       vec3 pos = mFocusEntity->getPos();
-      vec3 rot = mod(mFocusEntity->getRot(), RADIANS);
+      vec3 rot = mFocusEntity->getRot() * RADIANS;
 
       float positiveAngularDistance = mod(rot.y - mCameraRotation, RADIANS);
       float negativeAngularDistance = mod(mCameraRotation - rot.y, RADIANS);

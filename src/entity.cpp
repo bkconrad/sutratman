@@ -20,7 +20,7 @@ NetClassGroupAllMask,  RPCGuaranteedOrdered, RPCToGhostParent, 0)
    // TODO check client's ownership
    vec3 delta = vec3();
    // TODO check to see if these trig functions are inverted
-   delta = vec3(cos(angle), 0.0, sin(angle));
+   delta = vec3(-sin(angle * RADIANS), 0.0, -cos(angle * RADIANS));
    delta *= Entity::MOVESPEED;
    mPos += delta;
    setMaskBits(PositionMask);
@@ -107,9 +107,9 @@ void Entity::modRot(const vec3& rot)
    mod(mRot, TAU);
 }
 
-/** @brief getPos
-  *
-  * @todo: document this function
+/** @brief remember that *all* floats are normalized to some range, and it is up to the
+client code to convert from normalized scalers to the relevant units. In the case of positions, and all distances (or any 0th derivative in general)
+in the engine
   */
 const vec3& Entity::getPos()
 {
@@ -133,12 +133,10 @@ U32 Entity::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* b
       bitStream->writeFloat(mPos.z, 16);
    }
 
-   // rotation. normalize it to TAU
-   // TODO: check to see how TNL normalizes floats
    if(bitStream->writeFlag(updateMask & RotationMask)) {
-      bitStream->writeFloat(mRot.x / TAU, 16);
-      bitStream->writeFloat(mRot.y / TAU, 16);
-      bitStream->writeFloat(mRot.z / TAU, 16);
+      bitStream->writeFloat(mRot.x, 16);
+      bitStream->writeFloat(mRot.y, 16);
+      bitStream->writeFloat(mRot.z, 16);
    }
 }
 
@@ -153,9 +151,9 @@ void Entity::unpackUpdate(GhostConnection* connection, BitStream* bitStream)
 
    // rotation update. Convert to radians from normalized float
    if(bitStream->readFlag()) {
-      mRot.x = bitStream->readFloat(16) * TAU;
-      mRot.y = bitStream->readFloat(16) * TAU;
-      mRot.z = bitStream->readFloat(16) * TAU;
+      mRot.x = bitStream->readFloat(16);
+      mRot.y = bitStream->readFloat(16);
+      mRot.z = bitStream->readFloat(16);
    }
 }
 
