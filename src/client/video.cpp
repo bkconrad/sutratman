@@ -1,6 +1,7 @@
 #include "video.h"
 #include "entity.h"
 #include "entity_node.h"
+#include "client/gui.h"
 #include "mathutil.h"
 #include "input.h"
 
@@ -30,17 +31,21 @@ Video::Video()
       // handle no device found
    }
 
-   mCameraRotation = 0.0;
-   mCameraVelocity = 0.0;
-
+    // window setup
    mDevice->setWindowCaption(L"Sutratman");
    mDriver = mDevice->getVideoDriver();
+
+   // resource loading
    mSceneManager = mDevice->getSceneManager();
-   mGuiEnv = mDevice->getGUIEnvironment();
-   mGuiEnv->addStaticText(L"Hi!", irr::core::rect<irr::s32>(10, 10, 260, 22), true);
    mMesh = mSceneManager->getMesh("../resource/mage_final.x");
+
+   // starting camera position
+   mCameraRotation = 0.0;
+   mCameraVelocity = 0.0;
    mCamera = mSceneManager->addCameraSceneNode(0, irr::core::vector3df(0,3,5), irr::core::vector3df(0,5,0));
 
+   irr::gui::IGUIEnvironment *guiEnv = mDevice->getGUIEnvironment();
+   Gui::get()->init(guiEnv);
 }
 
 /** @return true if the video system can continue running
@@ -81,7 +86,7 @@ bool Video::run()
    }
    mDriver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
    mSceneManager->drawAll();
-   mGuiEnv->drawAll();
+   Gui::get()->draw();
    mDriver->endScene();
 }
 

@@ -33,7 +33,6 @@ class Video
 
       irr::IEventReceiver *mEventReceiver;
       irr::IrrlichtDevice *mDevice;
-      irr::gui::IGUIEnvironment *mGuiEnv;
       irr::scene::ISceneManager *mSceneManager;
       irr::video::IVideoDriver *mDriver;
       irr::scene::IAnimatedMesh *mMesh;
