@@ -16,8 +16,8 @@ TNL_IMPLEMENT_NETOBJECT_RPC(Entity, c2sMove, (F32 angle), (angle),
 NetClassGroupAllMask,  RPCGuaranteedOrdered, RPCToGhostParent, 0)
 {
    // TODO check client's ownership
-   Vec2 delta = Vec2();
-   delta.setAngle(angle);
+   vec2 delta = vec2();
+   delta = vec2(cos(angle), sin(angle));
    delta *= Entity::MOVESPEED;
    mPos += delta;
    setMaskBits(PositionMask);
@@ -28,7 +28,7 @@ NetClassGroupAllMask,  RPCGuaranteedOrdered, RPCToGhostParent, 0)
 {
    // TODO check client's ownership
    mRot.y = angle;
-   mRot.mod(Vec2::TAU);
+   mod(mRot, TAU);
    setMaskBits(RotationMask);
 }
 
@@ -75,21 +75,21 @@ bool Entity::isControlled()
 
 
 
-void Entity::setPos(const Vec2& pos)
+void Entity::setPos(const vec2& pos)
 {
    mPos = pos;
 }
 
 void Entity::setPos(float x, float y)
 {
-   mPos.set(x, y);
+   mPos = vec2(x, y);
 }
 
 /** @brief modPos
   *
   * @todo: document this function
   */
-void Entity::modPos(const Vec2& pos)
+void Entity::modPos(const vec2& pos)
 {
    mPos += pos;
 }
@@ -98,17 +98,17 @@ void Entity::modPos(const Vec2& pos)
   *
   * @todo: document this function
   */
-void Entity::modRot(const Vec2& rot)
+void Entity::modRot(const vec2& rot)
 {
    mRot += rot;
-   mRot.mod(Vec2::TAU);
+   mod(mRot, TAU);
 }
 
 /** @brief getPos
   *
   * @todo: document this function
   */
-const Vec2& Entity::getPos()
+const vec2& Entity::getPos()
 {
    return mPos;
 }
@@ -117,7 +117,8 @@ const Vec2& Entity::getPos()
   */
 bool Entity::isConsistentWith(const Entity& entity)
 {
-   return mPos == entity.mPos && mRot == entity.mRot;
+   return length(distance(mPos, entity.mPos)) < EPSILON
+   && length(distance(mRot, entity.mRot)) < EPSILON;
 }
 
 U32 Entity::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* bitStream)
@@ -131,8 +132,8 @@ U32 Entity::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* b
    // rotation. normalize it to TAU
    // TODO: check to see how TNL normalizes floats
    if(bitStream->writeFlag(updateMask & RotationMask)) {
-      bitStream->writeFloat(mRot.x / Vec2::TAU, 16);
-      bitStream->writeFloat(mRot.y / Vec2::TAU, 16);
+      bitStream->writeFloat(mRot.x / TAU, 16);
+      bitStream->writeFloat(mRot.y / TAU, 16);
    }
 }
 
@@ -146,8 +147,8 @@ void Entity::unpackUpdate(GhostConnection* connection, BitStream* bitStream)
 
    // rotation update. Convert to radians from normalized float
    if(bitStream->readFlag()) {
-      mRot.x = bitStream->readFloat(16) * Vec2::TAU;
-      mRot.y = bitStream->readFloat(16) * Vec2::TAU;
+      mRot.x = bitStream->readFloat(16) * TAU;
+      mRot.y = bitStream->readFloat(16) * TAU;
    }
 }
 
@@ -160,15 +161,15 @@ bool Entity::onGhostAdd(GhostConnection* connection) {
 
 /** @brief set the rotation vector (radians)
   */
-void Entity::setRot(const Vec2& rot)
+void Entity::setRot(const vec2& rot)
 {
    mRot = rot;
-   mRot.mod(Vec2::TAU);
+   mod(mRot, TAU);
 }
 
 /** @brief rotation vector in radianss
   */
-const Vec2& Entity::getRot()
+const vec2& Entity::getRot()
 {
    return mRot;
 }

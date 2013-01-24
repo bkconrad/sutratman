@@ -12,7 +12,6 @@ set(SERVER_SOURCES
 	log
 	player
 	server
-	vec2
 )
 set(CLIENT_SOURCES
 	client/client

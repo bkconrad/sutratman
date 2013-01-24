@@ -1,10 +1,11 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "vec2.h"
 #include <tnl.h>
 #include <tnlNetObject.h>
 #include <tnlGhostConnection.h>
+
+#include <glm/glm.hpp>
 
 #include <gtest/gtest_prod.h>
 
@@ -34,6 +35,7 @@ client-enabled builds
 #endif
 
 using namespace TNL;
+using namespace glm;
 
 class Game;
 class ClientGame;
@@ -61,13 +63,13 @@ class Entity : public NetObject
 
       bool isControlled();
       void setControlled(bool controlled);
-      const Vec2& getPos();
+      const vec2& getPos();
       void setPos(float x, float y);
-      void setPos(const Vec2& pos);
-      void modPos(const Vec2& pos);
-      const Vec2& getRot();
-      void setRot(const Vec2& rot);
-      void modRot(const Vec2& rot);
+      void setPos(const vec2& pos);
+      void modPos(const vec2& pos);
+      const vec2& getRot();
+      void setRot(const vec2& rot);
+      void modRot(const vec2& rot);
 
       enum MaskBits {
          InitialMask = 1 << 0,
@@ -80,8 +82,8 @@ class Entity : public NetObject
 
       static int IdIndex;
       U32 mId;
-      Vec2 mPos;
-      Vec2 mRot; // in radians, math angle
+      vec2 mPos;
+      vec2 mRot; // in radians, math angle
 
       // client only
       ClientGame* mClientGame;

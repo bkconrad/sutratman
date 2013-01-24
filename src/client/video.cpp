@@ -41,10 +41,10 @@ bool Video::run()
 
    // center on the focus entity if we have one
    if (mFocusEntity.isValid()) {
-      Vec2 pos = mFocusEntity->getPos();
-      Vec2 rot = mFocusEntity->getRot();
-      Vec2 cameraOffset;
-      cameraOffset.setAngle(rot.y);
+      vec2 pos = mFocusEntity->getPos();
+      vec2 rot = mFocusEntity->getRot();
+      vec2 cameraOffset;
+      cameraOffset = vec2(cos(rot.y), sin(rot.y));
       cameraOffset *= 3.0;
       mCamera->setTarget(irr::core::vector3df(pos.x * Video::VIDEOSCALE, pos.y * Video::VIDEOSCALE, 0.0));
       mCamera->bindTargetAndRotation(true);

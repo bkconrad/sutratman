@@ -45,8 +45,8 @@ bool ClientGame::handle(const irr::SEvent& event)
          break;
 
          case irr::EET_MOUSE_INPUT_EVENT:
-            Vec2 delta = Input::get()->getDelta();
-            mClientEntity->modRot(Vec2(0.0, delta.x * ClientGame::MOUSESPEED));
+            vec2 delta = Input::get()->getDelta();
+            mClientEntity->modRot(vec2(0.0, delta.x * ClientGame::MOUSESPEED));
             static_cast<Player*>(mClientEntity.getPointer())->c2sRotate(mClientEntity->getRot().y);
          break;
       }

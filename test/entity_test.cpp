@@ -10,12 +10,12 @@ TEST(entity, packing) {
    Entity b;
 
    // mock up our source entity
-   a.mPos.set(.1234, .4321);
-   a.mRot.set(.5678, .8765);
+   a.mPos = vec2(.1234, .4321);
+   a.mRot = vec2(.5678, .8765);
 
    // we have to make a buffer for the bitstream
-   U8 buffer[256];
-   BitStream bitStream(buffer, 256, 32);
+   U8 buffer[1024];
+   BitStream bitStream(buffer, 1024, 128);
 
    // pack and unpack the data, measuring bit positions to check for equality
    a.packUpdate(NULL, TNL::U32_MAX, &bitStream);
@@ -24,6 +24,6 @@ TEST(entity, packing) {
    b.unpackUpdate(NULL, &bitStream);
    U8 unPackPos = bitStream.getBitPosition();
 
-   ASSERT_TRUE(a.isConsistentWith(b));
    ASSERT_EQ(packPos, unPackPos);
+   ASSERT_TRUE(a.isConsistentWith(b));
 }

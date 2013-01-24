@@ -2,14 +2,15 @@
 #define INPUT_H
 
 #include "client/listenerinterface.h"
-#include "vec2.h"
 
 #include <irrlicht.h>
 #include <tnl.h>
+#include <glm/glm.hpp>
 
 #include <set>
 
 using namespace TNL;
+using namespace glm;
 
 class Input : public irr::IEventReceiver
 {
@@ -20,14 +21,14 @@ class Input : public irr::IEventReceiver
 
       void addListener(ListenerInterface* listener);
       void removeListener(ListenerInterface* listener);
-      const Vec2 getDelta();
+      const vec2 getDelta();
 
       // overrides
       bool OnEvent(const irr::SEvent& event);
    protected:
    private:
-      Vec2 mLastMousePos;
-      Vec2 mCurrentMousePos;
+      vec2 mLastMousePos;
+      vec2 mCurrentMousePos;
       std::set<ListenerInterface*> mListeners;
       static Input* mInstance;
 };

@@ -4,6 +4,8 @@
 
 #include "server.h"
 
+#include <glm/glm.hpp>
+
 #include <iostream>
 
 using namespace TNL;

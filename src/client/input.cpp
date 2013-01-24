@@ -16,7 +16,7 @@ Input::~Input()
   *
   * @todo: document this function
   */
-const Vec2 Input::getDelta()
+const vec2 Input::getDelta()
 {
    return mCurrentMousePos - mLastMousePos;
 }
@@ -28,7 +28,7 @@ const Vec2 Input::getDelta()
 bool Input::OnEvent(const irr::SEvent& event)
 {
    mLastMousePos = mCurrentMousePos;
-   mCurrentMousePos = Vec2(event.MouseInput.X, event.MouseInput.Y);
+   mCurrentMousePos = vec2(event.MouseInput.X, event.MouseInput.Y);
 
    std::set<ListenerInterface*>::iterator i;
    for (i = mListeners.begin(); i != mListeners.end(); i++) {
