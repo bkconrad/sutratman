@@ -52,7 +52,7 @@ void * connectToServer(void* args) {
    c.connect((char*) "localhost:28000");
    U32 start = Platform::getRealMilliseconds();
    while(!serverStatus || !clientStatus) {
-      c.step();
+      c.serviceConnection();
       Platform::sleep(1);
    }
 
