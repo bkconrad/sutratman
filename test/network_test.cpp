@@ -18,6 +18,7 @@ public:
       result = 0;
    }
    virtual void onConnectTerminated(NetConnection::TerminationReason reason, const char* str) { result = -1; }
+   virtual void onConnectionTerminated() { result = -1; }
    virtual void onConnectionEstablished() { result = 1; }
 
    TNL_DECLARE_NETCONNECTION(TestConnection);
@@ -35,7 +36,8 @@ TEST(network, connectivity) {
       Server s;
       s.mGame = new Game();
       s.host("localhost", "28000");
-      while(TestConnection::result == 0) {
+      U32 start = Platform::getRealMilliseconds();
+      while(TestConnection::result == 0 && Platform::getRealMilliseconds() - start < 3000) {
          s.serviceConnections();
          Platform::sleep(1);
       }
@@ -44,7 +46,8 @@ TEST(network, connectivity) {
    } else {
       Client c(connection);
       c.connect((char*) "localhost:28000");
-      while(TestConnection::result == 0) {
+      U32 start = Platform::getRealMilliseconds();
+      while(TestConnection::result == 0 && Platform::getRealMilliseconds() - start < 3000) {
          c.step();
          Platform::sleep(1);
       }
