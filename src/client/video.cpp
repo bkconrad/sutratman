@@ -37,7 +37,7 @@ Video::Video()
 
    // resource loading
    mSceneManager = mDevice->getSceneManager();
-   mMesh = mSceneManager->getMesh("../resource/mage_final.x");
+   mMesh = mSceneManager->getMesh("../resource/warrior.x");
 
    // starting camera position
    mCameraRotation = 0.0;
@@ -100,14 +100,12 @@ void Video::addEntity(Entity* entity)
       mFocusEntity = entity;
    }
    irr::scene::IAnimatedMeshSceneNode* node = mSceneManager->addAnimatedMeshSceneNode(mMesh);
-   node->setScale(irr::core::vector3df(0.01, 0.01, 0.01));
+//   node->setScale(irr::core::vector3df(0.01, 0.01, 0.01));
    node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
-    node->setMD2Animation(irr::scene::EMAT_STAND);
-    node->setMaterialTexture( 0, mDriver->getTexture("../resource/color.tga") );
+   node->setMD2Animation(irr::scene::EMAT_STAND);
+   node->setMaterialTexture( 0, mDriver->getTexture("../resource/warrior.jpg") );
    EntityNode* entityNode = new EntityNode(entity, node);
    mEntityNodes.push_back(entityNode);
-//   node->setMD2Animation(scene::EMAT_STAND);
-//   node->setMaterialTexture( 0, driver->getTexture("../../media/sydney.bmp") );
 }
 
 Video::~Video()
