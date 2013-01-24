@@ -4,11 +4,16 @@
 #include "mathutil.h"
 #include "input.h"
 
+#include <glm/glm.hpp>
+
+using glm::clamp;
+
 using namespace mathutil;
 
 Video* Video::mInstance = NULL;
 const float Video::VIDEOSCALE = 10.0;
-const float Video::ROTATESPEED = 0.05;
+const float Video::CAMERA_ACCELERATION = 0.0001;
+const float Video::CAMERA_MAX_SPEED = 0.1;
 
 Video* Video::get()
 {
@@ -26,6 +31,7 @@ Video::Video()
    }
 
    mCameraRotation = 0.0;
+   mCameraVelocity = 0.0;
 
    mDevice->setWindowCaption(L"Sutratman");
    mDriver = mDevice->getVideoDriver();
@@ -48,16 +54,22 @@ bool Video::run()
    // center on the focus entity if we have one
    if (mFocusEntity.isValid()) {
       vec2 pos = mFocusEntity->getPos();
-      vec2 rot = mFocusEntity->getRot();
+      vec2 rot = mod(mFocusEntity->getRot(), RADIANS);
 
-      float rotationDelta = min(fmod(abs(mCameraRotation - rot.y), RADIANS), fmod(abs(rot.y - mCameraRotation), RADIANS));
-      float rotationMod = abs(rot.y - mCameraRotation) > PI ? -ROTATESPEED : ROTATESPEED;
-      if (rotationMod < rotationDelta - RADIANS / 64.0) {
-         mCameraRotation += (rotationDelta < PI ? -rotationMod : rotationMod);
+      float positiveAngularDistance = mod(rot.y - mCameraRotation, RADIANS);
+      float negativeAngularDistance = mod(mCameraRotation - rot.y, RADIANS);
+      float minimumAngularDistance = min(positiveAngularDistance, negativeAngularDistance);
+      if (minimumAngularDistance > RADIANS / 64.0) {
+         mCameraVelocity += positiveAngularDistance > negativeAngularDistance ? -CAMERA_ACCELERATION : CAMERA_ACCELERATION;
+         mCameraVelocity = clamp(mCameraVelocity, -CAMERA_MAX_SPEED, CAMERA_MAX_SPEED);
+         mCameraRotation += mCameraVelocity;
+         mCameraRotation = mod(mCameraRotation, RADIANS);
+      } else {
+         mCameraVelocity = 0.0;
       }
 
       vec2 cameraOffset(sin(mCameraRotation), cos(mCameraRotation));
-      cameraOffset *= mCameraRotation > PI ? -3.0 : 3.0;
+      cameraOffset *= 3.0;
 
       mCamera->setTarget(irr::core::vector3df(pos.x * Video::VIDEOSCALE, pos.y * Video::VIDEOSCALE + 1.0, 0.0));
       mCamera->bindTargetAndRotation(true);
