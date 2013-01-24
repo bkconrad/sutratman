@@ -41,12 +41,12 @@ bool ClientGame::handle(const irr::SEvent& event)
       {
          case irr::EET_KEY_INPUT_EVENT:
             // TODO convert rotation in a move angle
-            static_cast<Player*>(mClientEntity.getPointer())->c2sMove(mClientEntity->getRot().x);
+            static_cast<Player*>(mClientEntity.getPointer())->c2sMove(mClientEntity->getRot().y);
          break;
 
          case irr::EET_MOUSE_INPUT_EVENT:
             vec2 delta = Input::get()->getDelta();
-            mClientEntity->modRot(vec2(0.0, delta.x * ClientGame::MOUSESPEED));
+            mClientEntity->modRot(vec3(0.0, delta.x * ClientGame::MOUSESPEED, 0.0));
             static_cast<Player*>(mClientEntity.getPointer())->c2sRotate(mClientEntity->getRot().y);
          break;
       }

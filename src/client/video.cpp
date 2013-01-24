@@ -53,8 +53,8 @@ bool Video::run()
 
    // center on the focus entity if we have one
    if (mFocusEntity.isValid()) {
-      vec2 pos = mFocusEntity->getPos();
-      vec2 rot = mod(mFocusEntity->getRot(), RADIANS);
+      vec3 pos = mFocusEntity->getPos();
+      vec3 rot = mod(mFocusEntity->getRot(), RADIANS);
 
       float positiveAngularDistance = mod(rot.y - mCameraRotation, RADIANS);
       float negativeAngularDistance = mod(mCameraRotation - rot.y, RADIANS);
@@ -71,9 +71,9 @@ bool Video::run()
       vec2 cameraOffset(sin(mCameraRotation), cos(mCameraRotation));
       cameraOffset *= 3.0;
 
-      mCamera->setTarget(irr::core::vector3df(pos.x * Video::VIDEOSCALE, pos.y * Video::VIDEOSCALE + 1.0, 0.0));
+      mCamera->setTarget(irr::core::vector3df(pos.x * Video::VIDEOSCALE, pos.y * Video::VIDEOSCALE + 1.0, pos.z * Video::VIDEOSCALE));
       mCamera->bindTargetAndRotation(true);
-      mCamera->setPosition(irr::core::vector3df(pos.x * Video::VIDEOSCALE + cameraOffset.x, pos.y * Video::VIDEOSCALE + 2.0, cameraOffset.y));
+      mCamera->setPosition(irr::core::vector3df(pos.x * Video::VIDEOSCALE + cameraOffset.x, pos.y * Video::VIDEOSCALE + 2.0, pos.z * Video::VIDEOSCALE + cameraOffset.y));
    }
 
    if(!mDevice->run()) {

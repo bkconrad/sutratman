@@ -63,13 +63,13 @@ class Entity : public NetObject
 
       bool isControlled();
       void setControlled(bool controlled);
-      const vec2& getPos();
-      void setPos(float x, float y);
-      void setPos(const vec2& pos);
-      void modPos(const vec2& pos);
-      const vec2& getRot();
-      void setRot(const vec2& rot);
-      void modRot(const vec2& rot);
+      const vec3& getPos();
+      void setPos(float x, float y, float z);
+      void setPos(const vec3& pos);
+      void modPos(const vec3& pos);
+      const vec3& getRot();
+      void setRot(const vec3& rot);
+      void modRot(const vec3& rot);
 
       enum MaskBits {
          InitialMask = 1 << 0,
@@ -82,8 +82,8 @@ class Entity : public NetObject
 
       static int IdIndex;
       U32 mId;
-      vec2 mPos;
-      vec2 mRot; // in radians, math angle
+      vec3 mPos;
+      vec3 mRot; // in radians, math angle
 
       // client only
       ClientGame* mClientGame;
