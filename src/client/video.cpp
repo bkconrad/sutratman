@@ -12,7 +12,7 @@ using namespace mathutil;
 
 Video* Video::mInstance = NULL;
 const float Video::VIDEOSCALE = 10.0;
-const float Video::CAMERA_ACCELERATION = 0.0001;
+const float Video::CAMERA_ACCELERATION = 0.001;
 const float Video::CAMERA_MAX_SPEED = 0.1;
 
 Video* Video::get()
@@ -38,7 +38,7 @@ Video::Video()
    mSceneManager = mDevice->getSceneManager();
    mGuiEnv = mDevice->getGUIEnvironment();
    mGuiEnv->addStaticText(L"Hi!", irr::core::rect<irr::s32>(10, 10, 260, 22), true);
-   mMesh = mSceneManager->getMesh("../resource/boxman.x");
+   mMesh = mSceneManager->getMesh("../resource/mage_final.x");
    mCamera = mSceneManager->addCameraSceneNode(0, irr::core::vector3df(0,3,5), irr::core::vector3df(0,5,0));
 
 }
@@ -95,6 +95,7 @@ void Video::addEntity(Entity* entity)
       mFocusEntity = entity;
    }
    irr::scene::IAnimatedMeshSceneNode* node = mSceneManager->addAnimatedMeshSceneNode(mMesh);
+   node->setScale(irr::core::vector3df(0.01, 0.01, 0.01));
    node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
    EntityNode* entityNode = new EntityNode(entity, node);
    mEntityNodes.push_back(entityNode);

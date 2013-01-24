@@ -22,7 +22,7 @@ void GameConnection::onConnectionEstablished()
       // create the new player
       Game* game = ((GameInterface*) getInterface())->getGame();
       SafePtr<Entity> entity = new Player(game);
-      entity->setPos(TNL::Random::readF(), TNL::Random::readF(), TNL::Random::readF());
+      entity->setPos(TNL::Random::readF(), 0.0, TNL::Random::readF());
       game->addEntity(entity);
       setScopeObject(entity);
       setGhostFrom(true);
