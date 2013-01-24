@@ -40,8 +40,15 @@ bool ClientGame::handle(const irr::SEvent& event)
       switch (event.EventType)
       {
          case irr::EET_KEY_INPUT_EVENT:
-            // TODO convert rotation in a move angle
-            static_cast<Player*>(mClientEntity.getPointer())->c2sMove(mClientEntity->getRot().y);
+            switch (event.KeyInput.Key) {
+                case irr::KEY_KEY_W:
+                    static_cast<Player*>(mClientEntity.getPointer())->c2sMove(mClientEntity->getRot().y);
+                break;
+
+                default:
+                    return false;
+                break;
+            }
          break;
 
          case irr::EET_MOUSE_INPUT_EVENT:

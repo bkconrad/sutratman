@@ -11,6 +11,7 @@ choose to consume or pass on events
 class ListenerInterface
 {
    public:
+        /** @brief return true to consume the event (stop other listeners from getting it after this one) */
       virtual bool handle(const irr::SEvent& event) = 0;
 };
 

@@ -1,64 +1,59 @@
 #include "input.h"
 
-Input* Input::mInstance = NULL;
+Input *Input::mInstance = NULL;
 
 Input::Input()
 {
-   mInstance = this;
+    mInstance = this;
 }
 
 Input::~Input()
 {
-   //dtor
+    //dtor
 }
 
-/** @brief getDelta
-  *
-  * @todo: document this function
-  */
 const vec2 Input::getDelta()
 {
-   return mCurrentMousePos - mLastMousePos;
+    return mCurrentMousePos - mLastMousePos;
 }
 
-/** @brief OnEvent
-  *
-  * @todo: document this function
-  */
-bool Input::OnEvent(const irr::SEvent& event)
+bool Input::OnEvent(const irr::SEvent &event)
 {
-   mLastMousePos = mCurrentMousePos;
-   mCurrentMousePos = vec2(event.MouseInput.X, event.MouseInput.Y);
+    mLastMousePos = mCurrentMousePos;
+    mCurrentMousePos = vec2(event.MouseInput.X, event.MouseInput.Y);
 
-   std::set<ListenerInterface*>::iterator i;
-   for (i = mListeners.begin(); i != mListeners.end(); i++) {
-      (*i)->handle(event);
-   }
+    std::set<ListenerInterface*>::iterator i;
+
+    for(i = mListeners.begin(); i != mListeners.end(); i++)
+    {
+        if((*i)->handle(event))
+        {
+            // if handle(event) returns true then the listener has consumed the event.
+            break;
+        }
+    }
 }
 
-void Input::removeListener(ListenerInterface* listener)
+void Input::removeListener(ListenerInterface *listener)
 {
-   std::set<ListenerInterface*>::iterator i;
-   for (i = mListeners.begin(); i != mListeners.end(); i++) {
-      if (*i == listener) {
-         mListeners.erase(i);
-      }
-   }
+    std::set<ListenerInterface*>::iterator i;
+
+    for(i = mListeners.begin(); i != mListeners.end(); i++)
+    {
+        if(*i == listener)
+        {
+            mListeners.erase(i);
+        }
+    }
 }
 
-void Input::addListener(ListenerInterface* listener)
+void Input::addListener(ListenerInterface *listener)
 {
-   mListeners.insert(listener);
+    mListeners.insert(listener);
 }
 
-
-
-/** @brief get
-  *
-  * @todo: document this function
-  */
-Input* Input::get()
+Input *Input::get()
 {
-   return mInstance ? mInstance : new Input();
+    return mInstance ? mInstance : new Input();
 }
 

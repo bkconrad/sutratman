@@ -14,23 +14,23 @@ using namespace glm;
 
 class Input : public irr::IEventReceiver
 {
-   public:
-      static Input* get();
-      Input();
-      virtual ~Input();
+public:
+    static Input *get();
+    Input();
+    virtual ~Input();
 
-      void addListener(ListenerInterface* listener);
-      void removeListener(ListenerInterface* listener);
-      const vec2 getDelta();
+    void addListener(ListenerInterface *listener);
+    void removeListener(ListenerInterface *listener);
+    const vec2 getDelta();
 
-      // overrides
-      bool OnEvent(const irr::SEvent& event);
-   protected:
-   private:
-      vec2 mLastMousePos;
-      vec2 mCurrentMousePos;
-      std::set<ListenerInterface*> mListeners;
-      static Input* mInstance;
+    // overrides
+    bool OnEvent(const irr::SEvent &event);
+protected:
+private:
+    vec2 mLastMousePos;
+    vec2 mCurrentMousePos;
+    std::set<ListenerInterface*> mListeners;
+    static Input *mInstance;
 };
 
 #endif // INPUT_H

@@ -20,7 +20,9 @@ set(CLIENT_SOURCES
 	client/client_game
 	client/client_player
 	client/entity_node
+	client/diagnosticswindow
 	client/gui
+	client/guiwindowinterface
 	client/input
 	client/listenerinterface
 	client/video
