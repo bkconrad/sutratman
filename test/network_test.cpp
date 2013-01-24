@@ -6,51 +6,74 @@
 #include "tnl.h"
 #include "tnlEventConnection.h"
 
-#include <unistd.h>
+#include <pthread.h>
 
 using namespace TNL;
+
+int serverStatus = 0;
+int clientStatus = 0;
 
 class TestConnection : public GameConnection {
 public:
    typedef GameConnection Parent;
-   static int result;
+   int result;
+
    TestConnection() {
       result = 0;
    }
-   virtual void onConnectTerminated(NetConnection::TerminationReason reason, const char* str) { result = -1; }
-   virtual void onConnectionTerminated() { result = -1; }
-   virtual void onConnectionEstablished() { result = 1; }
+
+   virtual void onConnectTerminated(NetConnection::TerminationReason reason, const char* str)
+   {
+      if (isInitiator()) {
+         clientStatus = -1;
+      } else {
+         serverStatus = -1;
+      }
+   }
+
+   virtual void onConnectionEstablished()
+   {
+      if (isInitiator()) {
+         clientStatus = 1;
+      } else {
+         serverStatus = 1;
+      }
+   }
 
    TNL_DECLARE_NETCONNECTION(TestConnection);
 };
 
-int TestConnection::result = 0;
-
 TNL_IMPLEMENT_NETCONNECTION(TestConnection, NetClassGroupGame, true);
 
-TEST(network, connectivity) {
-   int pid = fork();
+// testing util function. args is a pointer to the server
+void * connectToServer(void* args) {
    TestConnection *connection = new TestConnection;
-
-   if (pid) {
-      Server s;
-      s.mGame = new Game();
-      s.host("localhost", "28000");
-      U32 start = Platform::getRealMilliseconds();
-      while(TestConnection::result == 0 && Platform::getRealMilliseconds() - start < 10000) {
-         s.serviceConnections();
-         Platform::sleep(1);
-      }
-      ASSERT_TRUE(connection->result == 1);
-      exit(0);
-   } else {
-      Client c(connection);
-      c.connect((char*) "localhost:28000");
-      U32 start = Platform::getRealMilliseconds();
-      while(TestConnection::result == 0 && Platform::getRealMilliseconds() - start < 10000) {
-         c.step();
-         Platform::sleep(1);
-      }
-      ASSERT_TRUE(connection->result == 1);
+   Client c(connection);
+   c.connect((char*) "localhost:28000");
+   U32 start = Platform::getRealMilliseconds();
+   while(!serverStatus || !clientStatus) {
+      c.step();
+      Platform::sleep(1);
    }
+
+   pthread_exit(NULL);
+   return NULL;
+}
+
+TEST(network, connectivity) {
+   Server s;
+   s.mGame = new Game();
+   s.host("localhost", "28000");
+
+   pthread_t thread;
+   pthread_create(&thread, NULL, connectToServer, NULL);
+
+   U32 start = Platform::getRealMilliseconds();
+   while(!serverStatus || !clientStatus) {
+      s.serviceConnections();
+      Platform::sleep(1);
+   }
+
+   ASSERT_EQ(1, clientStatus);
+   ASSERT_EQ(1, serverStatus);
 }

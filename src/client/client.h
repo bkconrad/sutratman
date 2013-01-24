@@ -19,6 +19,8 @@ class Client
       bool init();
       virtual ~Client();
 
+      bool step();
+
    protected:
    private:
       Input* mInput;
@@ -26,7 +28,6 @@ class Client
       RefPtr<GameInterface> mInterface;
       ClientGame *mGame;
 
-      bool step();
       void serviceConnection();
 
       FRIEND_TEST(network, connectivity);
