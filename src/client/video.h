@@ -13,6 +13,7 @@ class Video
 {
    public:
       static const float VIDEOSCALE; // scale from normalized simulation positions to irrlich positions
+      static const float ROTATESPEED; // speed of camera movement
 
       static Video* get();
 
@@ -24,6 +25,7 @@ class Video
       virtual ~Video();
 
       static Video* mInstance;
+      float mCameraRotation; // camera's rotation around the y axis
       SafePtr<Entity> mFocusEntity;
       Vector<EntityNode*> mEntityNodes;
 

@@ -1,10 +1,14 @@
 #include "video.h"
 #include "entity.h"
 #include "entity_node.h"
+#include "mathutil.h"
 #include "input.h"
+
+using namespace mathutil;
 
 Video* Video::mInstance = NULL;
 const float Video::VIDEOSCALE = 10.0;
+const float Video::ROTATESPEED = 0.05;
 
 Video* Video::get()
 {
@@ -20,6 +24,8 @@ Video::Video()
    if(!mDevice) {
       // handle no device found
    }
+
+   mCameraRotation = 0.0;
 
    mDevice->setWindowCaption(L"Sutratman");
    mDriver = mDevice->getVideoDriver();
@@ -43,12 +49,19 @@ bool Video::run()
    if (mFocusEntity.isValid()) {
       vec2 pos = mFocusEntity->getPos();
       vec2 rot = mFocusEntity->getRot();
-      vec2 cameraOffset;
-      cameraOffset = vec2(cos(rot.y), sin(rot.y));
-      cameraOffset *= 3.0;
-      mCamera->setTarget(irr::core::vector3df(pos.x * Video::VIDEOSCALE, pos.y * Video::VIDEOSCALE, 0.0));
+
+      float rotationDelta = min(fmod(abs(mCameraRotation - rot.y), RADIANS), fmod(abs(rot.y - mCameraRotation), RADIANS));
+      float rotationMod = abs(rot.y - mCameraRotation) > PI ? -ROTATESPEED : ROTATESPEED;
+      if (rotationMod < rotationDelta - RADIANS / 64.0) {
+         mCameraRotation += (rotationDelta < PI ? -rotationMod : rotationMod);
+      }
+
+      vec2 cameraOffset(sin(mCameraRotation), cos(mCameraRotation));
+      cameraOffset *= mCameraRotation > PI ? -3.0 : 3.0;
+
+      mCamera->setTarget(irr::core::vector3df(pos.x * Video::VIDEOSCALE, pos.y * Video::VIDEOSCALE + 1.0, 0.0));
       mCamera->bindTargetAndRotation(true);
-      mCamera->setPosition(irr::core::vector3df(pos.x * Video::VIDEOSCALE + cameraOffset.x, pos.y * Video::VIDEOSCALE, cameraOffset.y));
+      mCamera->setPosition(irr::core::vector3df(pos.x * Video::VIDEOSCALE + cameraOffset.x, pos.y * Video::VIDEOSCALE + 2.0, cameraOffset.y));
    }
 
    if(!mDevice->run()) {

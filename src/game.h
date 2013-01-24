@@ -5,10 +5,6 @@
 #include <tnlLog.h>
 #include <tnlNetBase.h>
 
-#define PI 3.141592654
-#define TAU (PI * 2.0)
-#define EPSILON 0.01
-
 using namespace TNL;
 
 class Entity;

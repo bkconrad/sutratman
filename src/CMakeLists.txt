@@ -10,6 +10,7 @@ set(SERVER_SOURCES
 	game_connection
 	game_interface
 	log
+	mathutil
 	player
 	server
 )

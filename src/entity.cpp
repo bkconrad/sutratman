@@ -2,9 +2,11 @@
 #include "game.h"
 #include "game_interface.h"
 #include "log.h"
+#include "mathutil.h"
 
 #include <tnlBitStream.h>
 
+using namespace mathutil;
 using namespace TNL;
 
 int Entity::IdIndex = 1;
