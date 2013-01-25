@@ -3,8 +3,9 @@
 
 #include <cstdarg>
 
-namespace Log {
-   void p(const char* format, ...);
+namespace Log
+{
+void p(const char *format, ...);
 }
 
 #endif // LOG_H

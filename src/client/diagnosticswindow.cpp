@@ -1,5 +1,7 @@
 #include "diagnosticswindow.h"
+
 using std::wstring;
+
 DiagnosticsWindow::DiagnosticsWindow(irr::gui::IGUIEnvironment *guiEnv)
     : GuiWindowInterface(guiEnv, L"Diagnostics")
 {
@@ -23,6 +25,7 @@ void DiagnosticsWindow::update()
     for(i = children.begin(); i != children.end(); i++) {
         (*i)->remove();
     }
+
     string dump = Diagnostics::get()->dump();
     wstring output;
     output.assign(dump.begin(), dump.end());

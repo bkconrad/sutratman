@@ -1,5 +1,5 @@
-#ifndef SUT_VIDEO_H
-#define SUT_VIDEO_H
+#ifndef VIDEO_H_
+#define VIDEO_H_
 
 #include <irrlicht.h>
 #include <tnl.h>
@@ -9,34 +9,37 @@ using namespace TNL;
 
 class EntityNode;
 class Entity;
+
 class Video
 {
-   public:
-      static const float VIDEOSCALE; // scale from normalized simulation positions to irrlich positions
-      static const float CAMERA_ACCELERATION; // acceleration of camera movement
-      static const float CAMERA_MAX_SPEED; // max speed of camera movement
+public:
+    static const float CAMERA_ACCELERATION; // acceleration of camera movement
+    static const float CAMERA_MAX_SPEED; // max speed of camera movement
+    static const float VIDEOSCALE; // scale from normalized simulation positions to irrlich positions
 
-      static Video* get();
+    static Video *get();
 
-      bool run();
-      void addEntity(Entity* entity);
+    bool run();
+    void addEntity(Entity *entity);
 
-   private:
-      Video();
-      virtual ~Video();
+private:
+    static Video *mInstance;
 
-      static Video* mInstance;
-      float mCameraRotation; // camera's rotation around the y axis
-      float mCameraVelocity; // camera's current angular velocity
-      SafePtr<Entity> mFocusEntity;
-      Vector<EntityNode*> mEntityNodes;
+    Video();
+    virtual ~Video();
 
-      irr::IEventReceiver *mEventReceiver;
-      irr::IrrlichtDevice *mDevice;
-      irr::scene::ISceneManager *mSceneManager;
-      irr::video::IVideoDriver *mDriver;
-      irr::scene::IAnimatedMesh *mMesh;
-      irr::scene::ICameraSceneNode *mCamera;
+    irr::scene::ICameraSceneNode *mCamera;
+    float mCameraRotation; // camera's rotation around the y axis
+    float mCameraVelocity; // camera's current angular velocity
+
+    irr::IrrlichtDevice *mDevice;
+    irr::video::IVideoDriver *mDriver;
+    irr::IEventReceiver *mEventReceiver;
+    irr::scene::IAnimatedMesh *mMesh;
+    irr::scene::ISceneManager *mSceneManager;
+
+    SafePtr<Entity> mFocusEntity;
+    Vector<EntityNode*> mEntityNodes;
 };
 
-#endif // SUT_VIDEO_H
+#endif /* VIDEO_H_ */

@@ -1,11 +1,11 @@
-#ifndef GUIWINDOWINTERFACE_H
-#define GUIWINDOWINTERFACE_H
+#ifndef GUIWINDOWINTERFACE_H_
+#define GUIWINDOWINTERFACE_H_
 
 #include <irrlicht.h>
 
 /**
-Interface for in-game windows (e.g. diagnostics, inventory, etc)
-*/
+ * @brief Interface for in-game windows (e.g. diagnostics, inventory, etc)
+ */
 class GuiWindowInterface
 {
     public:
@@ -16,16 +16,16 @@ class GuiWindowInterface
     void toggle();
 
     /**
-    make any changes necessary to put this window into a valid state
-    */
+     * @brief make any changes necessary to put this window into a valid state
+     */
     virtual void validate() = 0;
     /**
-    return the window's contents to their initial state
-    */
+     * @brief set the window's contents to their initial state
+     */
     virtual void initialize() = 0;
     /**
-    perform any updates necessary on this window
-    */
+     * @brief perform necessary updates
+     */
     virtual void update() = 0;
 
     protected:
@@ -36,4 +36,4 @@ class GuiWindowInterface
     static unsigned int WindowIdCount;
 };
 
-#endif // GUIWINDOWINTERFACE_H
+#endif /* GUIWINDOWINTERFACE_H_ */

@@ -1,22 +1,18 @@
-#include "game_interface.h"
 #include "game.h"
+#include "game_interface.h"
 
-GameInterface::GameInterface(const TNL::Address &address, Game* game) : NetInterface(address)
+GameInterface::GameInterface(const TNL::Address &address, Game *game) : NetInterface(address)
 {
-   mGame = game;
+    mGame = game;
 }
 
 GameInterface::~GameInterface()
 {
-   //dtor
+    //dtor
 }
 
-/** @brief getGame
-  *
-  * @todo: document this function
-  */
-Game* GameInterface::getGame()
+Game *GameInterface::getGame()
 {
-   return mGame;
+    return mGame;
 }
 

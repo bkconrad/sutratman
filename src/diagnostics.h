@@ -1,29 +1,29 @@
-#ifndef DIAGNOSTICS_H
-#define DIAGNOSTICS_H
+#ifndef DIAGNOSTICS_H_
+#define DIAGNOSTICS_H_
 
 #include <glm/glm.hpp>
 
-#include <string>
-#include <sstream>
 #include <iostream>
 #include <map>
+#include <sstream>
+#include <string>
 
 #define DIAG(name, expression) \
     Diagnostics::get()->set(#name, expression)
 
+using std::map;
+using std::ostream;
+using std::ostringstream;
 using std::string;
 using std::wstring;
-using std::map;
-using std::ostringstream;
-using std::ostream;
 using namespace glm;
 
 class Diagnostics
 {
     public:
         static Diagnostics *get();
-        const string print(const string& field);
         const string dump();
+        const string print(const string& field);
         void set(const string& field, const string& value);
         void set(const string& field, const vec3& value);
 
@@ -36,4 +36,4 @@ class Diagnostics
         virtual ~Diagnostics();
 };
 
-#endif // DIAGNOSTICS_H
+#endif /* DIAGNOSTICS_H_ */

@@ -1,11 +1,11 @@
-#ifndef INPUT_H
-#define INPUT_H
+#ifndef INPUT_H_
+#define INPUT_H_
 
 #include "client/listenerinterface.h"
 
+#include <glm/glm.hpp>
 #include <irrlicht.h>
 #include <tnl.h>
-#include <glm/glm.hpp>
 
 #include <set>
 
@@ -20,12 +20,12 @@ public:
     virtual ~Input();
 
     void addListener(ListenerInterface *listener);
-    void removeListener(ListenerInterface *listener);
     const vec2 getDelta();
+    void removeListener(ListenerInterface *listener);
 
     // overrides
     bool OnEvent(const irr::SEvent &event);
-protected:
+
 private:
     vec2 mLastMousePos;
     vec2 mCurrentMousePos;
@@ -33,4 +33,4 @@ private:
     static Input *mInstance;
 };
 
-#endif // INPUT_H
+#endif /* INPUT_H_ */

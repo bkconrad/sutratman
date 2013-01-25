@@ -1,28 +1,31 @@
-#ifndef GUI_H
-#define GUI_H
+#ifndef GUI_H_
+#define GUI_H_
 
-#include "client/listenerinterface.h"
 #include "client/guiwindowinterface.h"
+#include "client/listenerinterface.h"
 
 #include <irrlicht.h>
 
 class Gui : ListenerInterface
 {
-    public:
-        static const int UPDATE_INTERVAL = 200;
-        static Gui* get();
-        void init(irr::gui::IGUIEnvironment* guiEnvironment);
-        void draw();
-        bool handle(const irr::SEvent& event);
-        virtual ~Gui();
-    protected:
-    private:
-        unsigned int mLastUpdate;
-        static Gui* mInstance;
-        Gui();
+public:
+    static const int UPDATE_INTERVAL = 200;
 
-        irr::gui::IGUIEnvironment *mGuiEnvironment;
-        GuiWindowInterface *mDiagnosticsWindow;
+    static Gui *get();
+
+    virtual ~Gui();
+    void draw();
+    bool handle(const irr::SEvent &event);
+    void init(irr::gui::IGUIEnvironment *guiEnvironment);
+
+private:
+    static Gui *mInstance;
+
+    Gui();
+
+    GuiWindowInterface *mDiagnosticsWindow;
+    irr::gui::IGUIEnvironment *mGuiEnvironment;
+    unsigned int mLastUpdate;
 };
 
-#endif // GUI_H
+#endif /* GUI_H_ */

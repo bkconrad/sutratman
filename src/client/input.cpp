@@ -2,6 +2,11 @@
 
 Input *Input::mInstance = NULL;
 
+Input *Input::get()
+{
+    return mInstance ? mInstance : new Input();
+}
+
 Input::Input()
 {
     mInstance = this;
@@ -12,6 +17,9 @@ Input::~Input()
     //dtor
 }
 
+/**
+ * @brief return the last mouse pointer change
+ */
 const vec2 Input::getDelta()
 {
     return mCurrentMousePos - mLastMousePos;
@@ -19,7 +27,8 @@ const vec2 Input::getDelta()
 
 bool Input::OnEvent(const irr::SEvent &event)
 {
-    if(event.EventType == irr::EET_MOUSE_INPUT_EVENT) {
+    if(event.EventType == irr::EET_MOUSE_INPUT_EVENT)
+    {
         mLastMousePos = mCurrentMousePos;
         mCurrentMousePos = vec2(event.MouseInput.X, event.MouseInput.Y);
     }
@@ -30,12 +39,15 @@ bool Input::OnEvent(const irr::SEvent &event)
     {
         if((*i)->handle(event))
         {
-            // if handle(event) returns true then the listener has consumed the event.
+            // when handle(event) returns true the listener consumes
             break;
         }
     }
 }
 
+/**
+ * @brief unsubscribe a listener
+ */
 void Input::removeListener(ListenerInterface *listener)
 {
     std::set<ListenerInterface*>::iterator i;
@@ -49,13 +61,10 @@ void Input::removeListener(ListenerInterface *listener)
     }
 }
 
+/**
+ * @brief subscribe a listener to the event listener list
+ */
 void Input::addListener(ListenerInterface *listener)
 {
     mListeners.insert(listener);
 }
-
-Input *Input::get()
-{
-    return mInstance ? mInstance : new Input();
-}
-

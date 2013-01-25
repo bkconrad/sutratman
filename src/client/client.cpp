@@ -1,7 +1,7 @@
 #include "client/client.h"
-#include "log.h"
 #include "client_game.h"
 #include "game_interface.h"
+#include "log.h"
 
 #include <tnl.h>
 #include <tnlRPC.h>
@@ -11,70 +11,60 @@
 using namespace TNL;
 using namespace std;
 
-Client::Client(GameConnection* connection, ClientGame* game)
-   : mConnection(connection), mGame(game)
+Client::Client(GameConnection *connection, ClientGame *game)
+    : mConnection(connection), mGame(game)
 {
 }
 
 Client::~Client()
 {
-   //dtor
+    //dtor
 }
 
-/** @brief Main client entry point
-  */
+/**
+ * @brief Main client entry point
+ */
 void Client::go()
 {
-   while (step()) {
-      Platform::sleep(1);
-   }
+    while(step())
+    {
+        Platform::sleep(1);
+    }
 }
 
 
-/** @brief Initialize all dependencies for the Client which are still missing
-  */
+/**
+ * @brief Initialize all dependencies for the Client which are still missing
+ * and connect to a server
+ */
 bool Client::init()
 {
-   mGame = mGame ? mGame : new ClientGame();
+    mGame = mGame ? mGame : new ClientGame();
 
-   connect((char *) "localhost:28000");
+    connect((char *) "localhost:28000");
 
-   return true;
+    return true;
 }
 
-
-/** @brief step
-  *
-  * @todo: document this function
-  */
 bool Client::step()
 {
-   serviceConnection();
-   return Video::get()->run();
+    serviceConnection();
+    return Video::get()->run();
 }
 
-
-/** @brief connect
-  *
-  * @todo: document this function
-  */
-bool Client::connect(char* host)
+bool Client::connect(char *host)
 {
-   Address foreignAddress(host);
-   Address bindAddress(IPProtocol, Address::Any, 0);
-   mInterface = new GameInterface(bindAddress, mGame);
-   mConnection = mConnection ? mConnection : new GameConnection;
-   Log::p("Connecting");
-   mConnection->connect(mInterface, foreignAddress);
-   return true;
+    Address foreignAddress(host);
+    Address bindAddress(IPProtocol, Address::Any, 0);
+    mInterface = new GameInterface(bindAddress, mGame);
+    mConnection = mConnection ? mConnection : new GameConnection;
+    Log::p("Connecting");
+    mConnection->connect(mInterface, foreignAddress);
+    return true;
 }
 
-/** @brief serviceConnection
-  *
-  * @todo: document this function
-  */
 void Client::serviceConnection()
 {
-   mInterface->checkIncomingPackets();
-   mInterface->processConnections();
+    mInterface->checkIncomingPackets();
+    mInterface->processConnections();
 }

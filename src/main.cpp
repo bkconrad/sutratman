@@ -1,5 +1,5 @@
 #ifndef SUT_DEDICATED
-   #include "client/client.h"
+#include "client/client.h"
 #endif
 
 #include "server.h"
@@ -11,24 +11,29 @@
 using namespace TNL;
 using namespace std;
 
-int main (int argc, char** argv) {
-   bool isClient = argc > 1 && !strcmp(argv[1], "-client");
+int main(int argc, char **argv)
+{
+    bool isClient = argc > 1 && !strcmp(argv[1], "-client");
 
-   if (isClient) {
+    if(isClient)
+    {
 #ifndef SUT_DEDICATED
-      Client c;
-      c.init();
-      c.go();
+        Client c;
+        c.init();
+        c.go();
 #endif
-   } else {
+    }
+    else
+    {
 #ifdef SUT_DEDICATED
-      cout << "Starting dedicated server!" << endl;
+        cout << "Starting dedicated server!" << endl;
 #else
-      cout << "Starting hybrid server!" << endl;
+        cout << "Starting hybrid server!" << endl;
 #endif
-      Server s;
-      s.init();
-      s.go();
-   }
-   return 0;
+        Server s;
+        s.init();
+        s.go();
+    }
+
+    return 0;
 }

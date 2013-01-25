@@ -1,19 +1,18 @@
-#ifndef DIAGNOSTICSWINDOW_H
-#define DIAGNOSTICSWINDOW_H
+#ifndef DIAGNOSTICSWINDOW_H_
+#define DIAGNOSTICSWINDOW_H_
 
-#include "diagnostics.h"
 #include "client/guiwindowinterface.h"
+#include "diagnostics.h"
 
 class DiagnosticsWindow : public GuiWindowInterface
 {
     public:
         DiagnosticsWindow(irr::gui::IGUIEnvironment *guiEnv);
+
         // overrides
-        virtual void validate();
         virtual void initialize();
         virtual void update();
-    protected:
-    private:
+        virtual void validate();
 };
 
-#endif // DIAGNOSTICSWINDOW_H
+#endif /* DIAGNOSTICSWINDOW_H_ */

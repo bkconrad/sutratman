@@ -1,4 +1,5 @@
-#include "guiwindowinterface.h"
+#include "client/guiwindowinterface.h"
+
 #include <string>
 
 using std::wstring;

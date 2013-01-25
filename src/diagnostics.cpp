@@ -18,11 +18,17 @@ Diagnostics *Diagnostics::get() {
     return mInstance = mInstance ? mInstance : new Diagnostics;
 }
 
+/**
+ * @brief set a diagnostic to value
+ */
 void Diagnostics::set(const string& field, const string& value)
 {
     mMap[field] = value;
 }
 
+/**
+ * @brief set a diagnostic field to a string representation of v
+ */
 void Diagnostics::set(const string& field, const vec3& v)
 {
     char buffer[BUFFER_SIZE];
@@ -30,14 +36,15 @@ void Diagnostics::set(const string& field, const vec3& v)
     mMap[field] = buffer;
 }
 
+/**
+ * @brief Get the contents of a single diagnostic
+ */
 const string Diagnostics::print(const string& field)
 {
     return mMap[field];
 }
 
-/** @brief dump
-  *
-  * @todo: document this function
+/** @brief Return a std::string of all key/value pairs
   */
 const string Diagnostics::dump()
 {
