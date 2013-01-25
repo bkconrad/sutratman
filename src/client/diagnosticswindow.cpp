@@ -1,5 +1,5 @@
 #include "diagnosticswindow.h"
-
+using std::wstring;
 DiagnosticsWindow::DiagnosticsWindow(irr::gui::IGUIEnvironment *guiEnv)
     : GuiWindowInterface(guiEnv, L"Diagnostics")
 {
@@ -23,8 +23,11 @@ void DiagnosticsWindow::update()
     for(i = children.begin(); i != children.end(); i++) {
         (*i)->remove();
     }
-    mGuiEnv->addStaticText(L"Test",
-                           irr::core::rect<irr::s32>(0, 0, 100, 10),
+    string dump = Diagnostics::get()->dump();
+    wstring output;
+    output.assign(dump.begin(), dump.end());
+    mGuiEnv->addStaticText(output.c_str(),
+                           irr::core::rect<irr::s32>(5, 20, 200, 300),
                            true, true, mWindow);
 }
 

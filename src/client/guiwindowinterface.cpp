@@ -1,4 +1,7 @@
 #include "guiwindowinterface.h"
+#include <string>
+
+using std::wstring;
 
 unsigned int GuiWindowInterface::WindowIdCount = 0;
 

@@ -5,6 +5,8 @@
 #include "mathutil.h"
 #include "input.h"
 
+#include "diagnostics.h"
+
 #include <glm/glm.hpp>
 
 using glm::clamp;
@@ -60,6 +62,9 @@ bool Video::run()
    if (mFocusEntity.isValid()) {
       vec3 pos = mFocusEntity->getPos();
       vec3 rot = mFocusEntity->getRot() * RADIANS;
+
+      DIAG(position, pos);
+      DIAG(rotation, rot);
 
       float positiveAngularDistance = mod(rot.y - mCameraRotation, RADIANS);
       float negativeAngularDistance = mod(mCameraRotation - rot.y, RADIANS);

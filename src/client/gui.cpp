@@ -2,6 +2,8 @@
 #include "client/input.h"
 #include "client/diagnosticswindow.h"
 
+#include <tnl.h>
+
 Gui* Gui::mInstance = NULL;
 
 void Gui::init(irr::gui::IGUIEnvironment* guiEnvironment)
@@ -42,7 +44,10 @@ bool Gui::handle(const irr::SEvent& event)
 
 void Gui::draw()
 {
-    mDiagnosticsWindow->update();
+   if(TNL::Platform::getRealMilliseconds() - mLastUpdate > UPDATE_INTERVAL) {
+        mDiagnosticsWindow->update();
+        mLastUpdate = TNL::Platform::getRealMilliseconds();
+   }
    mGuiEnvironment->drawAll();
 }
 

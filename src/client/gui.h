@@ -9,6 +9,7 @@
 class Gui : ListenerInterface
 {
     public:
+        static const int UPDATE_INTERVAL = 200;
         static Gui* get();
         void init(irr::gui::IGUIEnvironment* guiEnvironment);
         void draw();
@@ -16,6 +17,7 @@ class Gui : ListenerInterface
         virtual ~Gui();
     protected:
     private:
+        unsigned int mLastUpdate;
         static Gui* mInstance;
         Gui();
 
