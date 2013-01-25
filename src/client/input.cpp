@@ -19,8 +19,10 @@ const vec2 Input::getDelta()
 
 bool Input::OnEvent(const irr::SEvent &event)
 {
-    mLastMousePos = mCurrentMousePos;
-    mCurrentMousePos = vec2(event.MouseInput.X, event.MouseInput.Y);
+    if(event.EventType == irr::EET_MOUSE_INPUT_EVENT) {
+        mLastMousePos = mCurrentMousePos;
+        mCurrentMousePos = vec2(event.MouseInput.X, event.MouseInput.Y);
+    }
 
     std::set<ListenerInterface*>::iterator i;
 
