@@ -14,7 +14,8 @@ using namespace mathutil;
 
 const float Video::CAMERA_ACCELERATION = 0.001;
 const float Video::CAMERA_MAX_SPEED = 0.1;
-const float Video::VIDEOSCALE = 10.0;
+const float Video::VIDEOSCALE = 100.0;
+const float Video::HEIGHTMAP_SIZE = 500.0;
 
 Video *Video::mInstance = NULL;
 
@@ -42,6 +43,23 @@ Video::Video()
     // resource loading
     mSceneManager = mDevice->getSceneManager();
     mMesh = mSceneManager->getMesh("../resource/warrior.x");
+
+    // create terrain
+    mTerrain = mSceneManager->addTerrainSceneNode("../resource/heightmap.bmp",
+                                                  0,
+                                                  -1,
+                                                  irr::core::vector3df(0.0, 0.0, 0.0),
+                                                  irr::core::vector3df(0.0,   0.0, 0.0),
+                                                  irr::core::vector3df(VIDEOSCALE / HEIGHTMAP_SIZE, 0.002, VIDEOSCALE / HEIGHTMAP_SIZE),
+                                                  irr::video::SColor(255, 255, 255, 255),
+                                                  5,
+                                                  irr::scene::ETPS_17,
+                                                  4
+                                                  );
+    mTerrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    mTerrain->setMaterialTexture(0,
+                                 mDriver->getTexture("../resource/dirt.jpg"));
+    mTerrain->scaleTexture(10.0, 10.0);
 
     // starting camera position
     mCameraRotation = 0.0;
@@ -122,6 +140,7 @@ void Video::addEntity(Entity *entity)
     node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
     node->setMD2Animation(irr::scene::EMAT_STAND);
     node->setMaterialTexture(0, mDriver->getTexture("../resource/warrior.jpg"));
+    node->setScale(irr::core::vector3df(1.0, 1.0, 1.0));
     EntityNode *entityNode = new EntityNode(entity, node);
     mEntityNodes.push_back(entityNode);
 }

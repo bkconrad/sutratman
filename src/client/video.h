@@ -16,6 +16,7 @@ public:
     static const float CAMERA_ACCELERATION; // acceleration of camera movement
     static const float CAMERA_MAX_SPEED; // max speed of camera movement
     static const float VIDEOSCALE; // scale from normalized simulation positions to irrlich positions
+    static const float HEIGHTMAP_SIZE; // size of one side of the (square) heightmap
 
     static Video *get();
 
@@ -37,6 +38,7 @@ private:
     irr::IEventReceiver *mEventReceiver;
     irr::scene::IAnimatedMesh *mMesh;
     irr::scene::ISceneManager *mSceneManager;
+    irr::scene::ITerrainSceneNode *mTerrain;
 
     SafePtr<Entity> mFocusEntity;
     Vector<EntityNode*> mEntityNodes;
