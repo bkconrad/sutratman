@@ -1,3 +1,4 @@
+#include "client/gui.h"
 #include "client/input.h"
 #include "entity.h"
 #include "game.h"
@@ -33,6 +34,11 @@ void Game::update(U32 t)
 {
     // TODO: check return value
     mDevice->run();
+
+    mDriver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
+    mSceneManager->drawAll();
+    //Gui::get()->draw();
+    mDriver->endScene();
 }
 
 /**
@@ -57,7 +63,7 @@ void Game::initialize()
     mTerrain = mSceneManager->addTerrainSceneNode("../resource/heightmap.bmp",
                                                   0,
                                                   -1,
-                                                  irr::core::vector3df(0.0, -0.1, 0.0),
+                                                  irr::core::vector3df(0.0, 0.1, 0.0),
                                                   irr::core::vector3df(0.0,   0.0, 0.0),
                                                   irr::core::vector3df(1.0 / HEIGHTMAP_SIZE, 1.0 / HEIGHTMAP_SIZE * 0.05, 1.0/ HEIGHTMAP_SIZE),
                                                   irr::video::SColor(255, 255, 255, 255),
@@ -83,7 +89,7 @@ void Game::addEntity(Entity *entity)
     node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
     node->setMD2Animation(irr::scene::EMAT_STAND);
     node->setMaterialTexture(0, mDriver->getTexture("../resource/warrior.jpg"));
-    node->setScale(vector3df(0.1));
+    node->setScale(vector3df(0.01));
 
     // create triangle selector for the terrain
     irr::scene::ITriangleSelector* selector
@@ -92,7 +98,7 @@ void Game::addEntity(Entity *entity)
 
     // create collision response animator and attach it to the node
     irr::scene::ISceneNodeAnimator* anim = mSceneManager->createCollisionResponseAnimator(
-        selector, node, vector3df(0.1),
+        selector, node, vector3df(0.01),
         vector3df(0,-0.1,0),
         vector3df(0,0,0));
     selector->drop();

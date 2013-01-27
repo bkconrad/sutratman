@@ -37,6 +37,7 @@ void Server::go()
     while(true)
     {
         serviceConnections();
+        mGame->update(0);
         Platform::sleep(1);
     }
 }
