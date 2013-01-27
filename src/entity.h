@@ -1,6 +1,8 @@
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
+#include <irrlicht.h>
+
 #include <tnl.h>
 #include <tnlGhostConnection.h>
 #include <tnlNetObject.h>
@@ -9,32 +11,8 @@
 
 #include <gtest/gtest_prod.h>
 
-/**
-these macros allow decoupling of client and server code by selectively defining
-method stubs in dedicated server builds. this allows definition of those
-methods in the corresponding client/* files for client-enabled builds
-*/
-#define SUT_DECLARE_GAME_ENTITY(klass) \
-   TNL_DECLARE_CLASS(klass); \
-   virtual bool onGhostAdd(GhostConnection* connection); \
-   virtual void unpackUpdate(GhostConnection* connection, BitStream* bitStream) \
-
-#ifdef SUT_DEDICATED
-
-#define SUT_IMPLEMENT_GAME_ENTITY(klass) \
-      TNL_IMPLEMENT_NETOBJECT(klass); \
-      void klass::unpackUpdate(GhostConnection* c, BitStream* b) { } \
-      bool klass::onGhostAdd(GhostConnection* c) { return true; }
-
-#else
-
-#define SUT_IMPLEMENT_GAME_ENTITY(klass) \
-      TNL_IMPLEMENT_NETOBJECT(klass);
-
-#endif
-
 using namespace TNL;
-using namespace glm;
+using irr::core::vector3df;
 
 class Game;
 class ClientGame;
@@ -61,15 +39,17 @@ public:
     virtual void performScopeQuery(GhostConnection *connection);
     virtual void unpackUpdate(GhostConnection *connection, BitStream *bitStream);
 
-    const vec3 &getPos();
-    const vec3 &getRot();
+    const vector3df &getPos() const;
+    const vector3df &getRot() const;
     bool isControlled();
-    void modPos(const vec3 &pos);
-    void modRot(const vec3 &rot);
+    void modPos(const vector3df &pos);
+    void modRot(const vector3df &rot);
     void setControlled(bool controlled);
-    void setPos(float x, float y, float z);
-    void setPos(const vec3 &pos);
-    void setRot(const vec3 &rot);
+    void setPos(const vector3df &pos);
+    void setRot(const vector3df &rot);
+
+    void setNode(irr::scene::IAnimatedMeshSceneNode *node);
+    irr::scene::IAnimatedMeshSceneNode *getNode();
 
     enum MaskBits
     {
@@ -83,14 +63,14 @@ protected:
 
     static int IdIndex;
     U32 mId;
-    vec3 mPos;
-    vec3 mRot; // in radians, math angle
 
     // client only
     ClientGame *mClientGame;
     bool mIsControlled;
 
 private:
+    irr::scene::IAnimatedMeshSceneNode *mNode;
+
     FRIEND_TEST(entity, packing);
 };
 

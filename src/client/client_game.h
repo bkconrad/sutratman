@@ -19,16 +19,23 @@ class ClientGame : public Game, public ListenerInterface
     typedef Game Parent;
 public:
     static float MOUSESPEED;
+    static const float CAMERA_ACCELERATION; // acceleration of camera movement
+    static const float CAMERA_MAX_SPEED; // max speed of camera movement
 
     ClientGame();
     virtual ~ClientGame();
-    virtual void addEntity(Entity *entity);
 
     // overrides
     bool handle(const irr::SEvent &event);
+    virtual void addEntity(Entity *entity);
+    virtual void update(U32 t);
+    virtual void initialize();
 
 private:
     SafePtr<Entity> mClientEntity;
+    irr::scene::ICameraSceneNode *mCamera;
+    float mCameraRotation;
+    float mCameraVelocity;
 };
 
 #endif /* CLIENT_GAME_H_ */

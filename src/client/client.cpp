@@ -40,6 +40,7 @@ void Client::go()
 bool Client::init()
 {
     mGame = mGame ? mGame : new ClientGame();
+    mGame->initialize();
 
     connect((char *) "localhost:28000");
 
@@ -49,7 +50,8 @@ bool Client::init()
 bool Client::step()
 {
     serviceConnection();
-    return Video::get()->run();
+    mGame->update(0);
+    return true;
 }
 
 bool Client::connect(char *host)

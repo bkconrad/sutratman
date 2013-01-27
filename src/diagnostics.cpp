@@ -29,10 +29,10 @@ void Diagnostics::set(const string& field, const string& value)
 /**
  * @brief set a diagnostic field to a string representation of v
  */
-void Diagnostics::set(const string& field, const vec3& v)
+void Diagnostics::set(const string& field, const vector3df& v)
 {
     char buffer[BUFFER_SIZE];
-    sprintf(buffer, "%0.2f, %0.2f, %0.2f", v.x, v.y, v.z);
+    sprintf(buffer, "%0.2f, %0.2f, %0.2f", v.X, v.Y, v.Z);
     mMap[field] = buffer;
 }
 

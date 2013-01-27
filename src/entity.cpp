@@ -18,11 +18,10 @@ TNL_IMPLEMENT_NETOBJECT_RPC(Entity, c2sMove, (F32 angle), (angle),
                             NetClassGroupAllMask,  RPCGuaranteedOrdered, RPCToGhostParent, 0)
 {
     // TODO check client's ownership
-    vec3 delta = vec3();
-    // TODO check to see if these trig functions are inverted
-    delta = vec3(-sin(angle * RADIANS), 0.0, -cos(angle * RADIANS));
+    vector3df delta = vector3df();
+    delta = vector3df(-sin(angle * RADIANS), 0.0, -cos(angle * RADIANS));
     delta *= Entity::MOVESPEED;
-    mPos += delta;
+    modPos(delta);
     setMaskBits(PositionMask);
 }
 
@@ -30,12 +29,12 @@ TNL_IMPLEMENT_NETOBJECT_RPC(Entity, c2sRotate, (F32 angle), (angle),
                             NetClassGroupAllMask,  RPCGuaranteedOrdered, RPCToGhostParent, 0)
 {
     // TODO check client's ownership
-    mRot.y = angle;
-    mod(mRot, TAU);
+    modRot(vector3df(0.0f, angle * DEGREES, 0.0f));
     setMaskBits(RotationMask);
 }
 
 Entity::Entity(Game *game)
+    : mNode(NULL)
 {
     mGame = game;
     mNetFlags.set(Ghostable);
@@ -72,31 +71,25 @@ bool Entity::isControlled()
     return mIsControlled;
 }
 
-void Entity::setPos(const vec3 &pos)
+void Entity::setPos(const vector3df &pos)
 {
-    mPos = pos;
-}
-
-void Entity::setPos(float x, float y, float z)
-{
-    mPos = vec3(x, y, z);
+    mNode->setPosition(pos);
 }
 
 /**
  * @brief modify this entity's position by delta
  */
-void Entity::modPos(const vec3 &delta)
+void Entity::modPos(const vector3df &delta)
 {
-    mPos += delta;
+    mNode->setPosition(mNode->getPosition() + delta);
 }
 
 /**
  * @brief modify this entity's rotation by delta
  */
-void Entity::modRot(const vec3 &rot)
+void Entity::modRot(const vector3df &delta)
 {
-    mRot += rot;
-    mod(mRot, TAU);
+    mNode->setRotation(mNode->getRotation() + delta);
 }
 
 /**
@@ -105,9 +98,9 @@ void Entity::modRot(const vec3 &rot)
  * units. In the case of positions, and all distances (or any 0th derivative in
  * general) in the engine
  */
-const vec3 &Entity::getPos()
+const vector3df &Entity::getPos() const
 {
-    return mPos;
+    return mNode->getPosition();
 }
 
 /**
@@ -116,8 +109,8 @@ const vec3 &Entity::getPos()
  */
 bool Entity::isConsistentWith(const Entity &entity)
 {
-    return length(distance(mPos, entity.mPos)) < EPSILON
-           && length(distance(mRot, entity.mRot)) < EPSILON;
+    return getPos() == entity.getPos()
+         && getRot() == entity.getRot();
 }
 
 U32 Entity::packUpdate(GhostConnection *connection, U32 updateMask, BitStream *bitStream)
@@ -125,16 +118,18 @@ U32 Entity::packUpdate(GhostConnection *connection, U32 updateMask, BitStream *b
     // TODO assert that this is never called from the server side
     if(bitStream->writeFlag(updateMask & PositionMask))
     {
-        bitStream->writeFloat(mPos.x, 16);
-        bitStream->writeFloat(mPos.y, 16);
-        bitStream->writeFloat(mPos.z, 16);
+        vector3df pos = getPos();
+        bitStream->writeFloat(pos.X, 16);
+        bitStream->writeFloat(pos.Y, 16);
+        bitStream->writeFloat(pos.Z, 16);
     }
 
     if(bitStream->writeFlag(updateMask & RotationMask))
     {
-        bitStream->writeFloat(mRot.x, 16);
-        bitStream->writeFloat(mRot.y, 16);
-        bitStream->writeFloat(mRot.z, 16);
+        vector3df rot = getRot() / DEGREES;
+        bitStream->writeFloat(rot.X, 16);
+        bitStream->writeFloat(rot.Y, 16);
+        bitStream->writeFloat(rot.Z, 16);
     }
 }
 
@@ -143,17 +138,25 @@ void Entity::unpackUpdate(GhostConnection *connection, BitStream *bitStream)
     // position update
     if(bitStream->readFlag())
     {
-        mPos.x = bitStream->readFloat(16);
-        mPos.y = bitStream->readFloat(16);
-        mPos.z = bitStream->readFloat(16);
+        vector3df pos;
+        pos.X = bitStream->readFloat(16);
+        pos.Y = bitStream->readFloat(16);
+        pos.Z = bitStream->readFloat(16);
+        if (mNode) {
+            setPos(pos);
+        }
     }
 
     // rotation update. Convert to radians from normalized float
     if(bitStream->readFlag())
     {
-        mRot.x = bitStream->readFloat(16);
-        mRot.y = bitStream->readFloat(16);
-        mRot.z = bitStream->readFloat(16);
+        vector3df rot;
+        rot.X = bitStream->readFloat(16);
+        rot.Y = bitStream->readFloat(16);
+        rot.Z = bitStream->readFloat(16);
+        if (mNode) {
+            setRot(rot * DEGREES);
+        }
     }
 }
 
@@ -166,19 +169,35 @@ bool Entity::onGhostAdd(GhostConnection *connection)
 }
 
 /**
- * @brief set the rotation vector (radians)
+ * @brief set the rotation vector (degrees)
  */
-void Entity::setRot(const vec3 &rot)
+void Entity::setRot(const vector3df &rot)
 {
-    mRot = rot;
-    mod(mRot, TAU);
+    mNode->setRotation(rot);
 }
 
 /**
- * @brief rotation vector in radians
+ * @brief rotation vector in degrees
  */
-const vec3 &Entity::getRot()
+const vector3df &Entity::getRot() const
 {
-    return mRot;
+    return mNode->getRotation();
 }
 
+/** @brief setNode
+  *
+  * @todo: document this function
+  */
+void Entity::setNode(irr::scene::IAnimatedMeshSceneNode *node)
+{
+    mNode = node;
+}
+
+/** @brief getNode
+  *
+  * @todo: document this function
+  */
+irr::scene::IAnimatedMeshSceneNode* Entity::getNode()
+{
+    return mNode;
+}

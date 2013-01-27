@@ -23,6 +23,7 @@ bool Server::init()
     {
         mGame = new Game(true);
     }
+    mGame->initialize();
 
     host((const char *) "localhost", "28000");
     return true;

@@ -1,7 +1,6 @@
 #ifndef CLIENT_H_
 #define CLIENT_H_
 
-#include "client/video.h"
 #include "game_connection.h"
 
 #include <gtest/gtest_prod.h>

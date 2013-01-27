@@ -1,7 +1,7 @@
 #include "log.h"
 #include "player.h"
 
-SUT_IMPLEMENT_GAME_ENTITY(Player);
+TNL_IMPLEMENT_NETOBJECT(Player);
 
 U32 Player::packUpdate(GhostConnection *connection, U32 updateMask, BitStream *bitStream)
 {
