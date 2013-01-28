@@ -23,7 +23,7 @@ Game::~Game()
 {
     for(int i; i < mEntities.size(); i++)
     {
-        delete mEntities[i];
+        delete &mEntities[i];
     }
 }
 

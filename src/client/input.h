@@ -3,14 +3,13 @@
 
 #include "client/listenerinterface.h"
 
-#include <glm/glm.hpp>
 #include <irrlicht.h>
 #include <tnl.h>
 
 #include <set>
 
 using namespace TNL;
-using namespace glm;
+using irr::core::vector2df;
 
 class Input : public irr::IEventReceiver
 {
@@ -20,15 +19,15 @@ public:
     virtual ~Input();
 
     void addListener(ListenerInterface *listener);
-    const vec2 getDelta();
+    const vector2df getDelta();
     void removeListener(ListenerInterface *listener);
 
     // overrides
     bool OnEvent(const irr::SEvent &event);
 
 private:
-    vec2 mLastMousePos;
-    vec2 mCurrentMousePos;
+    vector2df mLastMousePos;
+    vector2df mCurrentMousePos;
     std::set<ListenerInterface*> mListeners;
     static Input *mInstance;
 };

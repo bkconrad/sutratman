@@ -28,7 +28,7 @@ set(TNL_SOURCES
 )
 add_library(tnl ${TNL_SOURCES})
 include_directories(SYSTEM ../tomcrypt)
-target_link_libraries(tnl tomcrypt)
+target_link_libraries(tnl tomcrypt ${TNL_EXTRA_LIBS})
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 	set_target_properties(tnl

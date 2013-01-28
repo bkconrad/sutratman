@@ -6,10 +6,15 @@
 #include "mathutil.h"
 #include "player.h"
 
+#include <cmath>
+
 using namespace mathutil;
 
 using irr::core::vector3df;
 using irr::core::vector2df;
+
+using std::min;
+using std::max;
 
 float ClientGame::MOUSESPEED = .0005;
 const float ClientGame::CAMERA_ACCELERATION = 0.01;
@@ -80,12 +85,12 @@ void ClientGame::update(U32 t)
 
         float positiveAngularDistance = abs(rot.Y - mCameraRotation);
         float negativeAngularDistance = abs(mCameraRotation - rot.Y);
-        float minimumAngularDistance = min(positiveAngularDistance, negativeAngularDistance);
+        float minimumAngularDistance = std::min(positiveAngularDistance, negativeAngularDistance);
 
         if(minimumAngularDistance > 5.0)
         {
             mCameraVelocity += positiveAngularDistance > negativeAngularDistance ? -CAMERA_ACCELERATION : CAMERA_ACCELERATION;
-            mCameraVelocity = clamp(mCameraVelocity, -CAMERA_MAX_SPEED, CAMERA_MAX_SPEED);
+            mCameraVelocity = max(min(mCameraVelocity, CAMERA_MAX_SPEED), -CAMERA_MAX_SPEED);
             mCameraRotation += mCameraVelocity;
             mCameraRotation = fmod(mCameraRotation, DEGREES);
         }
@@ -127,8 +132,8 @@ bool ClientGame::handle(const irr::SEvent &event)
             break;
 
         case irr::EET_MOUSE_INPUT_EVENT:
-            vec2 delta = Input::get()->getDelta();
-            mClientEntity->modRot(vector3df(0.0, delta.x * MOUSESPEED, 0.0));
+            vector2df delta = Input::get()->getDelta();
+            mClientEntity->modRot(vector3df(0.0, delta.X * MOUSESPEED, 0.0));
             static_cast<Player*>(mClientEntity.getPointer())->c2sRotate(mClientEntity->getRot().Y / DEGREES);
             break;
         }

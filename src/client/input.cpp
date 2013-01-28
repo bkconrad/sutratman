@@ -20,7 +20,7 @@ Input::~Input()
 /**
  * @brief return the last mouse pointer change
  */
-const vec2 Input::getDelta()
+const vector2df Input::getDelta()
 {
     return mCurrentMousePos - mLastMousePos;
 }
@@ -30,7 +30,7 @@ bool Input::OnEvent(const irr::SEvent &event)
     if(event.EventType == irr::EET_MOUSE_INPUT_EVENT)
     {
         mLastMousePos = mCurrentMousePos;
-        mCurrentMousePos = vec2(event.MouseInput.X, event.MouseInput.Y);
+        mCurrentMousePos = vector2df(event.MouseInput.X, event.MouseInput.Y);
     }
 
     std::set<ListenerInterface*>::iterator i;

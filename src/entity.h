@@ -7,8 +7,6 @@
 #include <tnlGhostConnection.h>
 #include <tnlNetObject.h>
 
-#include <glm/glm.hpp>
-
 #include <gtest/gtest_prod.h>
 
 using namespace TNL;
