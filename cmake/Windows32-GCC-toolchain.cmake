@@ -31,5 +31,3 @@ SET(BUILD_SHARED_LIBS ON)
 set(IRRLICHT_FOUND TRUE)
 set(IRRLICHT_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/lib/irrlicht/include)
 set(IRRLICHT_LIBRARY ${CMAKE_SOURCE_DIR}/lib/irrlicht/lib/Win32-gcc/libIrrlicht.a)
-
-set(TNL_EXTRA_LIBS wsock32 winmm)

@@ -40,9 +40,10 @@ bool Input::OnEvent(const irr::SEvent &event)
         if((*i)->handle(event))
         {
             // when handle(event) returns true the listener consumes
-            break;
+            return true;
         }
     }
+	return false;
 }
 
 /**

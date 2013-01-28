@@ -131,6 +131,7 @@ U32 Entity::packUpdate(GhostConnection *connection, U32 updateMask, BitStream *b
         bitStream->writeFloat(rot.Y, 16);
         bitStream->writeFloat(rot.Z, 16);
     }
+	return 0;
 }
 
 void Entity::unpackUpdate(GhostConnection *connection, BitStream *bitStream)
