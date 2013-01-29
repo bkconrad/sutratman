@@ -107,8 +107,15 @@ void ClientGame::update(U32 t)
         mCamera->setPosition(irr::core::vector3df(pos.X + cameraOffset.X, pos.Y + 0.02, pos.Z + cameraOffset.Y));
     }
 }
-
-
+/** @brief draw
+  *
+  * @todo: document this function
+  */
+void ClientGame::draw()
+{
+    Parent::draw();
+    Gui::get()->draw();
+}
 
 bool ClientGame::handle(const irr::SEvent &event)
 {

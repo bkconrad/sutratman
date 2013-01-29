@@ -36,9 +36,16 @@ void Game::update(U32 t)
     mDevice->run();
 
     mDriver->beginScene(true, true, irr::video::SColor(255, 100, 101, 140));
-    mSceneManager->drawAll();
-    //Gui::get()->draw();
+    draw();
     mDriver->endScene();
+}
+
+/**
+ * @brief performs the actual rendering (if necessary)
+ */
+void Game::draw()
+{
+    mSceneManager->drawAll();
 }
 
 /**

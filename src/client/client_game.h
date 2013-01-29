@@ -28,6 +28,7 @@ public:
     // overrides
     bool handle(const irr::SEvent &event);
     virtual void addEntity(Entity *entity);
+    virtual void draw();
     virtual void update(U32 t);
     virtual void initialize();
 

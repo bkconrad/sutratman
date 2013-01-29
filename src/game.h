@@ -20,6 +20,7 @@ public:
     virtual ~Game();
     Vector<SafePtr<Entity> > *getEntities();
 
+    virtual void draw();
     virtual void initialize();
     virtual void update(U32 t);
     virtual void addEntity(Entity *entity);
