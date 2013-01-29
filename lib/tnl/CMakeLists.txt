@@ -1,3 +1,7 @@
+if(WIN32)
+	set(TNL_EXTRA_LIBS wsock32 winmm)
+endif()
+
 set(TNL_SOURCES
 	assert.cpp
 	asymmetricKey.cpp
