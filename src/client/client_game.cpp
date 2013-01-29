@@ -24,6 +24,20 @@ ClientGame::ClientGame()
     : mClientEntity(NULL), mCameraRotation(0)
 {
     Input::get()->addListener(this);
+    irr::video::E_DRIVER_TYPE DriverTypes[] = {
+        irr::video::EDT_DIRECT3D9,
+        irr::video::EDT_DIRECT3D8,
+        irr::video::EDT_OPENGL,
+        irr::video::EDT_SOFTWARE
+    };
+    int i;
+    for (i = 0; i < sizeof(DriverTypes) / sizeof(DriverTypes[0]); i++) {
+        if (mDevice->isDriverSupported(DriverTypes[i])) {
+            break;
+        }
+    }
+
+    mDriverType = DriverTypes[i];
 }
 
 ClientGame::~ClientGame()

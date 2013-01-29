@@ -9,6 +9,7 @@ using namespace TNL;
 const float Game::HEIGHTMAP_SIZE = 500.0;
 
 Game::Game(bool server)
+    : mDriverType(irr::video::EDT_NULL)
 {
     mServer = server;
     Game();
@@ -53,7 +54,7 @@ void Game::draw()
  */
 void Game::initialize()
 {
-    mDevice = irr::createDevice(irr::video::EDT_OPENGL, irr::core::dimension2d<irr::u32>(640, 480), 16,
+    mDevice = irr::createDevice(mDriverType, irr::core::dimension2d<irr::u32>(640, 480), 16,
                                 false, false, false, Input::get());
     if(!mDevice)
     {

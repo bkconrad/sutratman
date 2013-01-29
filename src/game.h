@@ -33,6 +33,7 @@ public:
     irr::scene::ISceneManager *mSceneManager;
     irr::scene::ITerrainSceneNode *mTerrain;
     irr::IrrlichtDevice *mDevice;
+    irr::video::E_DRIVER_TYPE mDriverType;
 
 private:
     bool mServer;
