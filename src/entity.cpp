@@ -10,20 +10,9 @@ using namespace mathutil;
 using namespace TNL;
 
 int Entity::IdIndex = 1;
-const float Entity::MOVESPEED = 0.001;
+const float Entity::MOVESPEED = 0.01;
 
 TNL_IMPLEMENT_NETOBJECT(Entity);
-
-TNL_IMPLEMENT_NETOBJECT_RPC(Entity, c2sMove, (F32 angle), (angle),
-                            NetClassGroupAllMask,  RPCGuaranteedOrdered, RPCToGhostParent, 0)
-{
-    // TODO check client's ownership
-    vector3df delta = vector3df();
-    delta = vector3df(-sin(angle * RADIANS), 0.0, -cos(angle * RADIANS));
-    delta *= Entity::MOVESPEED;
-    modPos(delta);
-    setMaskBits(PositionMask);
-}
 
 TNL_IMPLEMENT_NETOBJECT_RPC(Entity, c2sRotate, (F32 angle), (angle),
                             NetClassGroupAllMask,  RPCGuaranteedOrdered, RPCToGhostParent, 0)
@@ -34,7 +23,7 @@ TNL_IMPLEMENT_NETOBJECT_RPC(Entity, c2sRotate, (F32 angle), (angle),
 }
 
 Entity::Entity(Game *game)
-    : mNode(NULL)
+    : mNode(NULL), mLastKnownPosition(0)
 {
     mGame = game;
     mNetFlags.set(Ghostable);
@@ -74,6 +63,7 @@ bool Entity::isControlled()
 void Entity::setPos(const vector3df &pos)
 {
     mNode->setPosition(pos);
+    mLastKnownPosition = pos;
 }
 
 /**
@@ -118,7 +108,7 @@ U32 Entity::packUpdate(GhostConnection *connection, U32 updateMask, BitStream *b
     // TODO assert that this is never called from the server side
     if(bitStream->writeFlag(updateMask & PositionMask))
     {
-        vector3df pos = getPos();
+        vector3df pos = mLastKnownPosition;
         bitStream->writeFloat(pos.X, 16);
         bitStream->writeFloat(pos.Y, 16);
         bitStream->writeFloat(pos.Z, 16);
@@ -201,4 +191,9 @@ void Entity::setNode(irr::scene::IAnimatedMeshSceneNode *node)
 irr::scene::IAnimatedMeshSceneNode* Entity::getNode()
 {
     return mNode;
+}
+
+void Entity::update()
+{
+   //setPos(mLastKnownPosition);
 }

@@ -19,7 +19,6 @@ class Entity : public NetObject
 {
 public:
     TNL_DECLARE_CLASS(Entity);
-    TNL_DECLARE_RPC(c2sMove, (F32 angle));
     TNL_DECLARE_RPC(c2sRotate, (F32 angle));
 
     // TODO should be replaced with stats or something
@@ -30,6 +29,7 @@ public:
 
     // entity-specific things
     virtual bool isConsistentWith(const Entity &entity);
+    virtual void update();
 
     // overrides
     virtual bool onGhostAdd(GhostConnection *connection);
@@ -54,6 +54,7 @@ public:
         InitialMask = 1 << 0,
         PositionMask = 1 << 1,
         RotationMask = 1 << 2,
+        VelocityMask = 1 << 3
     };
 
 protected:
@@ -65,9 +66,11 @@ protected:
     // client only
     ClientGame *mClientGame;
     bool mIsControlled;
+   vector3df mLastKnownPosition;
+   
+    irr::scene::IAnimatedMeshSceneNode *mNode;
 
 private:
-    irr::scene::IAnimatedMeshSceneNode *mNode;
 
     FRIEND_TEST(entity, packing);
 };

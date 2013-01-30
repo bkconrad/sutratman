@@ -12,6 +12,7 @@ set(SERVER_SOURCES
 	game_interface
 	log
 	mathutil
+	mobile_entity
 	player
 	server
 )

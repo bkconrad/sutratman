@@ -50,7 +50,7 @@ bool Client::init()
 bool Client::step()
 {
     serviceConnection();
-    mGame->update(0);
+    mGame->update();
     return true;
 }
 

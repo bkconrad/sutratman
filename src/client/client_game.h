@@ -3,6 +3,7 @@
 
 #include "client/listenerinterface.h"
 #include "game.h"
+#include "player.h"
 
 #include <irrlicht.h>
 #include <tnlGhostConnection.h>
@@ -23,17 +24,18 @@ public:
     static const float CAMERA_MAX_SPEED; // max speed of camera movement
 
     ClientGame();
+    ClientGame(Game*);
     virtual ~ClientGame();
 
     // overrides
     bool handle(const irr::SEvent &event);
     virtual void addEntity(Entity *entity);
     virtual void draw();
-    virtual void update(U32 t);
+    virtual void update();
     virtual void initialize();
 
 private:
-    SafePtr<Entity> mClientEntity;
+    SafePtr<Player> mClientEntity;
     irr::scene::ICameraSceneNode *mCamera;
     float mCameraRotation;
     float mCameraVelocity;

@@ -18,22 +18,29 @@ public:
     explicit Game(bool server);
     Game();
     virtual ~Game();
+    
+    int getLastFrameTime();
+    irr::scene::ISceneManager *getSceneManager();
+    
     Vector<SafePtr<Entity> > *getEntities();
 
     virtual void draw();
     virtual void initialize();
-    virtual void update(U32 t);
+    virtual void update();
     virtual void addEntity(Entity *entity);
 
     // overrides
     void writeString(const char*);
-
+    
+protected:
     irr::video::IVideoDriver *mDriver;
     irr::scene::IAnimatedMesh *mMesh;
     irr::scene::ISceneManager *mSceneManager;
     irr::scene::ITerrainSceneNode *mTerrain;
     irr::IrrlichtDevice *mDevice;
     irr::video::E_DRIVER_TYPE mDriverType;
+    
+    int mLastFrameTime;
 
 private:
     bool mServer;

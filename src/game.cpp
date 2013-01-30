@@ -9,11 +9,11 @@ using namespace TNL;
 const float Game::HEIGHTMAP_SIZE = 500.0;
 
 Game::Game(bool server)
-    : mDriverType(irr::video::EDT_NULL)
+    : mDriverType(irr::video::EDT_NULL), mLastFrameTime(0)
 {
     mServer = server;
     Game();
-    setMsgTypes(LogNetConnection | LogFatalError | LogError | LogWarning);
+    setMsgTypes(LogGhostConnection | LogFatalError | LogError | LogWarning);
 }
 
 Game::Game()
@@ -31,8 +31,14 @@ Game::~Game()
 /**
  * @brief perform \t milliseconds of simulation
  */
-void Game::update(U32 t)
+void Game::update()
 {
+   for(int i = 0; i  < mEntities.size(); i++ ) {
+      mEntities[i]->update();
+   }
+   
+    mLastFrameTime = Platform::getRealMilliseconds();
+
     // TODO: check return value
     mDevice->run();
 
@@ -73,7 +79,7 @@ void Game::initialize()
                                                   -1,
                                                   irr::core::vector3df(0.0, 0.1, 0.0),
                                                   irr::core::vector3df(0.0,   0.0, 0.0),
-                                                  irr::core::vector3df(1.0 / HEIGHTMAP_SIZE, 1.0 / HEIGHTMAP_SIZE * 0.05, 1.0/ HEIGHTMAP_SIZE),
+                                                  irr::core::vector3df(1.0 / HEIGHTMAP_SIZE, 1.0 / HEIGHTMAP_SIZE * 0.1, 1.0/ HEIGHTMAP_SIZE),
                                                   irr::video::SColor(255, 255, 255, 255),
                                                   5,
                                                   irr::scene::ETPS_17,
@@ -124,4 +130,14 @@ Vector<SafePtr<Entity> >* Game::getEntities()
 void Game::writeString(const char *s)
 {
     Log::p(s);
+}
+
+int Game::getLastFrameTime()
+{
+   return mLastFrameTime;
+}
+
+irr::scene::ISceneManager* Game::getSceneManager()
+{
+   return mSceneManager;
 }

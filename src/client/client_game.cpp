@@ -40,6 +40,10 @@ ClientGame::ClientGame()
     mDriverType = DriverTypes[i];
 }
 
+ClientGame::ClientGame(Game*)
+{
+}
+
 ClientGame::~ClientGame()
 {
     mDevice->drop();
@@ -55,7 +59,7 @@ void ClientGame::addEntity(Entity *entity)
 
     if(entity->isControlled())
     {
-        mClientEntity = entity;
+        mClientEntity = static_cast<Player*>(entity);
     }
 }
 
@@ -84,9 +88,9 @@ void ClientGame::initialize()
   *
   * @todo: document this function
   */
-void ClientGame::update(U32 t)
+void ClientGame::update()
 {
-    Parent::update(t);
+    Parent::update();
 
     // center on the focus entity if we have one
     if(mClientEntity.isValid())
@@ -142,7 +146,7 @@ bool ClientGame::handle(const irr::SEvent &event)
             switch(event.KeyInput.Key)
             {
             case irr::KEY_KEY_W:
-                static_cast<Player*>(mClientEntity.getPointer())->c2sMove(mClientEntity->getRot().Y / DEGREES);
+                mClientEntity->c2sMove(mClientEntity->getRot().Y / DEGREES);
                 return true;
                 break;
 
