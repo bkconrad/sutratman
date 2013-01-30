@@ -25,6 +25,7 @@ class Diagnostics
         static Diagnostics *get();
         const string dump();
         const string print(const string& field);
+        void set(const string& field, const float& value);
         void set(const string& field, const string& value);
         void set(const string& field, const vector3df& value);
 

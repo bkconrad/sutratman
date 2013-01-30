@@ -56,5 +56,9 @@ const string Diagnostics::dump()
     return result;
 }
 
-
-
+void Diagnostics::set(const string& field, const float& value)
+{
+    char buffer[BUFFER_SIZE];
+    sprintf(buffer, "%0.2f", value);
+    mMap[field] = buffer;
+}

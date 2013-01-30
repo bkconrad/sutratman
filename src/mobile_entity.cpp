@@ -61,6 +61,7 @@ void MobileEntity::moveTo(vector3df target)
 {
    if(mMoveAnimator) {
      mNode->removeAnimator(mMoveAnimator);
+     mMoveAnimator->drop();
      mMoveAnimator = NULL;
    }
    if (mGame && mNode) {

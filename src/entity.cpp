@@ -18,7 +18,7 @@ TNL_IMPLEMENT_NETOBJECT_RPC(Entity, c2sRotate, (F32 angle), (angle),
                             NetClassGroupAllMask,  RPCGuaranteedOrdered, RPCToGhostParent, 0)
 {
     // TODO check client's ownership
-    modRot(vector3df(0.0f, angle * DEGREES, 0.0f));
+    setRot(vector3df(0.0f, angle * DEGREES, 0.0f));
     setMaskBits(RotationMask);
 }
 

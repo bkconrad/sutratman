@@ -16,9 +16,9 @@ using irr::core::vector2df;
 using std::min;
 using std::max;
 
-float ClientGame::MOUSESPEED = .0005;
-const float ClientGame::CAMERA_ACCELERATION = 0.01;
-const float ClientGame::CAMERA_MAX_SPEED = 1.0;
+float ClientGame::MOUSESPEED = 1.0;
+const float ClientGame::CAMERA_ACCELERATION = 20.0;
+const float ClientGame::CAMERA_MAX_SPEED = 100.0;
 
 ClientGame::ClientGame()
     : mClientEntity(NULL), mCameraRotation(0)
@@ -101,22 +101,28 @@ void ClientGame::update()
         DIAG(position, pos);
         DIAG(rotation, rot);
 
-        float positiveAngularDistance = abs(rot.Y - mCameraRotation);
-        float negativeAngularDistance = abs(mCameraRotation - rot.Y);
-        float minimumAngularDistance = std::min(positiveAngularDistance, negativeAngularDistance);
-
-        if(minimumAngularDistance > 5.0)
-        {
-            mCameraVelocity += positiveAngularDistance > negativeAngularDistance ? -CAMERA_ACCELERATION : CAMERA_ACCELERATION;
+        float angularDistance = fmod(rot.Y - mCameraRotation, 360.0);
+                
+        DIAG(angdis, angularDistance);
+        if(angularDistance > 3.0) {
+           // interval in seconds
+           float interval = (TNL::Platform::getRealMilliseconds() - mLastFrameTime) * 0.001f;
+           
+           // determine the best direction to turn
+           // (D>0) XOR (ABS(D)>180.0)
+           bool direction = (angularDistance > 0) != (abs(angularDistance) > 180.0);
+           
+           float acceleration = direction ?  CAMERA_ACCELERATION : -CAMERA_ACCELERATION;
+               
+            acceleration *= interval;
+            mCameraVelocity += acceleration;
             mCameraVelocity = max(min(mCameraVelocity, CAMERA_MAX_SPEED), -CAMERA_MAX_SPEED);
-            mCameraRotation += mCameraVelocity;
-            mCameraRotation = fmod(mCameraRotation, DEGREES);
-        }
-        else
-        {
-            mCameraVelocity = 0.0;
-        }
 
+            mCameraRotation += mCameraVelocity * interval;
+            mCameraRotation = fmod(mCameraRotation, DEGREES);
+        } else {
+            mCameraVelocity *= .1;
+        }
         vector2df cameraOffset(sin(degreesToRadians(mCameraRotation)), cos(degreesToRadians(mCameraRotation)));
         cameraOffset *= 0.02;
 
@@ -159,7 +165,7 @@ bool ClientGame::handle(const irr::SEvent &event)
         case irr::EET_MOUSE_INPUT_EVENT:
             vector2df delta = Input::get()->getDelta();
             mClientEntity->modRot(vector3df(0.0, delta.X * MOUSESPEED, 0.0));
-            static_cast<Player*>(mClientEntity.getPointer())->c2sRotate(mClientEntity->getRot().Y / DEGREES);
+            mClientEntity->c2sRotate(mClientEntity->getRot().Y / DEGREES);
             break;
         }
     }
