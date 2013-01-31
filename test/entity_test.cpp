@@ -1,3 +1,4 @@
+#include "game.h"
 #include "entity.h"
 
 #include <gtest/gtest.h>
@@ -9,6 +10,11 @@ using namespace TNL;
 TEST(entity, packing) {
    Entity a;
    Entity b;
+   
+   Game g;
+   g.initialize();
+   g.addEntity(&a);
+   g.addEntity(&b);
 
    // mock up our source entity
    a.setPos(vector3df(.123, .456, .789));

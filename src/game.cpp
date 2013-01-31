@@ -10,15 +10,10 @@ using namespace TNL;
 const float Game::HEIGHTMAP_SIZE = 500.0;
 
 Game::Game(bool server)
-    : mDriverType(irr::video::EDT_NULL), mLastFrameTime(0)
+   : mDriverType(irr::video::EDT_NULL), mLastFrameTime(0)
 {
     mServer = server;
-    Game();
     setMsgTypes(LogGhostConnection | LogFatalError | LogError | LogWarning);
-}
-
-Game::Game()
-{
 }
 
 Game::~Game()
@@ -120,7 +115,10 @@ void Game::addEntity(Entity *entity)
 //    node->addAnimator(anim);
 //    anim->drop();
 
-   dynamic_cast<MobileEntity*>(entity)->detectCollisionWith(selector, mSceneManager);
+   MobileEntity* castedEntity = dynamic_cast<MobileEntity*>(entity);
+   if(castedEntity) {
+      castedEntity->detectCollisionWith(selector, mSceneManager);
+   }
    selector->drop();
 
     mEntities.push_back(entity);

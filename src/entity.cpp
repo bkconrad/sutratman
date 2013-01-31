@@ -99,8 +99,8 @@ const vector3df &Entity::getPos() const
  */
 bool Entity::isConsistentWith(const Entity &entity)
 {
-    return getPos() == entity.getPos()
-         && getRot() == entity.getRot();
+    return (getPos() - entity.getPos()).getLength() < EPSILON
+         && (getRot() - entity.getRot()).getLength() < EPSILON;
 }
 
 U32 Entity::packUpdate(GhostConnection *connection, U32 updateMask, BitStream *bitStream)

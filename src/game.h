@@ -15,8 +15,7 @@ class Game : LogConsumer
 public:
     static const float HEIGHTMAP_SIZE; // size of one side of the (square) heightmap
 
-    explicit Game(bool server);
-    Game();
+    explicit Game(bool server = false);
     virtual ~Game();
     
     int getLastFrameTime();
