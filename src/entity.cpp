@@ -108,7 +108,7 @@ U32 Entity::packUpdate(GhostConnection *connection, U32 updateMask, BitStream *b
     // TODO assert that this is never called from the server side
     if(bitStream->writeFlag(updateMask & PositionMask))
     {
-        vector3df pos = mLastKnownPosition;
+        vector3df pos = mLastKnownPosition / Game::CELL_SIZE;
         bitStream->writeFloat(pos.X, 16);
         bitStream->writeFloat(pos.Y, 16);
         bitStream->writeFloat(pos.Z, 16);
@@ -134,7 +134,7 @@ void Entity::unpackUpdate(GhostConnection *connection, BitStream *bitStream)
         pos.Y = bitStream->readFloat(16);
         pos.Z = bitStream->readFloat(16);
         if (mNode) {
-            setPos(pos);
+            setPos(pos * Game::CELL_SIZE);
         }
     }
 

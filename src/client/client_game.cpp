@@ -81,7 +81,7 @@ void ClientGame::initialize()
     mCamera->setNearValue(0.01f);
     
     // add sun
-    mLight = mSceneManager->addLightSceneNode(0, vector3df(0,1.0,0),irr::video::SColorf(0.5f, 0.7f, 0.7f, 1.0f), 2.0f);
+    mLight = mSceneManager->addLightSceneNode(0, vector3df(0,1.0,0),irr::video::SColorf(0.5f, 0.7f, 0.7f, 1.0f), CELL_SIZE);
     mLight->getLightData().DiffuseColor.set(0.5, 1.0, 1.0, 1.0);
 
     irr::gui::IGUIEnvironment *guiEnv = mDevice->getGUIEnvironment();
@@ -128,11 +128,11 @@ void ClientGame::update()
             mCameraVelocity *= .1;
         }
         vector2df cameraOffset(sin(degreesToRadians(mCameraRotation)), cos(degreesToRadians(mCameraRotation)));
-        cameraOffset *= 0.02;
+        cameraOffset *= 0.002 * CELL_SIZE;
 
-        mCamera->setTarget(irr::core::vector3df(pos.X, pos.Y + 0.01, pos.Z));
+        mCamera->setTarget(irr::core::vector3df(pos.X, pos.Y + 0.001 * CELL_SIZE, pos.Z));
         mCamera->bindTargetAndRotation(true);
-        mCamera->setPosition(irr::core::vector3df(pos.X + cameraOffset.X, pos.Y + 0.02, pos.Z + cameraOffset.Y));
+        mCamera->setPosition(irr::core::vector3df(pos.X + cameraOffset.X, pos.Y + 0.002 * CELL_SIZE, pos.Z + cameraOffset.Y));
     }
 }
 /** @brief draw

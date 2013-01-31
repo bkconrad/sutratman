@@ -8,6 +8,7 @@
 using namespace TNL;
 
 const float Game::HEIGHTMAP_SIZE = 500.0;
+const float Game::CELL_SIZE = 100.0;
 
 Game::Game(bool server)
    : mDriverType(irr::video::EDT_NULL), mLastFrameTime(0)
@@ -73,11 +74,11 @@ void Game::initialize()
     mTerrain = mSceneManager->addTerrainSceneNode("../resource/heightmap.bmp",
                                                   0,
                                                   -1,
-                                                  irr::core::vector3df(0.0, 0.7, 0.0),
-                                                  irr::core::vector3df(0.0,   0.0, 0.0),
-                                                  irr::core::vector3df(1.0 / HEIGHTMAP_SIZE, 1.0 / HEIGHTMAP_SIZE * 0.1, 1.0/ HEIGHTMAP_SIZE),
+                                                  irr::core::vector3df(0.0),
+                                                  irr::core::vector3df(0.0),
+                                                  irr::core::vector3df(CELL_SIZE / HEIGHTMAP_SIZE, 0.3f * CELL_SIZE / HEIGHTMAP_SIZE, CELL_SIZE / HEIGHTMAP_SIZE),
                                                   irr::video::SColor(255, 255, 255, 255),
-                                                  1024,
+                                                  5,
                                                   irr::scene::ETPS_17,
                                                   4
                                                   );
@@ -99,7 +100,7 @@ void Game::addEntity(Entity *entity)
     node->setMaterialFlag(irr::video::EMF_LIGHTING, false);
     node->setMD2Animation(irr::scene::EMAT_STAND);
     node->setMaterialTexture(0, mDriver->getTexture("../resource/warrior.jpg"));
-    node->setScale(vector3df(0.01));
+    node->setScale(vector3df(CELL_SIZE * 0.001f));
 
     // create triangle selector for the terrain
     irr::scene::ITriangleSelector* selector
