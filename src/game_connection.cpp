@@ -27,7 +27,7 @@ void GameConnection::onConnectionEstablished()
         Game *game = ((GameInterface*) getInterface())->getGame();
         SafePtr<Entity> entity = new Player(game);
         game->addEntity(entity);
-        entity->setPos(vector3df(TNL::Random::readF() * Game::CELL_SIZE, Game::CELL_SIZE, TNL::Random::readF() * Game::CELL_SIZE));
+        entity->setPos(vector3df(TNL::Random::readF() * Game::CELL_SIZE, 0.1f * Game::CELL_SIZE, TNL::Random::readF() * Game::CELL_SIZE));
         setScopeObject(entity);
         setGhostFrom(true);
         setGhostTo(false);

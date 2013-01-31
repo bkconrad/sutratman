@@ -29,6 +29,7 @@ public:
    
 protected:
    vector3df mVelocity;
+   vector3df mMovementDirection;
    irr::scene::ISceneNodeAnimator *mMoveAnimator;
    MobileEntityAnimator *mCollisionAnimator;
 };

@@ -17,7 +17,7 @@ TNL_IMPLEMENT_NETOBJECT_RPC(Player, c2sMove, (F32 angle), (angle),
     mVelocity = vel;
           
    mLastKnownPosition = getPos();
-   moveTo(mLastKnownPosition + mVelocity);
+   mCollisionAnimator->setVelocity(mVelocity);
     
     setMaskBits(VelocityMask);
     setMaskBits(PositionMask);

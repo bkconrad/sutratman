@@ -146,7 +146,7 @@ void MobileEntityAnimator::animateNode(ISceneNode* node, u32 timeMs)
 	if ( FirstUpdate )
 	{
 		LastPosition = Object->getPosition();
-		Falling = false;
+		//Falling = false;
 		LastTime = timeMs;
 		FallingVelocity.set ( 0, 0, 0 );
 
@@ -159,7 +159,7 @@ void MobileEntityAnimator::animateNode(ISceneNode* node, u32 timeMs)
 	CollisionResultPosition = Object->getPosition();
 	core::vector3df vel = CollisionResultPosition - LastPosition;
 
-	FallingVelocity += (Gravity + MovementVelocity)* (f32)diff * 0.001f;
+	FallingVelocity += Gravity * (f32)diff * 0.001f;
 
 	CollisionTriangle = RefTriangle;
 	CollisionPoint = core::vector3df();
@@ -177,7 +177,7 @@ void MobileEntityAnimator::animateNode(ISceneNode* node, u32 timeMs)
 			= SceneManager->getSceneCollisionManager()->getCollisionResultPosition(
 				World, LastPosition-Translation,
 				Radius, vel, CollisionTriangle, CollisionPoint, f,
-				(const ISceneNode*&) CollisionNode, SlidingSpeed, FallingVelocity);
+				(const ISceneNode*&) CollisionNode, SlidingSpeed, FallingVelocity + (MovementVelocity * diff * 0.001));
 
 		CollisionOccurred = (CollisionTriangle != RefTriangle);
 
@@ -189,7 +189,7 @@ void MobileEntityAnimator::animateNode(ISceneNode* node, u32 timeMs)
 		}
 		else
 		{
-			Falling = false;
+			Falling = true;
 			FallingVelocity.set(0, 0, 0);
 		}
 
@@ -288,6 +288,7 @@ bool MobileEntityAnimator::getAnimateTarget () const
 
 void MobileEntityAnimator::setVelocity(const core::vector3df& v)
 {
+   Falling = true;
    MovementVelocity = v;
 }
 
