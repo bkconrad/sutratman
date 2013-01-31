@@ -21,7 +21,7 @@ const float ClientGame::CAMERA_ACCELERATION = 180.0;
 const float ClientGame::CAMERA_MAX_SPEED = 180.0;
 
 ClientGame::ClientGame()
-    : mClientEntity(NULL), mCameraRotation(0)
+    : mClientEntity(NULL), mCamera(0), mCameraRotation(0), mLight(0)
 {
     Input::get()->addListener(this);
     irr::video::E_DRIVER_TYPE DriverTypes[] = {
@@ -79,6 +79,10 @@ void ClientGame::initialize()
     mCameraVelocity = 0.0;
     mCamera = mSceneManager->addCameraSceneNode(0, irr::core::vector3df(0, 3, 5), irr::core::vector3df(0, 5, 0));
     mCamera->setNearValue(0.01f);
+    
+    // add sun
+    mLight = mSceneManager->addLightSceneNode(0, vector3df(0,1.0,0),irr::video::SColorf(0.5f, 0.7f, 0.7f, 1.0f), 2.0f);
+    mLight->getLightData().DiffuseColor.set(0.5, 1.0, 1.0, 1.0);
 
     irr::gui::IGUIEnvironment *guiEnv = mDevice->getGUIEnvironment();
     Gui::get()->init(guiEnv);

@@ -39,6 +39,7 @@ private:
     irr::scene::ICameraSceneNode *mCamera;
     float mCameraRotation;
     float mCameraVelocity;
+    irr::scene::ILightSceneNode *mLight;
 };
 
 #endif /* CLIENT_GAME_H_ */

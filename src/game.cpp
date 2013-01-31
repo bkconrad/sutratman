@@ -73,17 +73,17 @@ void Game::initialize()
     mTerrain = mSceneManager->addTerrainSceneNode("../resource/heightmap.bmp",
                                                   0,
                                                   -1,
-                                                  irr::core::vector3df(0.0, 0.1, 0.0),
+                                                  irr::core::vector3df(0.0, 0.7, 0.0),
                                                   irr::core::vector3df(0.0,   0.0, 0.0),
                                                   irr::core::vector3df(1.0 / HEIGHTMAP_SIZE, 1.0 / HEIGHTMAP_SIZE * 0.1, 1.0/ HEIGHTMAP_SIZE),
                                                   irr::video::SColor(255, 255, 255, 255),
-                                                  5,
+                                                  1024,
                                                   irr::scene::ETPS_17,
                                                   4
                                                   );
 
 
-    mTerrain->setMaterialFlag(irr::video::EMF_LIGHTING, false);
+    mTerrain->setMaterialFlag(irr::video::EMF_LIGHTING, true);
     mTerrain->setMaterialTexture(0, mDriver->getTexture("../resource/dirt.jpg"));
     mTerrain->scaleTexture(10.0, 10.0);
 
