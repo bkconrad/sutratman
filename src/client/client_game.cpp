@@ -17,8 +17,8 @@ using std::min;
 using std::max;
 
 float ClientGame::MOUSESPEED = 1.0;
-const float ClientGame::CAMERA_ACCELERATION = 20.0;
-const float ClientGame::CAMERA_MAX_SPEED = 100.0;
+const float ClientGame::CAMERA_ACCELERATION = 180.0;
+const float ClientGame::CAMERA_MAX_SPEED = 180.0;
 
 ClientGame::ClientGame()
     : mClientEntity(NULL), mCameraRotation(0)
@@ -104,7 +104,7 @@ void ClientGame::update()
         float angularDistance = fmod(rot.Y - mCameraRotation, 360.0);
                 
         DIAG(angdis, angularDistance);
-        if(angularDistance > 3.0) {
+        if(abs(angularDistance) > 3.0) {
            // interval in seconds
            float interval = (TNL::Platform::getRealMilliseconds() - mLastFrameTime) * 0.001f;
            

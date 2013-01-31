@@ -10,7 +10,7 @@ using namespace mathutil;
 using namespace TNL;
 
 int Entity::IdIndex = 1;
-const float Entity::MOVESPEED = 0.1;
+const float Entity::MOVESPEED = 0.05;
 
 TNL_IMPLEMENT_NETOBJECT(Entity);
 
