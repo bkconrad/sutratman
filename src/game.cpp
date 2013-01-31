@@ -3,6 +3,7 @@
 #include "entity.h"
 #include "game.h"
 #include "log.h"
+#include "mobile_entity.h"
 
 using namespace TNL;
 
@@ -111,13 +112,16 @@ void Game::addEntity(Entity *entity)
     mTerrain->setTriangleSelector(selector);
 
     // create collision response animator and attach it to the node
-    irr::scene::ISceneNodeAnimator* anim = mSceneManager->createCollisionResponseAnimator(
-        selector, node, vector3df(0.01),
-        vector3df(0,-0.1,0),
-        vector3df(0,0,0));
-    selector->drop();
-    node->addAnimator(anim);
-    anim->drop();
+//    irr::scene::ISceneNodeAnimatorCollisionResponse* anim = mSceneManager->createCollisionResponseAnimator(
+//        selector, node, vector3df(0.01),
+//        vector3df(0,-0.1,0),
+//        vector3df(0,0,0));
+//    selector->drop();
+//    node->addAnimator(anim);
+//    anim->drop();
+
+   dynamic_cast<MobileEntity*>(entity)->detectCollisionWith(selector, mSceneManager);
+   selector->drop();
 
     mEntities.push_back(entity);
 }

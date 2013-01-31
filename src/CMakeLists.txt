@@ -13,6 +13,7 @@ set(SERVER_SOURCES
 	log
 	mathutil
 	mobile_entity
+	mobile_entity_animator
 	player
 	server
 )

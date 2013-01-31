@@ -5,7 +5,7 @@
 TNL_IMPLEMENT_NETOBJECT(MobileEntity);
 
 MobileEntity::MobileEntity()
-   : mVelocity(0), mMoveAnimator(NULL)
+   : mVelocity(0), mMoveAnimator(NULL), mCollisionAnimator(NULL)
 {
 }
 
@@ -59,16 +59,26 @@ void MobileEntity::update()
 
 void MobileEntity::moveTo(vector3df target)
 {
-   if(mMoveAnimator) {
-     mNode->removeAnimator(mMoveAnimator);
-     mMoveAnimator->drop();
-     mMoveAnimator = NULL;
+//   if(mMoveAnimator) {
+//     mNode->removeAnimator(mMoveAnimator);
+//     mMoveAnimator->drop();
+//     mMoveAnimator = NULL;
+//   }
+//   if (mGame && mNode) {
+//   mMoveAnimator = mGame->getSceneManager()->createFlyStraightAnimator(
+//      mLastKnownPosition, target, 1000);
+//      DIAG("from", mLastKnownPosition);
+//      DIAG("to", target);
+//      mNode->addAnimator(mMoveAnimator);
+//   }
+   if (mCollisionAnimator) {
+      mCollisionAnimator->setVelocity(target - mLastKnownPosition);
    }
-   if (mGame && mNode) {
-   mMoveAnimator = mGame->getSceneManager()->createFlyStraightAnimator(
-      mLastKnownPosition, target, 1000);
-      DIAG("from", mLastKnownPosition);
-      DIAG("to", target);
-      mNode->addAnimator(mMoveAnimator);
-   }
+}
+
+void MobileEntity::detectCollisionWith(irr::scene::ITriangleSelector* selector, irr::scene::ISceneManager *smgr)
+{
+   mCollisionAnimator = new MobileEntityAnimator(smgr, selector, mNode,
+   vector3df(0.01), vector3df(0, -0.1, 0));
+   mNode->addAnimator(mCollisionAnimator);
 }
