@@ -81,7 +81,7 @@ void ClientGame::initialize()
     mCamera->setNearValue(0.01f);
     
     // add sun
-    mLight = mSceneManager->addLightSceneNode(0, vector3df(0,1.0,0),irr::video::SColorf(0.5f, 0.7f, 0.7f, 1.0f), CELL_SIZE);
+    mLight = mSceneManager->addLightSceneNode(0, vector3df(0,CELL_SIZE / 2.0,0),irr::video::SColorf(1.0f, 0.1f, 0.1f, 1.0f), CELL_SIZE);
     mLight->getLightData().DiffuseColor.set(0.5, 1.0, 1.0, 1.0);
 
     irr::gui::IGUIEnvironment *guiEnv = mDevice->getGUIEnvironment();

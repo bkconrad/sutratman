@@ -80,7 +80,7 @@ void Game::initialize()
                                                   irr::video::SColor(255, 255, 255, 255),
                                                   5,
                                                   irr::scene::ETPS_17,
-                                                  4
+                                                  32
                                                   );
 
 
