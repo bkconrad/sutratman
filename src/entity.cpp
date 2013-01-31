@@ -11,7 +11,7 @@ using namespace TNL;
 
 int Entity::IdIndex = 1;
 const float Entity::MOVESPEED = 1.0;
-const int Entity::FLOATSIZE = 24;
+const int Entity::FLOATSIZE = 30;
 
 TNL_IMPLEMENT_NETOBJECT(Entity);
 

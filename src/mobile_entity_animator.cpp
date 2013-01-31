@@ -146,7 +146,7 @@ void MobileEntityAnimator::animateNode(ISceneNode* node, u32 timeMs)
 	if ( FirstUpdate )
 	{
 		LastPosition = Object->getPosition();
-		//Falling = false;
+		Falling = false;
 		LastTime = timeMs;
 		FallingVelocity.set ( 0, 0, 0 );
 
@@ -189,7 +189,7 @@ void MobileEntityAnimator::animateNode(ISceneNode* node, u32 timeMs)
 		}
 		else
 		{
-			Falling = true;
+			Falling = false;
 			FallingVelocity.set(0, 0, 0);
 		}
 
