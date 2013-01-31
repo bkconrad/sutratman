@@ -177,7 +177,7 @@ void MobileEntityAnimator::animateNode(ISceneNode* node, u32 timeMs)
 			= SceneManager->getSceneCollisionManager()->getCollisionResultPosition(
 				World, LastPosition-Translation,
 				Radius, vel, CollisionTriangle, CollisionPoint, f,
-				(const ISceneNode*&) CollisionNode, SlidingSpeed, FallingVelocity + (MovementVelocity * diff * 0.001));
+				(const ISceneNode*&) CollisionNode, SlidingSpeed, FallingVelocity + (MovementVelocity * diff * 0.001f));
 
 		CollisionOccurred = (CollisionTriangle != RefTriangle);
 

@@ -91,6 +91,6 @@ void MobileEntity::moveTo(vector3df target)
 void MobileEntity::detectCollisionWith(irr::scene::ITriangleSelector* selector, irr::scene::ISceneManager *smgr)
 {
    mCollisionAnimator = new MobileEntityAnimator(smgr, selector, mNode,
-   vector3df(1.0), vector3df(0, -0.1, 0));
+   vector3df(Game::CELL_SIZE * 0.001), vector3df(0, -0.1, 0), vector3df(0, Game::CELL_SIZE * 0.001, 0));
    mNode->addAnimator(mCollisionAnimator);
 }
