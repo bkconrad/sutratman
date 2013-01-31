@@ -290,3 +290,13 @@ void MobileEntityAnimator::setVelocity(const core::vector3df& v)
 {
    MovementVelocity = v;
 }
+
+const core::vector3df MobileEntityAnimator::getActualVelocity() const
+{
+   return (const core::vector3df) FallingVelocity;
+}
+
+void MobileEntityAnimator::setActualVelocity(const core::vector3df& v)
+{
+   FallingVelocity = v;
+}

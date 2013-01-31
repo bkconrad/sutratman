@@ -16,7 +16,7 @@ public:
    MobileEntity();
    ~MobileEntity();
    bool isConsistentWith(const MobileEntity& entity);
-   bool onGhostAdd(GhostConnection* connection);
+   void onGhostAddBeforeUpdate(GhostConnection* connection);
    U32 packUpdate(GhostConnection* connection, U32 updateMask, BitStream* bitStream);
    void performScopeQuery(GhostConnection* connection);
    void unpackUpdate(GhostConnection* connection, BitStream* bitStream);

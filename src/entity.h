@@ -23,6 +23,7 @@ public:
 
     // TODO should be replaced with stats or something
     static const float MOVESPEED;
+    static const int FLOATSIZE;    
 
     Entity(Game *game = NULL);
     virtual ~Entity();
@@ -32,7 +33,7 @@ public:
     virtual void update();
 
     // overrides
-    virtual bool onGhostAdd(GhostConnection *connection);
+    virtual void onGhostAddBeforeUpdate(GhostConnection *connection);
     virtual U32 packUpdate(GhostConnection *connection, U32 updateMask, BitStream *bitStream);
     virtual void performScopeQuery(GhostConnection *connection);
     virtual void unpackUpdate(GhostConnection *connection, BitStream *bitStream);

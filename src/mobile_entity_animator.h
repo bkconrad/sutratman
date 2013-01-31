@@ -99,6 +99,8 @@ public:
 		virtual ISceneNode* getCollisionNode(void) const { return CollisionNode; }
 
       void setVelocity(const core::vector3df& v);
+      const core::vector3df getActualVelocity() const;
+      void setActualVelocity(const core::vector3df& v);
 
 		//! Sets a callback interface which will be called if a collision occurs.
 		/** \param callback: collision callback handler that will be called when a collision

@@ -52,9 +52,9 @@ Player::~Player()
     //dtor
 }
 
-bool Player::onGhostAdd(GhostConnection *connection)
+void Player::onGhostAddBeforeUpdate(GhostConnection *connection)
 {
     // we can safely cast our game to a client game
     mClientGame = new ClientGame(mGame);
-    return Parent::onGhostAdd(connection);
+    return Parent::onGhostAddBeforeUpdate(connection);
 }

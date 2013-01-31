@@ -11,6 +11,7 @@ using namespace TNL;
 
 int Entity::IdIndex = 1;
 const float Entity::MOVESPEED = 0.05;
+const int Entity::FLOATSIZE = 24;
 
 TNL_IMPLEMENT_NETOBJECT(Entity);
 
@@ -109,17 +110,17 @@ U32 Entity::packUpdate(GhostConnection *connection, U32 updateMask, BitStream *b
     if(bitStream->writeFlag(updateMask & PositionMask))
     {
         vector3df pos = mLastKnownPosition / Game::CELL_SIZE;
-        bitStream->writeFloat(pos.X, 16);
-        bitStream->writeFloat(pos.Y, 16);
-        bitStream->writeFloat(pos.Z, 16);
+        bitStream->writeFloat(pos.X, FLOATSIZE);
+        bitStream->writeFloat(pos.Y, FLOATSIZE);
+        bitStream->writeFloat(pos.Z, FLOATSIZE);
     }
 
     if(bitStream->writeFlag(updateMask & RotationMask))
     {
         vector3df rot = getRot() / DEGREES;
-        bitStream->writeFloat(rot.X, 16);
-        bitStream->writeFloat(rot.Y, 16);
-        bitStream->writeFloat(rot.Z, 16);
+        bitStream->writeFloat(rot.X, FLOATSIZE);
+        bitStream->writeFloat(rot.Y, FLOATSIZE);
+        bitStream->writeFloat(rot.Z, FLOATSIZE);
     }
 	return 0;
 }
@@ -130,9 +131,9 @@ void Entity::unpackUpdate(GhostConnection *connection, BitStream *bitStream)
     if(bitStream->readFlag())
     {
         vector3df pos;
-        pos.X = bitStream->readFloat(16);
-        pos.Y = bitStream->readFloat(16);
-        pos.Z = bitStream->readFloat(16);
+        pos.X = bitStream->readFloat(FLOATSIZE);
+        pos.Y = bitStream->readFloat(FLOATSIZE);
+        pos.Z = bitStream->readFloat(FLOATSIZE);
         if (mNode) {
             setPos(pos * Game::CELL_SIZE);
         }
@@ -142,21 +143,20 @@ void Entity::unpackUpdate(GhostConnection *connection, BitStream *bitStream)
     if(bitStream->readFlag())
     {
         vector3df rot;
-        rot.X = bitStream->readFloat(16);
-        rot.Y = bitStream->readFloat(16);
-        rot.Z = bitStream->readFloat(16);
+        rot.X = bitStream->readFloat(FLOATSIZE);
+        rot.Y = bitStream->readFloat(FLOATSIZE);
+        rot.Z = bitStream->readFloat(FLOATSIZE);
         if (mNode) {
             setRot(rot * DEGREES);
         }
     }
 }
 
-bool Entity::onGhostAdd(GhostConnection *connection)
+void Entity::onGhostAddBeforeUpdate(GhostConnection *connection)
 {
     // set our game pointer. we can safely cast to GameConnection inside of Entities
     mGame = static_cast<GameInterface*>(connection->getInterface())->getGame();
     mGame->addEntity(this);
-    return true;
 }
 
 /**

@@ -18,7 +18,7 @@ public:
     explicit Player(Game *game = NULL);
     virtual ~Player();
     virtual U32 packUpdate(GhostConnection *connection, U32 updateMask, BitStream *bitStream);
-    bool onGhostAdd(GhostConnection* connection);
+    void onGhostAddBeforeUpdate(GhostConnection* connection);
     void unpackUpdate(GhostConnection* connection, BitStream* bitStream);
 
 private:

@@ -19,18 +19,19 @@ bool MobileEntity::isConsistentWith(const MobileEntity& entity)
        && Parent::isConsistentWith(entity);
 }
 
-bool MobileEntity::onGhostAdd(GhostConnection* connection)
+void MobileEntity::onGhostAddBeforeUpdate(GhostConnection* connection)
 {
-   Parent::onGhostAdd(connection);
+   Parent::onGhostAddBeforeUpdate(connection);
 }
 
 U32 MobileEntity::packUpdate(GhostConnection* connection, U32 updateMask, BitStream* bitStream)
 {
    Parent::packUpdate(connection, updateMask, bitStream);
    if(bitStream->writeFlag(updateMask & VelocityMask)) {
-        bitStream->writeFloat(mVelocity.X / 2.0 + 0.5, 16);
-        bitStream->writeFloat(mVelocity.Y / 2.0 + 0.5, 16);
-        bitStream->writeFloat(mVelocity.Z / 2.0 + 0.5, 16);
+         vector3df vel = mCollisionAnimator->getActualVelocity();
+        bitStream->writeFloat(vel.X / (2.0 * Game::CELL_SIZE) + 0.5, FLOATSIZE);
+        bitStream->writeFloat(vel.Y / (2.0 * Game::CELL_SIZE) + 0.5, FLOATSIZE);
+        bitStream->writeFloat(vel.Z / (2.0 * Game::CELL_SIZE) + 0.5, FLOATSIZE);
    }
    return 0;
 }
@@ -39,11 +40,11 @@ void MobileEntity::unpackUpdate(GhostConnection* connection, BitStream* bitStrea
 {
    Parent::unpackUpdate(connection, bitStream);
    if(bitStream->readFlag()) {
-        mVelocity.X = (bitStream->readFloat(16) - 0.5) * 2.0;
-        mVelocity.Y = (bitStream->readFloat(16) - 0.5) * 2.0;
-        mVelocity.Z = (bitStream->readFloat(16) - 0.5) * 2.0;
+        mVelocity.X = (bitStream->readFloat(FLOATSIZE) - 0.5) * (2.0 * Game::CELL_SIZE);
+        mVelocity.Y = (bitStream->readFloat(FLOATSIZE) - 0.5) * (2.0 * Game::CELL_SIZE);
+        mVelocity.Z = (bitStream->readFloat(FLOATSIZE) - 0.5) * (2.0 * Game::CELL_SIZE);
         
-         moveTo(mLastKnownPosition + mVelocity);
+         mCollisionAnimator->setActualVelocity(mVelocity);
    }
 }
 
