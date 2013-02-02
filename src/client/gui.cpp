@@ -32,6 +32,7 @@ void Gui::init(irr::gui::IGUIEnvironment *guiEnvironment)
 
     mGuiEnvironment = guiEnvironment;
     mDiagnosticsWindow = new DiagnosticsWindow(mGuiEnvironment);
+    mDiagnosticsWindow->hide();
 
     Input::get()->addListener(this);
 }
