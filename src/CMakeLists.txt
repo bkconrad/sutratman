@@ -61,6 +61,16 @@ if(BUILD_TESTS)
 	include_directories(${CMAKE_SOURCE_DIR}/tnl ${CMAKE_SOURCE_DIR}/src ${CMAKE_SOURCE_DIR}/lib/gtest/include/)
 	include_directories(SYSTEM ${IRRLICHT_INCLUDE_DIRS})
 	add_definitions(${IRRLICHT_DEFINITIONS})
-	target_link_libraries(test_runner gcov gtest gtest_main tnl ${IRRLICHT_LIBRARIES})
-	set_target_properties(test_runner PROPERTIES COMPILE_FLAGS "-ftest-coverage -fprofile-arcs")
+	target_link_libraries(test_runner gtest gtest_main tnl ${IRRLICHT_LIBRARIES})
+	set_target_properties(test_runner PROPERTIES COMPILE_FLAGS "--coverage")
+	set_target_properties(test_runner PROPERTIES LINK_FLAGS "--coverage")
+
+	# utility targets for testing
+	add_custom_target(coverage ${CMAKE_SOURCE_DIR}/build/src/test_runner
+		COMMAND lcov --capture --directory ${CMAKE_SOURCE_DIR} --output-file ${CMAKE_SOURCE_DIR}/build/coverage.info
+		COMMAND lcov --extract ${CMAKE_SOURCE_DIR}/build/coverage.info --output-file ${CMAKE_SOURCE_DIR}/build/coverage.info ${CMAKE_SOURCE_DIR}/src/* ${CMAKE_SOURCE_DIR}/src/client/*
+		COMMAND genhtml ${CMAKE_SOURCE_DIR}/build/coverage.info --output-directory ${CMAKE_SOURCE_DIR}/build/cov
+		DEPENDS test_runner
+		WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/build 
+	)
 endif()

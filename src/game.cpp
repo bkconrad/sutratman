@@ -19,9 +19,9 @@ Game::Game(bool server)
 
 Game::~Game()
 {
-    for(int i; i < mEntities.size(); i++)
+    for(int i = 0; i < mEntities.size(); i++)
     {
-        delete &mEntities[i];
+        delete mEntities[i];
     }
 }
 
