@@ -14,6 +14,7 @@ class Player : public MobileEntity
 public:
     TNL_DECLARE_CLASS(Player);
     TNL_DECLARE_RPC(c2sMove, (F32 angle));
+    TNL_DECLARE_RPC(c2sStop, ());
     
     explicit Player(Game *game = NULL);
     virtual ~Player();

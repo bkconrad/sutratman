@@ -23,6 +23,17 @@ TNL_IMPLEMENT_NETOBJECT_RPC(Player, c2sMove, (F32 angle), (angle),
     setMaskBits(PositionMask);
 }
 
+TNL_IMPLEMENT_NETOBJECT_RPC(Player, c2sStop, (), (),
+                            NetClassGroupAllMask,  RPCGuaranteedOrdered, RPCToGhostParent, 0)
+{
+   mLastKnownPosition = getPos();
+   mVelocity = vector3df(0,0,0);
+   mCollisionAnimator->setVelocity(mVelocity);
+    
+    setMaskBits(VelocityMask);
+    setMaskBits(PositionMask);
+}
+
 U32 Player::packUpdate(GhostConnection *connection, U32 updateMask, BitStream *bitStream)
 {
     // remember to take the mask from the Parent

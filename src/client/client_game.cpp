@@ -156,7 +156,11 @@ bool ClientGame::handle(const irr::SEvent &event)
             switch(event.KeyInput.Key)
             {
             case irr::KEY_KEY_W:
+               if(event.KeyInput.PressedDown) {
                 mClientEntity->c2sMove(mClientEntity->getRot().Y / DEGREES);
+               } else {
+                  mClientEntity->c2sStop();
+               }
                 return true;
                 break;
 
