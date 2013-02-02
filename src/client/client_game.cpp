@@ -21,7 +21,7 @@ const float ClientGame::CAMERA_ACCELERATION = 180.0;
 const float ClientGame::CAMERA_MAX_SPEED = 180.0;
 
 ClientGame::ClientGame()
-    : mClientEntity(NULL), mCamera(0), mCameraRotation(0), mLight(0)
+    : mClientEntity(NULL), mSelectedSceneNode(NULL), mCamera(0), mCameraRotation(0), mLight(0)
 {
     Input::get()->addListener(this);
     irr::video::E_DRIVER_TYPE DriverTypes[] = {
@@ -61,6 +61,10 @@ void ClientGame::addEntity(Entity *entity)
     {
         mClientEntity = static_cast<Player*>(entity);
     }
+    
+    irr::scene::ITriangleSelector *selector = mSceneManager->createTriangleSelectorFromBoundingBox(entity->getNode());
+    entity->getNode()->setTriangleSelector(selector);
+    selector->drop();
 }
 
 /** @brief initialize
@@ -171,9 +175,37 @@ bool ClientGame::handle(const irr::SEvent &event)
             break;
 
         case irr::EET_MOUSE_INPUT_EVENT:
-            vector2df delta = Input::get()->getDelta();
-            mClientEntity->modRot(vector3df(0.0, delta.X * MOUSESPEED, 0.0));
-            mClientEntity->c2sRotate(mClientEntity->getRot().Y / DEGREES);
+            if(event.MouseInput.isLeftPressed()) {
+               // try to select a scene node
+               
+               // get a ray from the mouse position
+               irr::core::line3df clickRay = mSceneManager->getSceneCollisionManager()->getRayFromScreenCoordinates(
+                  irr::core::position2di(event.MouseInput.X, event.MouseInput.Y)
+               );
+               
+               vector3df intersection;
+               irr::core::triangle3df triangle;
+               
+               // clear the old node's data
+               if (mSelectedSceneNode) {
+                  mSelectedSceneNode->setDebugDataVisible(0);
+               }
+               
+               // perform the actual check
+               mSelectedSceneNode = mSceneManager->getSceneCollisionManager()->getSceneNodeAndCollisionPointFromRay(
+                  clickRay, intersection, triangle
+               );
+               
+               // new scene node found
+               if(mSelectedSceneNode) {
+                  mSelectedSceneNode->setDebugDataVisible(irr::scene::EDS_BBOX_ALL);
+               }
+               
+            } else {
+               vector2df delta = Input::get()->getDelta();
+               mClientEntity->modRot(vector3df(0.0, delta.X * MOUSESPEED, 0.0));
+               mClientEntity->c2sRotate(mClientEntity->getRot().Y / DEGREES);
+            }
             break;
         }
     }

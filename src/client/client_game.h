@@ -37,6 +37,7 @@ public:
 private:
     SafePtr<Player> mClientEntity;
     irr::scene::ICameraSceneNode *mCamera;
+    irr::scene::ISceneNode *mSelectedSceneNode;
     float mCameraRotation;
     float mCameraVelocity;
     irr::scene::ILightSceneNode *mLight;
