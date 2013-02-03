@@ -5,13 +5,12 @@ using namespace TNL;
 using namespace std;
 
 Server::Server()
+   : mGame(NULL)
 {
-    mGame = NULL;
 }
 
 Server::~Server()
 {
-    
 }
 
 /**
@@ -49,7 +48,6 @@ void Server::host(const char *host, const char *port)
     hostPort += port;
     Address address(hostPort.c_str());
     mInterface = new GameInterface(address, mGame);
-    mInterface->setAllowsConnections(true);
 }
 
 /**

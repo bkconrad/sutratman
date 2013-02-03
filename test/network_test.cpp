@@ -1,6 +1,7 @@
 #include "client/client.h"
 #include "server.h"
 #include "game.h"
+#include "log.h"
 #include "gtest/gtest.h"
 
 #include "tnl.h"
@@ -15,6 +16,8 @@ public:
 
    static int serverStatus;
    static int clientStatus;
+   static bool done;
+   
    typedef GameConnection Parent;
 
    virtual void onConnectTerminated(NetConnection::TerminationReason reason, const char* str)
@@ -24,15 +27,27 @@ public:
       } else {
          serverStatus = -1;
       }
+      done = true;
+      Log::p(str);
    }
 
    virtual void onConnectionEstablished()
    {
+      GameConnection::onConnectionEstablished();
+      
       if (isInitiator()) {
          clientStatus = 1;
       } else {
          serverStatus = 1;
       }
+      if (clientStatus && serverStatus) {
+         done = true;
+      }
+   }
+   
+   static void reset() {
+      serverStatus = clientStatus = 0;
+      done = false;
    }
 
    TNL_DECLARE_NETCONNECTION(TestConnection);
@@ -40,6 +55,7 @@ public:
 
 int TestConnection::serverStatus = 0;
 int TestConnection::clientStatus = 0;
+bool TestConnection::done = false;
 
 TNL_IMPLEMENT_NETCONNECTION(TestConnection, NetClassGroupGame, true);
 
@@ -49,7 +65,7 @@ void * connectToServer(void* args) {
    Client c(connection);
    c.connect((char*) "localhost:28000");
 
-   while(!TestConnection::serverStatus || !TestConnection::clientStatus) {
+   while(!TestConnection::done) {
       c.serviceConnection();
       Platform::sleep(1);
    }
@@ -59,14 +75,14 @@ void * connectToServer(void* args) {
 }
 
 TEST(network, connectivity) {
+   TestConnection::reset();
    Server s;
-   s.mGame = new Game();
-   s.host("localhost", "28000");
+   s.init();
 
    pthread_t thread;
    pthread_create(&thread, NULL, connectToServer, NULL);
 
-   while(!TestConnection::serverStatus || !TestConnection::clientStatus) {
+   while(!TestConnection::done) {
       s.serviceConnections();
       Platform::sleep(1);
    }
@@ -76,21 +92,21 @@ TEST(network, connectivity) {
 }
 
 TEST(network, loopback) {
-   TestConnection::serverStatus = TestConnection::clientStatus = 0;
+   TestConnection::reset();
    
    Server s;
+   s.init();
    
    TestConnection *connection = new TestConnection;
    Client c(connection);
-   
-   s.host("localhost", "28000");
+
    c.loopbackConnect(&s);
-   while(!TestConnection::serverStatus || !TestConnection::clientStatus) {
+   while(!TestConnection::done) {
       s.serviceConnections();
       c.serviceConnection();
       Platform::sleep(1);
    }
 
-   ASSERT_EQ(1, TestConnection::clientStatus);
-   ASSERT_EQ(1, TestConnection::serverStatus);
+   EXPECT_EQ(1, TestConnection::clientStatus);
+   EXPECT_EQ(1, TestConnection::serverStatus);
 }

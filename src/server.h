@@ -25,7 +25,7 @@ public:
     void host(const char *host, const char *port);
 
 private:
-    GameInterface *mInterface;
+    RefPtr<GameInterface> mInterface;
     Game *mGame;
     void serviceConnections();
 

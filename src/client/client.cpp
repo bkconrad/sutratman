@@ -19,7 +19,6 @@ Client::Client(GameConnection *connection, ClientGame *game)
 
 Client::~Client()
 {
-   
 }
 
 /**
