@@ -18,6 +18,7 @@ TNL_IMPLEMENT_NETOBJECT_RPC(Player, c2sMove, (F32 angle), (angle),
           
    mLastKnownPosition = getPos();
    mCollisionAnimator->setVelocity(mVelocity);
+   mState = Player::PS_WALK;
     
     setMaskBits(VelocityMask);
     setMaskBits(PositionMask);
@@ -29,6 +30,7 @@ TNL_IMPLEMENT_NETOBJECT_RPC(Player, c2sStop, (), (),
    mLastKnownPosition = getPos();
    mVelocity = vector3df(0,0,0);
    mCollisionAnimator->setVelocity(mVelocity);
+   mState = Player::PS_IDLE;
     
     setMaskBits(VelocityMask);
     setMaskBits(PositionMask);
@@ -40,6 +42,7 @@ U32 Player::packUpdate(GhostConnection *connection, U32 updateMask, BitStream *b
     updateMask = Parent::packUpdate(connection, updateMask, bitStream);
     
     bitStream->writeFlag(connection->getScopeObject() == this);
+    bitStream->writeInt(mState, 4);
     return 0;
 }
 
@@ -50,10 +53,12 @@ void Player::unpackUpdate(GhostConnection *connection, BitStream *bitStream)
 
     // is controlled entity
     mIsControlled = bitStream->readFlag();
+    setState((PlayerState) bitStream->readInt(4));
 
 }
 
 Player::Player(Game *game)
+   : mState(PS_IDLE)
 {
     mGame = game;
 }
@@ -68,4 +73,23 @@ void Player::onGhostAddBeforeUpdate(GhostConnection *connection)
     // we can safely cast our game to a client game
     mClientGame = new ClientGame(mGame);
     return Parent::onGhostAddBeforeUpdate(connection);
+}
+
+void Player::setState(PlayerState state)
+{
+   mState = state;
+   switch (mState) {
+      case PS_IDLE:
+         mNode->setFrameLoop(1, 210);
+      break;
+      
+      case PS_WALK:
+         mNode->setFrameLoop(395, 415);
+      break;
+   }
+}
+
+Player::PlayerState Player::getState()
+{
+   return mState;
 }
