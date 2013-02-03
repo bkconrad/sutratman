@@ -11,6 +11,8 @@ using irr::core::vector3df;
 
 class MobileEntity : public Entity
 {
+   using Entity::isConsistentWith;
+   
    typedef Entity Parent;
 public:
    TNL_DECLARE_CLASS(MobileEntity);
