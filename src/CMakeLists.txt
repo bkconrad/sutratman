@@ -29,6 +29,11 @@ set(CLIENT_SOURCES
 	client/listenerinterface
 )
 
+add_custom_target(doc doxygen Doxyfile
+	COMMAND echo "*** Documentation written to ${CMAKE_SOURCE_DIR}/doc ***"
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/doc
+)
+
 if(DEDICATED)
 	add_executable(sutratman main ${SERVER_SOURCES})
 	add_definitions(-DSUT_DEDICATED)
