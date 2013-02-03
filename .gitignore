@@ -12,3 +12,6 @@ build/*
 test/*.cmake
 Testing
 runTests
+*.workspace*
+*.session*
+*.tags*
