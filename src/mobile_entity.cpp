@@ -1,6 +1,9 @@
 #include "diagnostics.h"
 #include "game.h"
 #include "mobile_entity.h"
+#include "mathutil.h"
+
+using namespace mathutil;
 
 TNL_IMPLEMENT_NETOBJECT(MobileEntity);
 
@@ -15,7 +18,7 @@ MobileEntity::~MobileEntity()
 
 bool MobileEntity::isConsistentWith(const MobileEntity& entity)
 {
-   return mVelocity == entity.mVelocity
+   return (mVelocity - entity.mVelocity).getLength() < EPSILON
        && Parent::isConsistentWith(entity);
 }
 

@@ -4,6 +4,7 @@
 #include "entity.h"
 #include "mobile_entity_animator.h"
 
+#include <gtest/gtest.h>
 #include <irrlicht.h>
 
 using irr::core::vector3df;
@@ -32,6 +33,8 @@ protected:
    vector3df mMovementDirection;
    irr::scene::ISceneNodeAnimator *mMoveAnimator;
    MobileEntityAnimator *mCollisionAnimator;
+   
+   FRIEND_TEST(mobile_entity, packing);
 };
 
 #endif // MOBILE_ENTITY_H_
