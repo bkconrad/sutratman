@@ -86,6 +86,10 @@ void Player::setState(PlayerState state)
       case PS_WALK:
          mNode->setFrameLoop(395, 415);
       break;
+      
+      case PS_ATTACK:
+         mNode->setFrameLoop(211, 250);
+         break;
    }
 }
 

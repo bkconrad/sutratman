@@ -47,6 +47,9 @@ bool Gui::handle(const irr::SEvent &event)
         case irr::KEY_F12:
             mDiagnosticsWindow->toggle();
             break;
+            
+            default:
+            break;
         }
 
         return true;
@@ -63,6 +66,7 @@ bool Gui::handle(const irr::SEvent &event)
     default:
         break;
     }
+    return false;
 }
 
 void Gui::draw()

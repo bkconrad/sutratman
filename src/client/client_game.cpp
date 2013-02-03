@@ -21,7 +21,7 @@ const float ClientGame::CAMERA_ACCELERATION = 180.0;
 const float ClientGame::CAMERA_MAX_SPEED = 180.0;
 
 ClientGame::ClientGame()
-    : mClientEntity(NULL), mSelectedSceneNode(NULL), mCamera(0), mCameraRotation(0), mLight(0)
+    : mCamera(0), mCameraRotation(0), mClientEntity(NULL), mLight(NULL), mSelectedSceneNode(NULL)
 {
     Input::get()->addListener(this);
     irr::video::E_DRIVER_TYPE DriverTypes[] = {
@@ -30,7 +30,7 @@ ClientGame::ClientGame()
         irr::video::EDT_OPENGL,
         irr::video::EDT_SOFTWARE
     };
-    int i;
+    unsigned int i;
     for (i = 0; i < sizeof(DriverTypes) / sizeof(DriverTypes[0]); i++) {
         if (mDevice->isDriverSupported(DriverTypes[i])) {
             break;
@@ -207,8 +207,10 @@ bool ClientGame::handle(const irr::SEvent &event)
                mClientEntity->c2sRotate(mClientEntity->getRot().Y / DEGREES);
             }
             break;
+            
+            default:
+            break;
         }
-    }
-
+   }
     return false;
 }

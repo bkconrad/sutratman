@@ -9,7 +9,7 @@
 class Gui : ListenerInterface
 {
 public:
-    static const int UPDATE_INTERVAL = 200;
+    static const unsigned int UPDATE_INTERVAL = 200;
 
     static Gui *get();
 

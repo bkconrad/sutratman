@@ -48,6 +48,7 @@ endif()
 set_target_properties(sutratman
 	PROPERTIES
 	RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/exe
+	COMPILE_FLAGS "-Wall"
 )
 
 add_dependencies(sutratman tnl)

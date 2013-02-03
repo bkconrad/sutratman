@@ -35,12 +35,12 @@ public:
     virtual void initialize();
 
 private:
-    SafePtr<Player> mClientEntity;
     irr::scene::ICameraSceneNode *mCamera;
-    irr::scene::ISceneNode *mSelectedSceneNode;
     float mCameraRotation;
     float mCameraVelocity;
+    SafePtr<Player> mClientEntity;
     irr::scene::ILightSceneNode *mLight;
+    irr::scene::ISceneNode *mSelectedSceneNode;
     
     FRIEND_TEST(player, rpc);
 };

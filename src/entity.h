@@ -59,16 +59,13 @@ public:
     };
 
 protected:
-    Game *mGame;
-
     static int IdIndex;
-    U32 mId;
 
-    // client only
     ClientGame *mClientGame;
+    Game *mGame;
+    U32 mId;
     bool mIsControlled;
    vector3df mLastKnownPosition;
-   
     irr::scene::IAnimatedMeshSceneNode *mNode;
 
 private:

@@ -24,9 +24,8 @@ TNL_IMPLEMENT_NETOBJECT_RPC(Entity, c2sRotate, (F32 angle), (angle),
 }
 
 Entity::Entity(Game *game)
-    : mNode(NULL), mLastKnownPosition(0)
+    : mGame(game), mLastKnownPosition(0), mNode(NULL)
 {
-    mGame = game;
     mNetFlags.set(Ghostable);
 }
 

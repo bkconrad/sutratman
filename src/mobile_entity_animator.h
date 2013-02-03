@@ -109,36 +109,29 @@ public:
 		virtual void setCollisionCallback(ICollisionCallback* callback);
 
 	private:
-
-		void setNode(ISceneNode* node);
-
-		core::vector3df Radius;
-		core::vector3df Gravity;
-		core::vector3df Translation;
-		core::vector3df FallingVelocity; // In the direction of Gravity.
-
-		core::vector3df LastPosition;
-		core::triangle3df RefTriangle;
-
-		ITriangleSelector* World;
-		ISceneNode* Object;
-		ISceneManager* SceneManager;
-		u32 LastTime;
-		f32 SlidingSpeed;
-
-		core::vector3df CollisionPoint;
-		core::triangle3df CollisionTriangle;
-		core::vector3df CollisionResultPosition;
-		ISceneNode * CollisionNode;
-		ICollisionCallback* CollisionCallback;
-      
-      core::vector3df MovementVelocity;
-
-		bool Falling;
-		bool IsCamera;
 		bool AnimateCameraTarget;
+		ICollisionCallback* CollisionCallback;
+		ISceneNode * CollisionNode;
 		bool CollisionOccurred;
+		core::vector3df CollisionPoint;
+		core::vector3df CollisionResultPosition;
+		core::triangle3df CollisionTriangle;
+		bool Falling;
+		core::vector3df FallingVelocity; // In the direction of Gravity.
 		bool FirstUpdate;
+		core::vector3df Gravity;
+		bool IsCamera;
+		core::vector3df LastPosition;
+		u32 LastTime;
+      core::vector3df MovementVelocity;
+		ISceneNode* Object;
+		core::vector3df Radius;
+		core::triangle3df RefTriangle;
+		ISceneManager* SceneManager;
+		void setNode(ISceneNode* node);
+		f32 SlidingSpeed;
+		core::vector3df Translation;
+		ITriangleSelector* World;
 };
 
-#endif // MOBILE_ENTITY_ANIMATOR_H_
+#endif /* MOBILE_ENTITY_ANIMATOR_H_ */
