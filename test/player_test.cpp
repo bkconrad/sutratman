@@ -33,9 +33,8 @@ TEST(player, rpc)
    for (i = 0; i < 10; i++)
    {
       s.serviceConnections();
-      c.serviceConnection();
       s.mGame->update();
-      c.mGame->update();
+      c.step();
    }
    
    EXPECT_NE(start, p->getPos());
