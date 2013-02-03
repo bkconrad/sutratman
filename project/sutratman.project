@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="sutratman" InternalType="">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
+    </Plugin>
+  </Plugins>
+  <VirtualDirectory Name="src">
+    <VirtualDirectory Name="client">
+      <File Name="../src/client/gui.h"/>
+      <File Name="../src/client/listenerinterface.cpp"/>
+      <File Name="../src/client/client_game.cpp"/>
+      <File Name="../src/client/input.h"/>
+      <File Name="../src/client/client.h"/>
+      <File Name="../src/client/client_player.cpp"/>
+      <File Name="../src/client/gui.cpp"/>
+      <File Name="../src/client/listenerinterface.h"/>
+      <File Name="../src/client/guiwindowinterface.cpp"/>
+      <File Name="../src/client/input.cpp"/>
+      <File Name="../src/client/client_game.h"/>
+      <File Name="../src/client/client_entity.cpp"/>
+      <File Name="../src/client/guiwindowinterface.h"/>
+      <File Name="../src/client/diagnosticswindow.cpp"/>
+      <File Name="../src/client/diagnosticswindow.h"/>
+      <File Name="../src/client/client.cpp"/>
+    </VirtualDirectory>
+    <File Name="../src/log.cpp"/>
+    <File Name="../src/mobile_entity.cpp"/>
+    <File Name="../src/server.h"/>
+    <File Name="../src/entity.cpp"/>
+    <File Name="../src/game_connection.cpp"/>
+    <File Name="../src/player.h"/>
+    <File Name="../src/mathutil.cpp"/>
+    <File Name="../src/mathutil.h"/>
+    <File Name="../src/main.cpp"/>
+    <File Name="../src/game_interface.cpp"/>
+    <File Name="../src/game_connection.h"/>
+    <File Name="../src/entity.h"/>
+    <File Name="../src/game.cpp"/>
+    <File Name="../src/mobile_entity_animator.cpp"/>
+    <File Name="../src/game_interface.h"/>
+    <File Name="../src/game.h"/>
+    <File Name="../src/log.h"/>
+    <File Name="../src/player.cpp"/>
+    <File Name="../src/server.cpp"/>
+    <File Name="../src/mobile_entity_animator.h"/>
+    <File Name="../src/diagnostics.cpp"/>
+    <File Name="../src/mobile_entity.h"/>
+    <File Name="../src/diagnostics.h"/>
+  </VirtualDirectory>
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="test">
+    <File Name="../test/mobile_entity_test.cpp"/>
+    <File Name="../test/video_test.cpp"/>
+    <File Name="../test/entity_test.cpp"/>
+    <File Name="../test/player_test.cpp"/>
+    <File Name="../test/sanity_test.cpp"/>
+    <File Name="../test/network_test.cpp"/>
+  </VirtualDirectory>
+  <Settings Type="Dynamic Library">
+    <GlobalSettings>
+      <Compiler Options="" C_Options="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="">
+        <LibraryPath Value="."/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g" C_Options="-g" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" UseDifferentPCHFlags="no" PCHFlags="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="" IntermediateDirectory="./Debug" Command="" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="">
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <RebuildCommand/>
+        <CleanCommand>make clean</CleanCommand>
+        <BuildCommand>make</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand>cmake ..</MakefileGenerationCommand>
+        <ThirdPartyToolName>Other</ThirdPartyToolName>
+        <WorkingDirectory>$(ProjectPath)../build</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="" C_Options="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" UseDifferentPCHFlags="no" PCHFlags="">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="-O2" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="" IntermediateDirectory="./Release" Command="" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="">
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="yes">
+        <RebuildCommand/>
+        <CleanCommand>make clean</CleanCommand>
+        <BuildCommand>make</BuildCommand>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand>cmake ..</MakefileGenerationCommand>
+        <ThirdPartyToolName>Other</ThirdPartyToolName>
+        <WorkingDirectory>$(ProjectPath)/../build</WorkingDirectory>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>
