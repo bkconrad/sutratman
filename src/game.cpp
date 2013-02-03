@@ -21,7 +21,7 @@ Game::~Game()
 {
     for(int i = 0; i < mEntities.size(); i++)
     {
-        delete mEntities[i];
+        delete mEntities[i].getPointer();
     }
 }
 
