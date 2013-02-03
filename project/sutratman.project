@@ -104,7 +104,8 @@
         <ClangPP/>
         <SearchPaths>$(ProjectPath)/../lib/tnl
 $(ProjectPath)/../lib/gtest/include
-$(ProjectPath)/../src</SearchPaths>
+$(ProjectPath)/../src
+/usr/include/irrlicht</SearchPaths>
       </Completion>
     </Configuration>
     <Configuration Name="Release" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
