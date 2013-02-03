@@ -18,7 +18,7 @@ TEST(player, rpc)
    c.init();
    c.loopbackConnect(&s);
    
-   for (i = 0; i < 10; i++)
+   while (!static_cast<ClientGame *>(c.mGame)->mClientEntity)
    {
       s.serviceConnections();
       c.serviceConnection();
