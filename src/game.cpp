@@ -63,6 +63,8 @@ void Game::initialize()
     {
         // handle no device found
     }
+    
+    mDevice->getLogger()->setLogLevel(irr::ELL_NONE);
 
     mDriver = mDevice->getVideoDriver();
 
