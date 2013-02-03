@@ -75,3 +75,23 @@ TEST(network, connectivity) {
    ASSERT_EQ(1, TestConnection::clientStatus);
    ASSERT_EQ(1, TestConnection::serverStatus);
 }
+
+TEST(network, loopback) {
+   TestConnection::serverStatus = TestConnection::clientStatus = 0;
+   
+   Server s;
+   
+   TestConnection *connection = new TestConnection;
+   Client c(connection);
+   
+   s.host("localhost", "28000");
+   c.loopbackConnect(&s);
+   while(!TestConnection::serverStatus || !TestConnection::clientStatus) {
+      s.serviceConnections();
+      c.serviceConnection();
+      Platform::sleep(1);
+   }
+
+   ASSERT_EQ(1, TestConnection::clientStatus);
+   ASSERT_EQ(1, TestConnection::serverStatus);
+}

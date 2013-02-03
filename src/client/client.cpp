@@ -2,6 +2,7 @@
 #include "client_game.h"
 #include "game_interface.h"
 #include "log.h"
+#include "server.h"
 
 #include <tnl.h>
 #include <tnlRPC.h>
@@ -69,4 +70,12 @@ void Client::serviceConnection()
 {
     mInterface->checkIncomingPackets();
     mInterface->processConnections();
+}
+
+void Client::loopbackConnect(Server* s)
+{
+    Address bindAddress(IPProtocol, Address::Any, 0);
+    mInterface = new GameInterface(bindAddress, mGame);
+    mConnection = mConnection ? mConnection : new GameConnection;
+    mConnection->connectLocal(mInterface, s->getInterface());
 }

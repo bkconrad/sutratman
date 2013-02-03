@@ -9,6 +9,7 @@
 class GameInterface;
 class ClientGame;
 class Input;
+class Server;
 
 class Client
 {
@@ -20,6 +21,8 @@ public:
     bool init();
     bool step();
     void serviceConnection();
+    
+    void loopbackConnect(Server* s);
 
 private:
     GameConnection *mConnection;

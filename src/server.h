@@ -18,6 +18,8 @@ class Server
 public:
     Server();
     virtual ~Server();
+    
+    NetInterface *getInterface();
     void go();
     bool init();
     void host(const char *host, const char *port);
@@ -28,6 +30,7 @@ private:
     void serviceConnections();
 
     FRIEND_TEST(network, connectivity);
+    FRIEND_TEST(network, loopback);
 };
 
 #endif /* SERVER_H_ */

@@ -61,3 +61,7 @@ void Server::serviceConnections()
     mInterface->processConnections();
 }
 
+NetInterface *Server::getInterface()
+{
+   return mInterface;
+}
