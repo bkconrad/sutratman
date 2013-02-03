@@ -14,14 +14,20 @@ TEST(player, rpc)
    Server s;
    s.init();
    
+   ClientGame *clientGame = new ClientGame();
+   clientGame->mDriverType = irr::video::EDT_NULL;
+   
    Client c;
+   // inject a headless game
+   c.mGame = clientGame;
    c.init();
    c.loopbackConnect(&s);
    
-   while (!static_cast<ClientGame *>(c.mGame)->mClientEntity)
+   for (i = 0; i < 10; i++)
    {
       s.serviceConnections();
-      c.serviceConnection();
+      s.mGame->update();
+      c.step();
    }
 
    Player* p = static_cast<ClientGame *>(c.mGame)->mClientEntity;
