@@ -19,7 +19,7 @@ Client::Client(GameConnection *connection, ClientGame *game)
 
 Client::~Client()
 {
-    //dtor
+   
 }
 
 /**
@@ -42,9 +42,6 @@ bool Client::init()
 {
     mGame = mGame ? mGame : new ClientGame();
     mGame->initialize();
-
-    connect((char *) "localhost:28000");
-
     return true;
 }
 

@@ -18,6 +18,7 @@ int main(int argc, char **argv)
 #ifndef SUT_DEDICATED
         Client c;
         c.init();
+        c.connect("localhost");
         c.go();
 #endif
     }

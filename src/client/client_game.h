@@ -41,6 +41,8 @@ private:
     float mCameraRotation;
     float mCameraVelocity;
     irr::scene::ILightSceneNode *mLight;
+    
+    FRIEND_TEST(player, rpc);
 };
 
 #endif /* CLIENT_GAME_H_ */

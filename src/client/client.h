@@ -31,6 +31,7 @@ private:
     RefPtr<GameInterface> mInterface;
 
     FRIEND_TEST(network, connectivity);
+    FRIEND_TEST(player, rpc);
 };
 
 #endif /* CLIENT_H_ */

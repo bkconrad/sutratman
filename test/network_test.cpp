@@ -66,14 +66,13 @@ TEST(network, connectivity) {
    pthread_t thread;
    pthread_create(&thread, NULL, connectToServer, NULL);
 
-   U32 start = Platform::getRealMilliseconds();
    while(!TestConnection::serverStatus || !TestConnection::clientStatus) {
       s.serviceConnections();
       Platform::sleep(1);
    }
 
-   ASSERT_EQ(1, TestConnection::clientStatus);
-   ASSERT_EQ(1, TestConnection::serverStatus);
+   EXPECT_EQ(1, TestConnection::clientStatus);
+   EXPECT_EQ(1, TestConnection::serverStatus);
 }
 
 TEST(network, loopback) {

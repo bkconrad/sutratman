@@ -102,7 +102,8 @@
         <ClangCmpFlagsC/>
         <ClangCmpFlags/>
         <ClangPP/>
-        <SearchPaths/>
+        <SearchPaths>../lib/tnl
+../lib/gtest/include</SearchPaths>
       </Completion>
     </Configuration>
     <Configuration Name="Release" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">

@@ -31,6 +31,7 @@ private:
 
     FRIEND_TEST(network, connectivity);
     FRIEND_TEST(network, loopback);
+    FRIEND_TEST(player, rpc);
 };
 
 #endif /* SERVER_H_ */
